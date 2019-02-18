@@ -1,0 +1,15 @@
+[0] Config.pm:302> INFO - This is Biber 2.11
+[0] Config.pm:305> INFO - Logfile is 'out/__latexindent_temp.blg'
+[35] biber-darwin:313> INFO - === Mon Feb 18, 2019, 17:58:30
+[56] Biber.pm:371> INFO - Reading 'out/__latexindent_temp.bcf'
+[142] Biber.pm:857> INFO - Found 3 citekeys in bib section 0
+[154] Biber.pm:3976> INFO - Processing section 0
+[165] Biber.pm:4136> INFO - Looking for bibtex format file 'literature.bib' for section 0
+[167] bibtex.pm:1500> INFO - LaTeX decoding ...
+[186] bibtex.pm:1316> INFO - Found BibTeX data source 'literature.bib'
+[208] UCollate.pm:68> INFO - Overriding locale 'en-GB' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[208] UCollate.pm:68> INFO - Overriding locale 'en-GB' defaults 'variable = shifted' with 'variable = non-ignorable'
+[208] Biber.pm:3804> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-GB'
+[208] Biber.pm:3810> INFO - No sort tailoring available for locale 'en-GB'
+[216] bbl.pm:617> INFO - Writing 'out/__latexindent_temp.bbl' with encoding 'UTF-8'
+[217] bbl.pm:720> INFO - Output to out/__latexindent_temp.bbl

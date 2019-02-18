@@ -1,0 +1,70 @@
+%% --------------------------------------------------
+% common abbreviations
+%% --------------------------------------------------
+\RequirePackage{xspace}
+
+\newcommand{\bzgl}{bzgl.\@\xspace}
+\newcommand{\bzw}{bzw.\@\xspace}
+\newcommand{\ca}{ca.\@\xspace}
+\newcommand{\dah}{d.\thinspace{}h.\@\xspace}
+\newcommand{\Dah}{D.\thinspace{}h.\@\xspace}
+\newcommand{\ds}{d.\thinspace{}sind\@\xspace}
+\newcommand{\etc}{etc.\@\xspace}
+\newcommand{\evtl}{evtl.\@\xspace}
+\newcommand{\ia}{i.\thinspace{}Allg.\@\xspace}
+\newcommand{\sa}{s.\ auch\@\xspace}
+\newcommand{\so}{s.\ oben\xspace}
+\newcommand{\su}{s.\ unten\@\xspace}
+\newcommand{\ua}{u.\thinspace{}a.\@\xspace}
+\newcommand{\Ua}{U.\thinspace{}a.\@\xspace}
+\newcommand{\uae}{u.\thinspace{}Ä.\@\xspace}
+\newcommand{\usw}{usw.\@\xspace}
+\newcommand{\uva}{u.\thinspace{}v.\thinspace{}a.\@\xspace}
+\newcommand{\uvm}{u.\thinspace{}v.\thinspace{}m.\@\xspace}
+\newcommand{\va}{vor allem\@\xspace}
+\newcommand{\vgl}{vgl.\@\xspace}
+\newcommand{\zB}{z.\thinspace{}B.\@\xspace}
+\newcommand{\ZB}{Zum Beispiel\xspace}
+
+\newcommand{\ie}{i.\thinspace{}e.\@\xspace}
+
+%% --------------------------------------------------
+% space size after period
+%% --------------------------------------------------
+\nonfrenchspacing 
+
+%% --------------------------------------------------
+% chapter style
+%% --------------------------------------------------
+\makeatletter
+\def\@makechapterhead#1{%
+	{\parindent \z@ \raggedright \normalfont
+		\ifnum \value{chapter} > 0
+		\huge\bfseries \@chapapp\space \thechapter
+		\par\nobreak
+		\fi
+		\interlinepenalty\@M
+		\Huge \bfseries #1\par\nobreak
+		\vskip 20\p@
+}}
+
+%% --------------------------------------------------
+% heading style
+%% --------------------------------------------------
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyhf{}
+\fancyhead[L]{\scshape\nouppercase{\leftmark}}
+\fancyfoot[R]{\thepage}
+
+\fancypagestyle{plain}{%
+	\fancyhf{}
+	\fancyfoot[R]{\thepage}
+}
+
+\fancypagestyle{totallyplain}{
+	\fancyhf{}
+}
