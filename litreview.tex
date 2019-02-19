@@ -1,29 +1,79 @@
 \chapter[Literature Review]{Literature Review}
 
 \section{History of Vue.js}
-Vue was created by Evan You while he was working at Google on a UI-heavy project. Prior to the creation of Vue, there were no frameworks for rapidly prototyping UI interfaces, so it seems only natural that You, who did not find any viable solutions for his teams problem started working on his own solution. Angular, already widely used by developers and created by Google could have met their needs but was too big of a framework to be sensible. React, a fairly new framework at the time was far too complex just like Backbone.js which was used for large-scale enterprise applications. None of these frameworks however, were adequate for prototyping \cite[p.~10]{filipova2016learning}. You's approach of reactive data-binding and reusable components later named Vue.js, which was realeased in February 2014 \cite{wiki:Vue} helped fill that niche. Nowadays Vue can also be utilized for complex enterprise-grade applications and has since been adopted by many developers and companies around the world. The most noteworthy of which are: Facebook, Netflix, Adobe, Xiaomi, Alibaba and GitLab \cite{CompaniesUsingVue:online}. With more than 130,000 stars on GitHub at the time of this writing, Vue is more popular than both React (122,000 stars) and Angular (45,000 stars).
+Vue was created by Evan You whilst working at Google on a UI-heavy project. Prior to the creation of Vue, there were no frameworks for rapidly prototyping UI interfaces. Subsequently, You, who did not find any viable solutions to his problem started working on his own. Angular, already widely used by developers and created by Google itself was too big and bloated of a framework to be sensible for small applications. React, a fairly new framework at the time also proved being too complex just like Backbone.js which was used for large-scale enterprise applications. None of these frameworks were adequate for prototyping \cite[p.~10]{filipova2016learning}. You's approach of reactive data-binding and reusable components later named Vue.js, was realeased in February 2014 \cite{wiki:Vue} and helped fill that niche. Gradually improved over the years Vue is now utilized for complex enterprise-grade applications and small prototpyes alike and has since been adopted by many developers and companies around the world. The most noteworthy of which are: Facebook, Netflix, Adobe, Xiaomi, Alibaba and GitLab \cite{CompaniesUsingVue:online}. With more than 130,000 stars on GitHub at the time of this writing, Vue is more popular than both React (122,000 stars) and Angular (45,000 stars).
 
 
 \section{Comparison to other Frameworks}
 
-\subsection{Vue vs React}
-Vue and React both have resemblant runtime performance, are based on a virtual DOM and are used for similar use cases. However, as with any framework or library there are slight differences which have to be taken into account prior to locking in to a particular technology.
+\subsection{Vue 2.6 vs React 16}
+Vue and React both are resemblant in terms of runtime performance, are based on a virtual DOM and are used for similar use cases. However, as with any framework or library there are slight differences which have to be taken into account prior to locking in to a particular technology. Both Vue and React can be used by integrating the respective library/framework into an existing site with a script tag or can be compiled with tools such as Webpack or Browserify. This section aims to provide a general overview, rather than discussing each form of integration in great detail.
 
-\subsubsection{Basic Usage}
-By default you can use any valid HTML for defining the presentation layer of a specific Vue component, which is also called a "template" in Vue terminology, whereas in React everything is defined in terms of JavaScript, meaning HTML often coupled with CSS are embedded into JSX render functions.
+\subsubsection{Basic Usage} \label{basic-usage}
+By default any valid HTML can be used to define Vue components, which is also referred to as a "template" in Vue terminology, whereas in React everything is defined in terms of JavaScript, meaning HTML often coupled with CSS are embedded into JSX render functions. Depending on the specific use case, on or the other provides advantages as well as disadvantages. JSX, which is a sytax extension to JavaScript \cite{ReactJSX:online} mixes the full power of a programming language with rendering and UI logic \cite{ComparisonVue:online,ReactJSX:online}, whereas templates are said to be easier to use as they are based on plain HTML. The following figure puts both concepts into contrast:
 
-\begin{figure}
-    \begin{lstlisting}[style=htmlcssjs]
-        function getGreeting(user) {
-            if (user) {
-                return <h1>Hello, {formatName(user)}!</h1>;
-            }
-             return <h1>Hello, Stranger.</h1>;
-        }
-    \end{lstlisting}
-    \caption{JSX Render Function}
-\end{figure}
+\noindent\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[caption=JSX Render Function, captionpos=b, style=htmlcssjs]{JSX Render Function}
+function getGreeting(user) {
+if (user) {
+    return 
+    <h1>
+    Hello, {formatName(user)}!
+    </h1>;
+}
+    return 
+    <h1> Hello, Stranger.
+    </h1>;
+}
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[caption=Vue Template, captionpos=b, style=htmlcssjs]{Vue Template}
+<template>
+<div>
+<h1 v-if="condition"> 
+    {{ user }} 
+</h1>
+<h1 v-else> 
+    "Hello Stranger"
+</h1>
+</div>
+</template>
+\end{lstlisting}
+\end{minipage}
 
+According to the Vue documentation JSX render functions provide:
+\begin{itemize}
+    \item full leverage of JavaScript, including temporary variables and direct references to these
+    \item and better tooling support than Vue (linting, type checking, autocompletion) \cite{ComparisonVue:online}.
+\end{itemize}
+
+On the contrary, Vue templates: 
+\begin{itemize}
+    \item are easier to use when coming from an HTML background,  
+    \item make it smoother to migrate existing applications to incorporate Vue, 
+    \item do not have a steep learning curve resulting in faster adoption by beginners
+    \item and can be further enhanced with various preprocessors \cite{ComparisonVue:online}.
+\end{itemize}
+
+\subsubsection{Component-Scoped CSS}
+Styling in React is most commonly done with CSS-in-JS solutions within JSX functions. In Vue applications on the other hand the styling of components is achieved by defining css classes within style tags, separating style and logic. By optionally using the scoped keyword in style tags, the css is bound to that specific component, reducing the risk of polluting global style sheets. 
+
+\subsubsection{Scaling Applications}
+Applications built with either framework can both be easily scaled up or down depending on the applications requirements. For creating sophisticated and larger applications, three parts have to be incorporated in general: The core library, routing and state management. While all of these are officially provided by the Vue core team for Vue applications, React leaves routing and state management to the community \cite{ComparisonVue:online}. Vue and React both offer an optional CLI generator interface to scaffold projects, however, Vue offers more options, leaving the choice to the developer which building system and plugins to use. React's more limiting approach with create-react-app makes it easier to start a project as it only needs a single dependency but limits the user to a given setup, which can however, be moved to a more customized environment with little effort.
+
+If the goal is to add reactive and interactive elements to an existing webpage both frameworks can be used by adding script tags to any site \cite{AddingReact:online, ComparisonVue:online}. The obvious advantage is that no bundler has to be used in order for code to function but in doing so developers are deprived from being able to use plugins, preprocessors, and various other tools and are most commonly left with a larger bundle size.
+
+\subsection{Vue 2.6 vs Angular 2 }
+
+\subsubsection{Programming Language}
+Even though JavaScript could be used, Angular essentially requires the usage of TypeScript, a typed superset of JavaScript \cite{TypeScript:online}. As opposed to JavaScript, TypeScript comes with static type checking which naturally makes applications less prone to errors \cite{DynamicallyTypedLanguages} and therefore is often used within very large corporate projects. However, as with JSX, TypeScript is an additional learning step and can lead to decreased productivity in smaller projects. Being a dynamic language, JavaScript's ability to address quickly changing requirements makes it especially suitable for rapid prototyping \cite[p.~72]{DynamicallyTypedLanguages}. Nonetheless, Vue makes it possible to use TypeScript if the need arises \cite{VueTypeScript:online}.
+
+\subsubsection{Performance \& Build Size}
+Both frameworks match one another in regards of performance but clearly diverge when it comes to build size. A typical Vue project with the additional dependencies of vuex (state-management) and vue-router uses up ~30KB of space \cite{ComparisonVue:online}. Angular applications built with the angular project scaffolding interface angular-cli are about twice as big, using up ~65KB gzipped \cite{ComparisonVue:online}.
+
+\subsubsection{Flexibility \& Learning Curve}
+Designed with the purpose of building large and complex applications Angulars API exposes a lot of functionality which is most commonly only necessary for exactly these types of applications. By prodiving pre-defined ways of interacting with the system, Angular inherently becomes opinionated and more difficult to master \cite{ComparisonVue:online}. Vue gives developers the freedom to choose between various build systems and does not enforce a certain structuring of the application \cite{ComparisonVue:online}. 
 
 
 \section{SEO for Single Page Applications}
