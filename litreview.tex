@@ -1,12 +1,26 @@
 \chapter[Literature Review]{Literature Review}
 
 \section{History of Vue.js}
-Vue was created by Evan You while he was working at Google on a UI-heavy project. Prior to the creation of Vue, there were no frameworks for rapidly prototyping UI interfaces, so it seems only natural that You, who did not find any viable solutions for his teams problem started working on his own solution. Angular, already widely used by developers and created by Google could have met their needs but was too big of a framework to be sensible. React, a fairly new framework at the time was far too complex just like Backbone.js which was used for large-scale enterprise applications. None of these frameworks however, were adequate for prototyping \cite[p.~10]{filipova2016learning}. You's approach of reactive data-binding and reusable components named Vue.js, which was realeased in February 2014 \cite{wiki:Vue} helped fill that niche. Nowadays Vue can also be utilized for complex enterprise-grade applications and has since been adopted by many developers and companies around the world. The most noteworthy of which are: Facebook, Netflix, Adobe, Xiaomi, Alibaba and GitLab \cite{CompaniesUsingVue:online}. With more than 130,000 stars on GitHub at the time of this writing, Vue is more popular than both React (122,000 stars) and Angular (45,000 stars).
+Vue was created by Evan You while he was working at Google on a UI-heavy project. Prior to the creation of Vue, there were no frameworks for rapidly prototyping UI interfaces, so it seems only natural that You, who did not find any viable solutions for his teams problem started working on his own solution. Angular, already widely used by developers and created by Google could have met their needs but was too big of a framework to be sensible. React, a fairly new framework at the time was far too complex just like Backbone.js which was used for large-scale enterprise applications. None of these frameworks however, were adequate for prototyping \cite[p.~10]{filipova2016learning}. You's approach of reactive data-binding and reusable components later named Vue.js, which was realeased in February 2014 \cite{wiki:Vue} helped fill that niche. Nowadays Vue can also be utilized for complex enterprise-grade applications and has since been adopted by many developers and companies around the world. The most noteworthy of which are: Facebook, Netflix, Adobe, Xiaomi, Alibaba and GitLab \cite{CompaniesUsingVue:online}. With more than 130,000 stars on GitHub at the time of this writing, Vue is more popular than both React (122,000 stars) and Angular (45,000 stars).
 
 
 \section{Comparison to other Frameworks}
-By default you can use any valid HTML for defining the presentation layer of a specific Vue component, which is also called a "template" in Vue terminology, whereas in React everything is defined in terms of JavaScript, meaning HTML often coupled with CSS are embedded into JSX render functions.
+
 \subsection{Vue vs React}
+Vue and React both have resemblant runtime performance, are based on a virtual DOM and are used for similar use cases. However, as with any framework or library there are slight differences which have to be taken into account prior to locking in to a particular technology.
+
+\subsubsection{Basic Usage}
+By default you can use any valid HTML for defining the presentation layer of a specific Vue component, which is also called a "template" in Vue terminology, whereas in React everything is defined in terms of JavaScript, meaning HTML often coupled with CSS are embedded into JSX render functions.
+
+
+\begin{lstlisting}[language=javascript]
+    function getGreeting(user) {
+        if (user) {
+            return <h1>Hello, {formatName(user)}!</h1>;
+        }
+         return <h1>Hello, Stranger.</h1>;
+    }
+\end{lstlisting}
 
 
 \section{SEO for Single Page Applications}

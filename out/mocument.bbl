@@ -16,5 +16,89 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{filipova2016learning}{book}{}
+      \name{author}{1}{}{%
+        {{hash=514770857975fc9c07fc873ea3d33bc9}{%
+           family={Filipova},
+           familyi={F\bibinitperiod},
+           given={Olga},
+           giveni={O\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Packt Publishing Ltd}%
+      }
+      \strng{namehash}{514770857975fc9c07fc873ea3d33bc9}
+      \strng{fullhash}{514770857975fc9c07fc873ea3d33bc9}
+      \strng{bibnamehash}{514770857975fc9c07fc873ea3d33bc9}
+      \strng{authorbibnamehash}{514770857975fc9c07fc873ea3d33bc9}
+      \strng{authornamehash}{514770857975fc9c07fc873ea3d33bc9}
+      \strng{authorfullhash}{514770857975fc9c07fc873ea3d33bc9}
+      \field{sortinit}{F}
+      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Learning Vue. js 2}
+      \field{year}{2016}
+    \endentry
+    \entry{CompaniesUsingVue:online}{online}{}
+      \name{author}{1}{}{%
+        {{hash=d12ecf8507e6b8af19cf63556fb0e562}{%
+           family={Sajnóg},
+           familyi={S\bibinitperiod},
+           given={Michał},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{d12ecf8507e6b8af19cf63556fb0e562}
+      \strng{fullhash}{d12ecf8507e6b8af19cf63556fb0e562}
+      \strng{bibnamehash}{d12ecf8507e6b8af19cf63556fb0e562}
+      \strng{authorbibnamehash}{d12ecf8507e6b8af19cf63556fb0e562}
+      \strng{authornamehash}{d12ecf8507e6b8af19cf63556fb0e562}
+      \strng{authorfullhash}{d12ecf8507e6b8af19cf63556fb0e562}
+      \field{sortinit}{S}
+      \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{03}
+      \field{note}{02/18/2019}
+      \field{title}{13 Top Companies That Have Trusted Vue.js – Examples of Applications | Netguru Blog on Vue}
+      \field{year}{2018}
+      \verb{urlraw}
+      \verb https://www.netguru.com/blog/13-top-companies-that-have-trusted-vue.js-examples-of-applications; http://gfs.sf.net/gerris.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.netguru.com/blog/13-top-companies-that-have-trusted-vue.js-examples-of-applications;%20http://gfs.sf.net/gerris.pdf
+      \endverb
+    \endentry
+    \entry{wiki:Vue}{online}{}
+      \name{author}{1}{}{%
+        {{hash=dbaddbc54def56810e1e242366054cb0}{%
+           family={{Wikipedia contributors}},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{fullhash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{bibnamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authorbibnamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authornamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authorfullhash}{dbaddbc54def56810e1e242366054cb0}
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{[Online; accessed 18-February-2019]}
+      \field{title}{Vue.js --- {Wikipedia}{,} The Free Encyclopedia}
+      \field{year}{2019}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/w/index.php?title=Vue.js&oldid=883864647
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/w/index.php?title=Vue.js&oldid=883864647
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 
