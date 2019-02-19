@@ -12,15 +12,18 @@ Vue and React both have resemblant runtime performance, are based on a virtual D
 \subsubsection{Basic Usage}
 By default you can use any valid HTML for defining the presentation layer of a specific Vue component, which is also called a "template" in Vue terminology, whereas in React everything is defined in terms of JavaScript, meaning HTML often coupled with CSS are embedded into JSX render functions.
 
-
-\begin{lstlisting}[language=javascript]
-    function getGreeting(user) {
-        if (user) {
-            return <h1>Hello, {formatName(user)}!</h1>;
+\begin{figure}
+    \begin{lstlisting}[style=htmlcssjs]
+        function getGreeting(user) {
+            if (user) {
+                return <h1>Hello, {formatName(user)}!</h1>;
+            }
+             return <h1>Hello, Stranger.</h1>;
         }
-         return <h1>Hello, Stranger.</h1>;
-    }
-\end{lstlisting}
+    \end{lstlisting}
+    \caption{JSX Render Function}
+\end{figure}
+
 
 
 \section{SEO for Single Page Applications}

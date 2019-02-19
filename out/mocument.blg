@@ -1,15 +1,15 @@
 [0] Config.pm:302> INFO - This is Biber 2.11
-[0] Config.pm:305> INFO - Logfile is 'out/mocument.blg'
-[43] biber-darwin:313> INFO - === Tue Feb 19, 2019, 10:55:35
-[64] Biber.pm:371> INFO - Reading 'out/mocument.bcf'
-[153] Biber.pm:857> INFO - Found 3 citekeys in bib section 0
-[167] Biber.pm:3976> INFO - Processing section 0
-[179] Biber.pm:4136> INFO - Looking for bibtex format file 'literature.bib' for section 0
-[180] bibtex.pm:1500> INFO - LaTeX decoding ...
-[201] bibtex.pm:1316> INFO - Found BibTeX data source 'literature.bib'
-[222] UCollate.pm:68> INFO - Overriding locale 'en-GB' defaults 'variable = shifted' with 'variable = non-ignorable'
-[222] UCollate.pm:68> INFO - Overriding locale 'en-GB' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[223] Biber.pm:3804> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-GB'
-[223] Biber.pm:3810> INFO - No sort tailoring available for locale 'en-GB'
-[232] bbl.pm:617> INFO - Writing 'out/mocument.bbl' with encoding 'UTF-8'
-[233] bbl.pm:720> INFO - Output to out/mocument.bbl
+[0] Config.pm:305> INFO - Logfile is 'out//mocument.blg'
+[49] biber-darwin:313> INFO - === Tue Feb 19, 2019, 11:24:31
+[74] Biber.pm:371> INFO - Reading 'out//mocument.bcf'
+[164] Biber.pm:857> INFO - Found 3 citekeys in bib section 0
+[178] Biber.pm:3976> INFO - Processing section 0
+[191] Biber.pm:4136> INFO - Looking for bibtex format file 'literature.bib' for section 0
+[193] bibtex.pm:1500> INFO - LaTeX decoding ...
+[214] bibtex.pm:1316> INFO - Found BibTeX data source 'literature.bib'
+[240] UCollate.pm:68> INFO - Overriding locale 'en-GB' defaults 'variable = shifted' with 'variable = non-ignorable'
+[240] UCollate.pm:68> INFO - Overriding locale 'en-GB' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[240] Biber.pm:3804> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-GB'
+[240] Biber.pm:3810> INFO - No sort tailoring available for locale 'en-GB'
+[250] bbl.pm:617> INFO - Writing 'out//mocument.bbl' with encoding 'UTF-8'
+[251] bbl.pm:720> INFO - Output to out//mocument.bbl
