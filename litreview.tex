@@ -5,6 +5,7 @@ Vue was created by Evan You whilst working at Google on a UI-heavy project. Prio
 
 
 \section{Comparison to other Frameworks}
+As there is an excessive amount of libraries and frameworks available for creating web based applications this section will be limited to comparing Vue which was mainly used to develop this project against the next most popular technologies. 
 
 \subsection{Vue 2.6 vs React 16}
 Vue and React both are resemblant in terms of runtime performance, are based on a virtual DOM and are used for similar use cases. However, as with any framework or library there are slight differences which have to be taken into account prior to locking in to a particular technology. Both Vue and React can be used by integrating the respective library/framework into an existing site with a script tag or can be compiled with tools such as Webpack or Browserify. This section aims to provide a general overview, rather than discussing each form of integration in great detail.
@@ -67,13 +68,16 @@ If the goal is to add reactive and interactive elements to an existing webpage b
 \subsection{Vue 2.6 vs Angular 2 }
 
 \subsubsection{Programming Language}
-Even though JavaScript could be used, Angular essentially requires the usage of TypeScript, a typed superset of JavaScript \cite{TypeScript:online}. As opposed to JavaScript, TypeScript comes with static type checking which naturally makes applications less prone to errors \cite{DynamicallyTypedLanguages} and therefore is often used within very large corporate projects. However, as with JSX, TypeScript is an additional learning step and can lead to decreased productivity in smaller projects. Being a dynamic language, JavaScript's ability to address quickly changing requirements makes it especially suitable for rapid prototyping \cite[p.~72]{DynamicallyTypedLanguages}. Nonetheless, Vue makes it possible to use TypeScript if the need arises \cite{VueTypeScript:online}.
+Even though JavaScript could be used, Angular essentially requires the usage of TypeScript, a typed superset of JavaScript \cite{TypeScript:online}. As opposed to JavaScript, TypeScript comes with static type checking which naturally makes applications less prone to errors \cite{DynamicallyTypedLanguages:proceedings} and therefore is often used within very large corporate projects. However, as with JSX, TypeScript is an additional learning step and can lead to decreased productivity in smaller projects. Being a dynamic language, JavaScript's ability to address quickly changing requirements makes it especially suitable for rapid prototyping \cite[p.~72]{DynamicallyTypedLanguages:proceedings}. Nonetheless, Vue makes it possible to use TypeScript if the need arises \cite{VueTypeScript:online}.
 
 \subsubsection{Performance \& Build Size}
 Both frameworks match one another in regards of performance but clearly diverge when it comes to build size. A typical Vue project with the additional dependencies of vuex (state-management) and vue-router uses up ~30KB of space \cite{ComparisonVue:online}. Angular applications built with the angular project scaffolding interface angular-cli are about twice as big, using up ~65KB gzipped \cite{ComparisonVue:online}.
 
 \subsubsection{Flexibility \& Learning Curve}
 Designed with the purpose of building large and complex applications Angulars API exposes a lot of functionality which is most commonly only necessary for exactly these types of applications. By prodiving pre-defined ways of interacting with the system, Angular inherently becomes opinionated and more difficult to master \cite{ComparisonVue:online}. Vue gives developers the freedom to choose between various build systems and does not enforce a certain structuring of the application \cite{ComparisonVue:online}. 
+
+\subsection{Ember.js}
+Opinionated Frameworks such as Ember or Ruby on Rails are "pragmatic, with a strong sense of direction" \cite{Bedell:Opinionated:article} often forcing very specific conventions upon its users, effectively restricting what a developer can to with a framework. This also means there is a steeper learning curve but once overcome, can lead to increased productivity \cite{ComparisonVue:online}.
 
 
 \section{SEO for Single Page Applications}

@@ -1987,13 +1987,15 @@
     <bcf:citekey order="9">AddingReact:online</bcf:citekey>
     <bcf:citekey order="9">ComparisonVue:online</bcf:citekey>
     <bcf:citekey order="10">TypeScript:online</bcf:citekey>
-    <bcf:citekey order="11">DynamicallyTypedLanguages</bcf:citekey>
-    <bcf:citekey order="12">DynamicallyTypedLanguages</bcf:citekey>
+    <bcf:citekey order="11">DynamicallyTypedLanguages:proceedings</bcf:citekey>
+    <bcf:citekey order="12">DynamicallyTypedLanguages:proceedings</bcf:citekey>
     <bcf:citekey order="13">VueTypeScript:online</bcf:citekey>
     <bcf:citekey order="14">ComparisonVue:online</bcf:citekey>
     <bcf:citekey order="15">ComparisonVue:online</bcf:citekey>
     <bcf:citekey order="16">ComparisonVue:online</bcf:citekey>
     <bcf:citekey order="17">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="18">Bedell:Opinionated:article</bcf:citekey>
+    <bcf:citekey order="19">ComparisonVue:online</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">
