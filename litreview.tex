@@ -144,11 +144,12 @@ All three frameworks can be scaled down by adding script tags to any site \cite{
 Vue and React both are resemblant in terms of runtime performance, are based on a virtual DOM and are used for similar use cases while Angular is a much more heavy-weight framework regarding performance and size. 
 
 % FLEXIBILITY & LEARNING CURVE
-JSX as well as TypeScript are additional learning steps and can lead to decreased productivity in smaller projects. Being a dynamic language, JavaScript's ability to address quickly changing requirements makes it especially suitable for rapid prototyping \cite[p.~72]{DynamicallyTypedLanguages:proceedings}. By using very HTML-like components Vue is often easier to master than the other two frameworks as most developers have at least basic knowledge of HTML. Nonetheless, Vue makes it possible to use TypeScript if the need arises, paving the way for bigger projects \cite{VueTypeScript:online}. Angular is not very flexible in the sense that users can pick whatever supporting library they deem best and is said to be an opinionated framework which enforces the "Angular way". Such frameworks are "pragmatic, with a strong sense of direction" \cite{Bedell:Opinionated:article} often forcing very specific conventions upon its users, effectively restricting what a developer can to with a framework. This also means there is a steeper learning curve but once overcome, can lead to increased productivity \cite{ComparisonVue:online}. Yes test hello
+JSX as well as TypeScript are additional learning steps and can lead to decreased productivity in smaller projects. Being a dynamic language, JavaScript's ability to address quickly changing requirements makes it especially suitable for rapid prototyping \cite[p.~72]{DynamicallyTypedLanguages:proceedings}. By using very HTML-like components Vue is often easier to master than the other two frameworks as most developers have at least basic knowledge of HTML. Nonetheless, Vue makes it possible to use TypeScript if the need arises, paving the way for bigger projects \cite{VueTypeScript:online}. Angular is not very flexible in the sense that users can pick whatever supporting library they deem best and is said to be an opinionated framework which enforces the "Angular way". Such frameworks are "pragmatic, with a strong sense of direction" \cite{Bedell:Opinionated:article} often forcing very specific conventions upon its users, effectively restricting what a developer can to with a framework. This also means there is a steeper learning curve but once overcome, can lead to increased productivity \cite{ComparisonVue:online}.
 
 % Kiviat Diagram
-The following diagrams do by no means reflect the properties of the given framework / library 100\% accurately as some of them are somewhat subjective (e.g flexibility) but shall rather illustrate a direction blabbla.
+The following diagram does by no means reflect the properties of the given framework / library 100\% accurately as some of them are somewhat subjective (e.g flexibility) but shall rather illustrate the strengths and weaknesses of each in relation to another.
 
+\newcommand\ColorBox[1]{\textcolor{#1}{\rule{2ex}{2ex}}}
 
 \begin{tikzpicture}
 \tkzKiviatDiagram[scale=1,label distance=.5cm, radial=5, gap=1, lattice=5]
@@ -157,6 +158,14 @@ The following diagrams do by no means reflect the properties of the given framew
 \tkzKiviatLine[thick, color=blue, mark=none, fill=blue!20, opacity=.5](4,4,3,3,4) 
 \tkzKiviatLine[thick, color=red, mark=none, fill=red!20](2,5,2.5,1,2)    
 % \tkzKiviatGrad[prefix=,unity=100,suffix=\ \texteuro](1)  
+\node[anchor=south west,xshift=-60pt,yshift=40pt] at (current bounding box.south east) 
+{
+\begin{tabular}{@{}lp{3cm}@{}}
+\ColorBox{red!50} & Angular \\
+\ColorBox{green!50} & Vue \\
+\ColorBox{blue!50} & React \\
+\end{tabular}
+};
 \end{tikzpicture}
 
 
