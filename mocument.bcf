@@ -1972,9 +1972,45 @@
   <!-- SECTION 0 -->
   <bcf:bibdata section="0">
     <bcf:datasource type="file" datatype="bibtex">literature.bib</bcf:datasource>
+    <bcf:datasource type="file" datatype="bibtex">literature.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">Mikowski:2013:SPW:2663433</bcf:citekey>
+    <bcf:citekey order="1">macrae2018vue</bcf:citekey>
+    <bcf:citekey order="2">filipova2016learning</bcf:citekey>
+    <bcf:citekey order="3">macrae2018vue</bcf:citekey>
+    <bcf:citekey order="4">CompaniesUsingVue:online</bcf:citekey>
+    <bcf:citekey order="5">macrae2018vue</bcf:citekey>
+    <bcf:citekey order="6">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="7">LearningReactBanks:book</bcf:citekey>
+    <bcf:citekey order="8">LearningReactBanks:book</bcf:citekey>
+    <bcf:citekey order="9">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="10">AddingReact:online</bcf:citekey>
+    <bcf:citekey order="10">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="11">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="12">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="13">FrameworksPerformance:online</bcf:citekey>
+    <bcf:citekey order="14">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="15">LearningReactBanks:book</bcf:citekey>
+    <bcf:citekey order="16">LearningReactBanks:book</bcf:citekey>
+    <bcf:citekey order="17">ReactJSX:online</bcf:citekey>
+    <bcf:citekey order="18">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="19">islam2017reactjs:article</bcf:citekey>
+    <bcf:citekey order="20">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="21">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="22">FrameworksPerformance:online</bcf:citekey>
+    <bcf:citekey order="23">ReactJSX:online</bcf:citekey>
+    <bcf:citekey order="24">TypeScript:online</bcf:citekey>
+    <bcf:citekey order="25">DynamicallyTypedLanguages:proceedings</bcf:citekey>
+    <bcf:citekey order="26">FrameworksPerformance:online</bcf:citekey>
+    <bcf:citekey order="27">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="28">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="29">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="30">AddingReact:online</bcf:citekey>
+    <bcf:citekey order="30">ComparisonVue:online</bcf:citekey>
+    <bcf:citekey order="31">DynamicallyTypedLanguages:proceedings</bcf:citekey>
+    <bcf:citekey order="32">VueTypeScript:online</bcf:citekey>
+    <bcf:citekey order="33">Bedell:Opinionated:article</bcf:citekey>
+    <bcf:citekey order="34">ComparisonVue:online</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">
