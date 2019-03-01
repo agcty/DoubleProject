@@ -1975,14 +1975,14 @@
     <bcf:datasource type="file" datatype="bibtex">literature.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">macrae2018vue</bcf:citekey>
-    <bcf:citekey order="2">filipova2016learning</bcf:citekey>
-    <bcf:citekey order="3">macrae2018vue</bcf:citekey>
+    <bcf:citekey order="1">Innerbro19:online</bcf:citekey>
+    <bcf:citekey order="2">Mikowski:Powell:2013</bcf:citekey>
+    <bcf:citekey order="3">filipova2016learning</bcf:citekey>
     <bcf:citekey order="4">CompaniesUsingVue:online</bcf:citekey>
     <bcf:citekey order="5">macrae2018vue</bcf:citekey>
     <bcf:citekey order="6">ComparisonVue:online</bcf:citekey>
-    <bcf:citekey order="7">LearningReactBanks:book</bcf:citekey>
-    <bcf:citekey order="8">LearningReactBanks:book</bcf:citekey>
+    <bcf:citekey order="7">WhatIsVirtualDom:online</bcf:citekey>
+    <bcf:citekey order="8">WhatIsVirtualDom:online</bcf:citekey>
     <bcf:citekey order="9">ComparisonVue:online</bcf:citekey>
     <bcf:citekey order="10">AddingReact:online</bcf:citekey>
     <bcf:citekey order="10">ComparisonVue:online</bcf:citekey>

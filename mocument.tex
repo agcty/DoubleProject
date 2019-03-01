@@ -4,6 +4,16 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 
+% GLOSSARY
+\usepackage[acronym, toc]{glossaries}
+
+\makeglossaries
+ 
+\newglossaryentry{routing}{name=Routing,description={Is responsible for coordinating page changes on a website, in the case of single page applications it allows for switching pages without refreshing the page}}
+
+\newacronym{gcd}{GCD}{Greatest Common Divisor}
+
+
 % KIVIAT
 % \usepackage[upright]{fourier} 
 \usepackage{tkz-kiviat,numprint,fullpage} 
@@ -134,9 +144,6 @@
 \module{Final Year Project}
 \university{University of Central Lancashire}
 
-% \project{First Project}
-% \company{The Good Company Inc.}
-
 \makeindex
 \begin{document}
 	\frontmatter
@@ -152,8 +159,12 @@
   \include{testing}
   \include{deployment}
   \include{evaluation}
-  
-	
+
+  \clearpage
+  % PRINT GLOSSARY
+	\printglossary[type=\acronymtype]
+  \printglossary
+
 	\appendix
 	
 	\MakeBibliography
