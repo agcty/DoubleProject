@@ -4,14 +4,28 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 
+% custom link colors
+\hypersetup{
+    colorlinks,
+    linkcolor={green!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+
 % GLOSSARY
 \usepackage[acronym, toc]{glossaries}
 
 \makeglossaries
  
-\newglossaryentry{routing}{name=Routing,description={Is responsible for coordinating page changes on a website, in the case of single page applications it allows for switching pages without refreshing the page}}
+\newglossaryentry{routing}{name=routing,description={Is responsible for coordinating page changes on a website, more specifcally when used as a part single page applications it allows for switching pages without refreshing the page}}
 
-\newacronym{gcd}{GCD}{Greatest Common Divisor}
+\newglossaryentry{statemanagement}{name=state management,description={Provides a centralized store for all the components in a single page application. For example makes it possible to store a username in such a way, that any component can retrieve and use it}}
+
+\newglossaryentry{DOM}{name=DOM, description={Defines the logical structure of HTML-based documents and the way a document is accessed and manipulated}}
+
+\newacronym{spa}{SPA}{Single Page Application}
+\newacronym{soc}{SoC}{Separation of Concerns}
 
 
 % KIVIAT
@@ -147,8 +161,12 @@
 \makeindex
 \begin{document}
 	\frontmatter
-	\maketitle
-	\tableofcontents
+  \maketitle
+  % hide table of content links -> only use black font
+	{\hypersetup{hidelinks}
+    \tableofcontents
+  }
+
 	\include{abstract}
 	
 	\mainmatter
