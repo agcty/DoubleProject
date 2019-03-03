@@ -156,11 +156,34 @@ The following diagram does by no means reflect the properties of the given frame
 \section{SEO for Single Page Applications}
 
 \subsubsection{Introduction}
-There is no doubt that competing companies all over the world want to be found first in the biggest market of all: the internet. As 67.60\% of organic clicks are accounted by the first five pages returned by the SERP \cite{Khan2018:article}, these same companies are highly incentivized to invest into an improved search engine rank which was found to have a positive impact on an organizations performance \cite{yang2015search:article}. Therefore, the process of Search Engine Optimization has become ubiquitous in our modern era as it promises to attract more users to a certain website \cite{Khan2018:article}. In other words: more users mean there is a greater probability of conversions, thus generating more revenue.
+There is no doubt that competing companies all over the world want to be found first in the biggest market of all: the internet. As 67.60\% of organic clicks are accounted by the first five pages returned by the SERP \cite{Khan2018:article}, these same companies are highly incentivized to invest into an improved search engine rank which was found to have a positive impact on an organizations performance \cite{yang2015search:article}. Therefore, the process of Search Engine Optimisation has become ubiquitous in our modern era as it promises to attract more users to a certain website \cite{Khan2018:article}. In other words: more users mean there is a greater probability of conversions, thus generating more revenue.
 
 Unfortunately, successfully implementing SEO is a very delicate matter. In reality it is a set of techniques geared towards software rather than humans. These programs are commonly referred to as crawlers or bots which traverse the Web by exploiting the Web's hyperlinked structure and add their findings to the search engine's index \cite{Fink2014:inbook,menczer2001evaluating:proceedings}. They start on a websites root page and try to find any available links on that site \cite{Fink2014:inbook}. The process of choosing which links to follow, itself is dependant on complex algorithms as different crawlers will have to make different decisions \cite{menczer2001evaluating:proceedings}. For example a crawler trying to index the web as comprehensively as possible will have different underlying instructions than one that tries to find product reviews \cite{menczer2001evaluating:proceedings}. After being added to the index, a site's content is destructured and with additional metrics such as speed, size of images and mobile-friendliness its search engine rank is calculated \cite{Fink2014:inbook}.
 
-Search Engine Optimization helps crawlers better understand a site's content and "serves as a solution to figure out the nature of each webpage and determine how it can be made worthwhile to the users" \cite{Khan2018:article}.
+Search Engine Optimisation helps crawlers better understand a site's content and "serves as a solution to figure out the nature of each webpage and determine how it can be made worthwhile to the users" \cite{Khan2018:article}.
 
-\subsubsection{Optimizing SPA's}
-In general there are two ways to improve any type of site's rank: on-site optimization and off-site optimization \cite{Khan2018:article}. The first pertains to techniques that can be implemented on a site itself, such as efficiency of a webserver, compression of data, deferred loading of images, keywoards or the actual content, whereas the latter is a set of techniques which primarily drive more traffic to a certain site, such as social media marketing or the creation of backlinks \cite{Khan2018:article}. 
+\subsubsection{The Problem}
+In general there are two ways to improve any type of site's rank: on-site optimisation and off-site optimisation \cite{Khan2018:article}. The first pertains to techniques that can be implemented on a site itself, such as efficiency of a webserver, compression of data, deferred loading of images, keywoards or the actual content, whereas the latter is a set of techniques which primarily drive more traffic to a certain site, such as social media marketing or the creation of backlinks \cite{Khan2018:article}. 
+
+Improving a \acrlong{spa}'s ranking score proves difficult when using on-site optimisation techniques. When Google first started crawling websites in 1998 JavaScript was not a big problem as it was not widely used, so it simply was not executed \cite{GoogleUsesJavascript:online}. The rapidly changing landscape of webdesign however, demanded a more sophisticated approach. Things started to change drastically in 2014 when Google's crawler began executing JavaScript \cite{GoogleUsesJavascript:online}. However, as websites increasingly rely on AJAX \cite[p.~97]{Brunelle2016:article}, more specifically the deferred loading of resources, crawlers faced with a problem. The research of Brunelle et al. \cite[p.~97]{Brunelle2016:article} illustrates it as following:
+
+\begin{quotation}
+When a crawler fetches a web page (1), it waits for the page and all of the embedded resources to load to consider it fully rendered. At this point, the crawler preserves (2) all of the content on the web page (A). After the page has loaded, the page can request further resources (3), even without user interaction. The resource is then returned to the web page to be rendered (4) producing the final intended result (Ab). Because the crawler preserved the page prior to the page being fully loaded, the secondary content is not preserved and the archived version of the web page is not complete.
+\end{quotation}
+
+This can be seen as one of the biggest disadvantages for \acrshort{spa}'s as they heavily rely on AJAX and client-side rendering. If crawlers are not aware of their contents they will in turn suffer from a decreased search engine rank. 
+
+\subsubsection{Possible Solutions}
+The problem is to be solved by offering crawlers a fully rendered page instead of having them load additional resources. Depending on a web application's usage several options can be feasible:
+
+% Prerendering
+The first is to implement prerendering: a process in which static HTML-files are created for specific routes at build time \cite{VueSSR:online}. This technique is especially useful for sites with content that does not change very often. Typical scenarios would be to create static versions of marketing or about sites \cite{VueSSR:online}. One of the main advantages is a rather simple setup process since creating a static version happens only once during building. At the same time, it becomes obvious that this solution is not very suitable for pages with rapidly changing content - rebuilding a project after every data change is not very efficient after all.
+
+% SSR - Advantages and Disadvantages
+A more sensible approach for sites with often changing content is \acrfull{ssr}. As opposed to prerendering, \acrlong{ssr} is a lot more sophisticated and complex to set up as it requires a tight coupling to the used framework.
+
+The first is to implement \acrfull{ssr} within a framework itself. This technique allows \acrshort{spa}'s to  It render which renders "[] into HTML strings on the server, 
+
+% Dynamic Rendering
+A possible solution which is still relevant today is to "create a static representation of your web site/application and direct crawlers to use it"  was identifed by Fink et al. in 2014 \cite[p.~270]{Fink2014:inbook}.
+
