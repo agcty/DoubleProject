@@ -2031,9 +2031,11 @@
     <bcf:citekey order="50">Brunelle2016:article</bcf:citekey>
     <bcf:citekey order="51">VueSSR:online</bcf:citekey>
     <bcf:citekey order="52">VueSSR:online</bcf:citekey>
-    <bcf:citekey order="53">Fink2014:inbook</bcf:citekey>
-    <bcf:citekey order="54">filipova2016learning</bcf:citekey>
-    <bcf:citekey order="55">Brunelle2016:article</bcf:citekey>
+    <bcf:citekey order="53">VueSSR:online</bcf:citekey>
+    <bcf:citekey order="54">Fink2014:inbook</bcf:citekey>
+    <bcf:citekey order="55">DynamicRenderingGoogle:online</bcf:citekey>
+    <bcf:citekey order="56">filipova2016learning</bcf:citekey>
+    <bcf:citekey order="57">Brunelle2016:article</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

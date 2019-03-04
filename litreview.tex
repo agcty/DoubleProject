@@ -135,6 +135,7 @@ The following diagram does by no means reflect the properties of the given frame
 
 \newcommand\ColorBox[1]{\textcolor{#1}{\rule{2ex}{2ex}}}
 
+\begin{center}
 \begin{tikzpicture}
 \tkzKiviatDiagram[scale=0.7,label distance=.5cm, radial=5, gap=1, lattice=5]
 {Ease of Learning,Scaling,Performance,Compactness,Flexibility}
@@ -151,6 +152,7 @@ The following diagram does by no means reflect the properties of the given frame
 \end{tabular}
 };
 \end{tikzpicture}
+\end{center}
 
 
 \section{SEO for Single Page Applications}
@@ -180,10 +182,10 @@ The problem is to be solved by offering crawlers a fully rendered page instead o
 The first is to implement prerendering: a process in which static HTML-files are created for specific routes at build time \cite{VueSSR:online}. This technique is especially useful for sites with content that does not change very often. Typical scenarios would be to create static versions of marketing or about sites \cite{VueSSR:online}. One of the main advantages is a rather simple setup process since creating a static version happens only once during building. At the same time, it becomes obvious that this solution is not very suitable for pages with rapidly changing content - rebuilding a project after every data change is not very efficient after all.
 
 % SSR - Advantages and Disadvantages
-A more sensible approach for sites with often changing content is \acrfull{ssr}. As opposed to prerendering, \acrlong{ssr} is a lot more sophisticated and complex to set up as it requires a tight coupling to the used framework.
-
-The first is to implement \acrfull{ssr} within a framework itself. This technique allows \acrshort{spa}'s to  It render which renders "[] into HTML strings on the server, 
+A more sensible approach for sites with often changing content is \acrfull{ssr}. As opposed to prerendering, \acrshort{ssr} is a lot more sophisticated and complex to set up as it requires a tight coupling to the used framework. Upon every request by a client, the framework is responsible for creating a static version of the site which reflects the current available data. In technical terms, a static HTML site is rendered on the server by the framework, sent to the browser and hydrated "into a fully interactive app on the client" \cite{VueSSR:online}.
 
 % Dynamic Rendering
-A possible solution which is still relevant today is to "create a static representation of your web site/application and direct crawlers to use it"  was identifed by Fink et al. in 2014 \cite[p.~270]{Fink2014:inbook}.
+Another possible solution which is still relevant today is to "create a static representation of your web site/application and direct crawlers to use it" and was identifed by Fink et al. in 2014 \cite[p.~270]{Fink2014:inbook}. This technique has been given the name "Dynamic Rendering" by Google in 2018 \cite{DynamicRenderingGoogle:online}. It differs from prerendering and SSR in on key aspect: real users and crawlers are served alternative content, hence the term "dynamic". When a crawler requests a site, an intermediate service transforms HTML and JavaScript to a static, prerendered version. This intermediate step allows for the creation of prerendered sites whenever needed - it builds upon prerendering but removes its build time constraint.
+
+
 
