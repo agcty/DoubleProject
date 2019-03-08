@@ -134,10 +134,11 @@ Vue and React both are similar in terms of runtime performance, are based on a v
 JSX as well as TypeScript are additional learning steps and can lead to decreased productivity in smaller projects. Being a dynamic language, JavaScript's ability to address quickly changing requirements makes it especially suitable for rapid prototyping \cite[p.~72]{DynamicallyTypedLanguages:proceedings}. By using very HTML-like components Vue is often easier to master than the other two frameworks as most developers have at least basic knowledge of HTML. Nonetheless, Vue makes it possible to use TypeScript if the need arises, paving the way for bigger projects \cite{VueTypeScript:online}. Angular is not very flexible in the sense that users can pick whatever supporting library they deem best and is said to be an opinionated framework which enforces the "Angular way". Such frameworks are "pragmatic, with a strong sense of direction" \cite{Bedell:Opinionated:article} often forcing very specific conventions upon its users, effectively restricting what a developer can to with a framework. This also means there is a steeper learning curve but once overcome, can lead to increased productivity \cite{ComparisonVue:online}.
 
 % Kiviat Diagram
-The following diagram does by no means reflect the properties of the given framework / library 100\% accurately as some of them are somewhat subjective (e.g flexibility) but shall rather illustrate the strengths and weaknesses in relation to another when used in a typical manner.
+The diagram shown in \autoref{fig:comparison} does by no means reflect the properties of the given framework / library 100\% accurately as some of them are somewhat subjective (e.g flexibility) but shall rather illustrate the strengths and weaknesses in relation to another when used in a typical manner.
 
 \newcommand\ColorBox[1]{\textcolor{#1}{\rule{2ex}{2ex}}}
 
+\begin{figure}[H]
 \begin{center}
 \begin{tikzpicture}
 \tkzKiviatDiagram[scale=0.7,label distance=.5cm, radial=5, gap=1, lattice=5]
@@ -156,9 +157,12 @@ The following diagram does by no means reflect the properties of the given frame
 };
 \end{tikzpicture}
 \end{center}
+\caption{Comparison of Vue, React and Angular}
+\label{fig:comparison}
+\end{figure}
 
 
-\section{SEO for Single Page Applications}
+\section{SEO for Single Page Applications} \label{sec:seo}
 
 \subsubsection{Introduction}
 There is no doubt that competing companies all over the world want to be found first in the biggest market of all: the internet. As 67.60\% of organic clicks are accounted by the first five pages returned by the SERP \cite{Khan2018:article}, these same companies are highly incentivized to invest into an improved search engine rank which was found to have a positive impact on an organizations performance \cite{yang2015search:article}. Therefore, the process of Search Engine Optimisation has become ubiquitous in our modern era as it promises to attract more users to a certain website \cite{Khan2018:article}. In other words: more users mean there is a greater probability of conversions, thus generating more revenue.
@@ -178,7 +182,7 @@ When a crawler fetches a web page (1), it waits for the page and all of the embe
 
 This can be seen as one of the biggest disadvantages for \acrshort{spa}'s as they heavily rely on AJAX and client-side rendering. If crawlers are not aware of their contents they will in turn suffer from a decreased search engine rank. 
 
-\subsubsection{Possible Solutions}
+\subsubsection{Possible Solutions} \label{subsub:seo}
 The problem is to be solved by offering crawlers a fully rendered page instead of having them load additional resources. Depending on a web application's usage several options can be feasible:
 
 % Prerendering

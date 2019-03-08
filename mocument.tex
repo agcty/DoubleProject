@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{float}
 
 % custom link colors
 \hypersetup{
@@ -12,6 +13,9 @@
     urlcolor={blue!80!black}
 }
 
+% REDIFNE AUTOREF NAMES
+\renewcommand*{\chapterautorefname}{Chapter}
+\renewcommand*{\sectionautorefname}{Section}
 
 % GLOSSARY
 \usepackage[acronym, toc]{glossaries}
@@ -33,7 +37,8 @@
 \newacronym{jsx}{JSX}{JavaScript XML}
 \newacronym{ssr}{SSR}{Server Side Rendering}
 \newacronym{seo}{SEO}{Search Engine Optimisation}
-
+\newacronym{pwa}{PWA}{Progressive Web App}
+\newacronym{mvp}{MVP}{Minimum viable product}
 
 % KIVIAT
 % \usepackage[upright]{fourier} 

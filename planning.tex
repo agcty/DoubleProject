@@ -3,9 +3,9 @@
 % \section{Methodology}
 % https://zube.io/blog/agile-project-management-workflow-for-github-issues/
 \section{Introduction}
-As this project was initially the idea of its project partner who needed an interactive frontend application, planning the project had to be adapted accordingly. This chapter will give an overview about which parts of the whole system are already provided for and identifies the requirements and potential solutions for the frontend.
+As this project was initially the idea of its project partner who needed an interactive frontend application, planning the project had to be adapted accordingly. This chapter will give an overview about which parts of the whole system are already provided for and identifies the requirements and potential solutions for the frontend. Additionally, it depicts considered technologies and techniques and evaluates the most appropriate development stack.
 
-The main idea is to give tenants, proprietors and facility management a way to communicate over a single point of access. In its first version, they should be able to discuss topics they care about, easily make announcements, submit and track the state of maintenance issues and to create polls in order to provide an easy way for decision-making. It is meant to move traditional house management to the 21st century.
+The main idea is to give tenants, proprietors and facility management a way to communicate over a single point of access. In its first version, they should be able to discuss topics they care about, easily make announcements, submit and track the state of maintenance issues and to create polls in order to provide an easy way for decision-making. The frontend is to be designed as a \acrfull{mvp} rather than adhering to exact requirements, meaning deviations are desired if it is sensible (Example found in chapter ... ). This MVP will initially be realeased in Austria.
 
 % Talk about project idea in more detail
 \section{Provided Services}
@@ -17,14 +17,28 @@ The Database and API are both provided by the project partner. The first is a Po
 % List requirements defined by project partner
 % write these as user stories
 % illustrate as Use Case diagram
-The requirements of the application are primarily defined by the project partner. These are:
-\begin{itemize}
-    \item Digital Noticeboard
-    \item Polls
-    \item Forum
-    \item Issue Management    
-\end{itemize}
+The functional and non-functional requirements are primarily defined by the project partner. The following lists describe the functional and non-functional aspects of the frontend on the left and right, respectively. \newline
 
+\begin{minipage}{.5\textwidth}
+    \begin{itemize}
+        \item Digital Noticeboard
+        \item Polls
+        \item Forum
+        \item Issue Management
+        \item Bilinguality
+        \item Custom Authentication
+    \end{itemize}
+\end{minipage}% This must go next to `\end{minipage}`
+\begin{minipage}{.5\textwidth}
+    \begin{itemize}
+        \item High Flexibility 
+        \item Easy to maintain
+        \item Low learning curve for future developers
+        \item Easy way of creating apps for mobile phones from frontend
+    \end{itemize}
+\end{minipage}
+
+  
 \subsection{Digital Noticeboard}
 The digital noticeboard is what it says: a noticeboard accessible online. It is a unidirectional way of communication between house parties. A typical example would be to announce a get-together everyone is invited to. \newline
 Allowed user roles: Proprietors, Tenants, Facility Managament
@@ -41,21 +55,48 @@ Allowed user roles: Proprietors, Tenants, Facility Managament
 With an issue management system tenants or proprietors can submit and track the status of maintenance related issues. The facility management can access these issues and take action. When an issue's state changes they can mark it accordingly in the system. \newline
 Allowed user roles: Proprietors, Tenants, Facility Managament
 
-According to these requirements, a use-case diagram as illustrated in \autoref{fig:usecases} can be generated:
-\begin{figure}[!hb]
+\subsection{Bilinguality}
+It is important that users are able to choose between at least two languages. German is the most obvious choice as it is Austria's primarily spoken language. English, the second most well known language in Austria is obvious as well.
+
+\subsubsection{Authentication}
+Users shall be authenticated via a custom endpoint defined in the API. Authentication-providers such as Google or Facebook are not needed. \newline
+
+According to these requirements, a use-case diagram as illustrated in \autoref{fig:usecases} can be generated.
+\begin{figure}[H]
     \begin{center}
-    \includegraphics[height=4in,width=4in]{usecases}
+    \includegraphics[height=6in,width=6in]{usecases2}
     \end{center}
     \caption{Proprietors Assembly Use Cases}
     \label{fig:usecases}
 \end{figure}
 
-\section{Potential Solutions}
+\section{Considered Technologies}
 % Single Page Application because interactive and functionality easy to integrate, smooth native-like feeling
 % Using Vue because flexibility and ease of learning were important
+\subsection{\acrshort{spa} Framework}
+To meet both functional and non-functional requirements \acrshort{spa}'s are a potential solution. They provide an interactive, smooth native-like user interface and can easily be transformed to a \acrfull{pwa} if the need arises. As illustrated in \autoref{fig:comparison}, an especially appropriate framework can be found in Vue, which perfectly suits the needs of the non-functional requirements for this project. Its relatively high flexibility in addition to its shallow learning curve allow for a rapid development process.
 
+\subsection{\acrshort{ssr} Framework}
+Although the project's requirements do not state any need for \acrshort{ssr} it is possible that rapidly changing content such as publicicly available blog posts with comments will be added in a future release. \autoref{subsub:seo} identifies three ways of rendering \acrshort{spa}'s on the server side. Server Side Rendering would be the most viable option as it comes with the biggest advantages. 
 
+It can be utilized in one of two ways: By using vue as a framework and the supporting library "vue-server-renderer" or by using an additional framework. The first way requires the developer to configure everything themselves whereas the latter provides pre-configured \acrshort{ssr} functionality. One of these frameworks is Nuxt.js which is the most  popular SSR framework within the vue community. In addition, it configures automatic routing and state management, which are described in more detail in chapter ... . 
 
-\section{Tools and Techniques}
+\subsection{CSS Framework}
+% Bulma, vuetify, bootstrap, foundation
+There are various CSS frameworks available which differ greatly in design. In addition to the widely used Bootstrap and Foundation frameworks which have a very basic and familiar design, there are smaller ones which provide different design elements which could help distinguish the project from others. Such frameworks are "Bulma" or "Materialize". Bulma comes with a very distinct design, that does not seem as ubiquitous on the web as the others. Furthermore, the vue library "Buefy" builds on top of Bulma's CSS and provides predefined components to use. This is very important as it makes it much easier and quicker to build user interfaces.
+
+\subsection{Deployment}
+There are various techniques of deploying a technology stack to a production ready environment ranging from installing a webserver, database and additional services directly onto a server to using virtual machines for each individual service. A much better and more recent approach is the usage of "containers": Each service is encapsulated in its own linux environment but hosted on the same machine. The most popular containerization technology is Docker which gives developers the ability to write "compose" files that define a composition of services. One of the biggest advantages of Docker is that the same services can be run in a development as well as production environment, greatly reducing overhead.
+
+\subsection{Summary}
+Vue is the perfect framework for this project due to its flexibility and ease of learning. Nuxt will be used to lay the groundwork for \acrshort{ssr}. The design of the frontend will be based on Bulma and Buefy giving the project a distinct and distinguishable look. Docker will provide a way of easily deploying the application on any server and development environment.
+
+\section{Additional Tools and Techniques}
+\subsubsection{GitLab}
+GitLab is used not only as a VCS but also as a container registry. It makes it easy
+
+GitLab is 
+
+\subsubsection{Circle CI}
 
 \section{Legal and Ethical Issues}
