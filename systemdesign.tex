@@ -62,11 +62,20 @@ Identified Elements: Create House Form, Accept Invite Form, Invite Form
 \section{Summary}
 Some Elements are very distinct and are only used once whereas others are used across multiple pages. One element that stands out and is used in almost every single page is the Navigation Bar. It would be very sensible to not only create a reusable component of this element but to also include it in some kind of base-layout. Some other widely used elements are: a Search Bar and a Create Button. Other elements which might not be used very often but reused nevertheless are the Language Switcher and House Switcher. The various forms, lists and items mentioned previously are used only once most of the time, however, it still makes sense to create reusable Vue components for these to make site composition easier.
 
-\begin{figure}[H]
-    \begin{center}
-    \includegraphics[height=1.4in]{sitemap}
-    \end{center}
-    \caption{System Design}
-    \label{fig:usecases}
-\end{figure}
+\begin{tikzpicture}[sibling distance=10em,
+    every node/.style = {shape=rectangle, rounded corners,
+      draw, align=center,
+      top color=white, bottom color=white!20}]]
+    \node {Home}
+        child { node {Login / Register} }
+        child { node {Add House} }
+        child { node {Polls}
+            child { node {Create} } }
+        child { node {Issues}
+            child { node {Create / Edit} } }
+        child { node {Noticeboard}
+            child { node {Create / Edit} } }
+        child { node {Forum}
+            child { node {Create / Edit} } };
+  \end{tikzpicture}
 
