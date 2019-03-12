@@ -2,7 +2,7 @@
 
 \section{System Design}
 % general overview of the system, how every part is integrated, vue app, backend, db, docker etc
-In the previous chapter the requirements of the project were illustrated. From these an initial high level overview of the system can be generated as depicted in \autoref{fig:usecases}.
+In the previous chapter the requirements of the project were illustrated. From these an initial high level overview of the system can be generated as depicted in \autoref{fig:sytemdesign}.
 
 
 \begin{figure}[H]
@@ -10,7 +10,7 @@ In the previous chapter the requirements of the project were illustrated. From t
     \includegraphics[height=5in]{container_diagram}
     \end{center}
     \caption{System Design}
-    \label{fig:usecases}
+    \label{fig:sytemdesign}
 \end{figure}
 
 In its basic structure, Proprietors Assembly as a software system consists of an NGINX webserver, a Vue \acrlong{spa}, a Django API and a PostgreSQL database. When a user visits the domain \url{https://hausversammlung.at}, the webserver will serve the static frontend which communicates with the API. Depending on the use-case, the API will retrieve data from or add to the Database. An additional third-party Exchange server is used to send emails regarding authentication and house details. The diagram intentioanlly omitts certain parts of the system for brevity. One of these is a reverse-proxy service which is the first point of contact from a user's viewpoint. A reverse proxy in this case routes between containers which are hosted on the same machine, accessible through unique ports. This topic is discussed in depth in \autoref{ch:deployment}.
@@ -62,20 +62,10 @@ Identified Elements: Create House Form, Accept Invite Form, Invite Form
 \section{Summary}
 Some Elements are very distinct and are only used once whereas others are used across multiple pages. One element that stands out and is used in almost every single page is the Navigation Bar. It would be very sensible to not only create a reusable component of this element but to also include it in some kind of base-layout. Some other widely used elements are: a Search Bar and a Create Button. Other elements which might not be used very often but reused nevertheless are the Language Switcher and House Switcher. The various forms, lists and items mentioned previously are used only once most of the time, however, it still makes sense to create reusable Vue components for these to make site composition easier.
 
-\begin{tikzpicture}[sibling distance=10em,
-    every node/.style = {shape=rectangle, rounded corners,
-      draw, align=center,
-      top color=white, bottom color=white!20}]]
-    \node {Home}
-        child { node {Login / Register} }
-        child { node {Add House} }
-        child { node {Polls}
-            child { node {Create} } }
-        child { node {Issues}
-            child { node {Create / Edit} } }
-        child { node {Noticeboard}
-            child { node {Create / Edit} } }
-        child { node {Forum}
-            child { node {Create / Edit} } };
-  \end{tikzpicture}
-
+\begin{figure}[H]
+    \begin{center}
+    \includegraphics[height=2in]{sitemap}
+    \end{center}
+    \caption{Sitemap}
+    \label{fig:sitemap}
+\end{figure}
