@@ -2035,8 +2035,9 @@
     <bcf:citekey order="54">VueSSR:online</bcf:citekey>
     <bcf:citekey order="55">Fink2014:inbook</bcf:citekey>
     <bcf:citekey order="56">DynamicRenderingGoogle:online</bcf:citekey>
-    <bcf:citekey order="57">filipova2016learning</bcf:citekey>
-    <bcf:citekey order="58">Brunelle2016:article</bcf:citekey>
+    <bcf:citekey order="57">Nuxtjs:online</bcf:citekey>
+    <bcf:citekey order="58">filipova2016learning</bcf:citekey>
+    <bcf:citekey order="59">Brunelle2016:article</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

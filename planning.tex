@@ -21,7 +21,7 @@ As mentioned in the introduction, several functional requirements exist. Further
 
 \begin{table}[H]
     \begin{center}
-      \begin{tabular}{l|l} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \begin{tabularx}{\linewidth}{l|l} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
         \textbf{Functional Requirements} & \textbf{Non-Functional Requirements}\\
         \hline
         Digital Noticeboard & High Flexibility \\
@@ -30,7 +30,7 @@ As mentioned in the introduction, several functional requirements exist. Further
         Issue Management & Low learning curve for future developers\\
         Bilinguality & \\
         Custom Authentication & \\
-      \end{tabular}
+      \end{tabularx}
       \caption{Project Requirements}
       \label{tab:requirements}
     \end{center}
@@ -68,7 +68,7 @@ According to these requirements, a use-case diagram as illustrated in \autoref{f
     \label{fig:usecases}
 \end{figure}
 
-\section{Considered Technologies}
+\section{Considered Technologies} \label{sec:consideredtech}
 % Single Page Application because interactive and functionality easy to integrate, smooth native-like feeling
 % Using Vue because flexibility and ease of learning were important
 \subsection{\acrshort{spa} Framework}

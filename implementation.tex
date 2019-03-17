@@ -1,8 +1,48 @@
 \chapter[Implementation]{Implementation}
 
-\section{Nuxt.js}
+\section{Introduction}
+Based on the evaluation carried out in \autoref{sec:consideredtech} the \acrlong{spa} was implemented with Vue and Nuxt. To give the reader a better understanding of how the application was built, the first few sections of this chapter will discuss which additional tools and functionalities Nuxt provides, how \acrfull{soc} is achieved with Vue and briefly illustrates how the frontend and the API communicate with each other. 
 
-\section{Basic File Structure}
+\section{Nuxt.js}
+Nuxt's primary use case is to provide \acrlong{ssr} for Vue-based applications. It also advertises itself as a framework which "presets all the configuration needed to make your development of a Vue.js application enjoyable" \cite{Nuxtjs:online}. While this blurry description is not very meaningful on its own, it indicates that Nuxt pre-configures certain parts of a Vue application. The most important of which are: \acrlong{ssr}, automatic setup of routing and store management.
+
+\subsection{Rendering modes}
+Nuxt offers three rendering modes: \acrshort{ssr}, "Prerendering" and "Single Page Application". For descriptions of the first two please see \autoref{sub:seo}. The "Single Page Application" mode does not offer server-rendering capabilities while still pre-configuring routing and state management. This mode is especially useful for applications that require users to be authenticated before being able to use them. The reason why is simple: \acrlong{ssr} can only improve the SEO ranking of a page if crawlers are able to look at the full contents of it. Fully implementing \acrshort{ssr} for an application that only shows a login form would therefore be pointless. 
+
+Then why should this project use Nuxt, which is primarily used for \acrshort{ssr} if the application cannot even profit from it because authentication prevents crawlers from seeing anything but a login form? The answer is because 1) state management and routing are auto-configured as well and 2) because in the future, the frontend might expose parts of the system in a publicly accessible way without the need of authentication. By using Nuxt from the beginning, the transition to this is much easier.
+
+\section{Nuxt Folder Structure}
+When using Nuxt, different folders contain different parts of the frontend application. Behind the scenes, Webpack - one of the most popular bundler tools consolidates, minifies, transforms and transpiles the code of these folders into browser-readable plain JavaScript code. 
+
+\begin{table}
+    \begin{tabularx}{\linewidth}{|l|X|}
+        \hline
+        \textbf{Folder} & \textbf{Description} \\
+        \hline
+        assets & contains un-compiled assets such as images, global css or fonts  \\
+        \hline
+        components & contains reusable Vue Single File Components \\
+        \hline
+        layouts & contains Vue files that define the applications theme \\
+        \hline
+        middleware & defines files which are run before a route changes, e.g check if user is authenticated before redirecting \\
+        \hline
+        pages & contains the pages of the application, Nuxt automatically creates routes corresponding to a page's name \\
+        \hline
+        plugins & contains plain JavaScript files which are run before instantiating the application, e.g used for inject adding an internationalization plugin \\
+        \hline
+        static & files in this is directory are directly mapped to server root and are not compiled or renamed in any way, e.g robots.txt \\
+        \hline
+        store & contains Vuex store files, every file added in this directory is automatically mapped to the global store \\
+        \hline
+        nuxt.config.js & contains the Nuxt configuration for the application, e.g which plugins and middleware to use\\
+        \hline
+        package.json & is not Nuxt specific but added by npm and contains application dependencies and scripts \\
+        \hline
+    \end{tabularx}
+    \caption{Folder Structure}
+    \label{table: simulation parameters}
+\end{table}
 
 \section{Separation of Concerns}
 
