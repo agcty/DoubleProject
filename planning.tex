@@ -17,7 +17,7 @@ A Database,Exchange Email Server and API are provided by the project partner. Th
 % List requirements defined by project partner
 % write these as user stories
 % illustrate as Use Case diagram
-As mentioned in the introduction, several functional requirements exist. Furthermore, there are some non-functional requirements for the project which have to be taken into account. \autoref{tab:requirements} depicts these general requirements. \newline
+As mentioned in the introduction, several functional requirements. Furthermore, there are some non-functional requirements for the project which have to be taken into account. \autoref{tab:requirements} depicts these general requirements. \newline
 
 \begin{table}[H]
     \begin{center}
@@ -29,37 +29,54 @@ As mentioned in the introduction, several functional requirements exist. Further
         Forum & Easy way of creating apps for mobile phones from frontend\\
         Issue Management & Low learning curve for future developers\\
         Bilinguality & \\
-        Custom Authentication & \\
       \end{tabularx}
       \caption{Project Requirements}
       \label{tab:requirements}
     \end{center}
   \end{table}
 
-  
+ 
+These very high functional requirements can be further broken down into user stories which are illustrated in the next few sections. The word "user" is used for referring any user-group of the system.
+
 \subsection{Digital Noticeboard}
-The digital noticeboard is a unidirectional way of communication between house parties. A typical example would be to announce a get-together everyone is invited to. \newline
-Allowed user roles: Proprietors, Tenants, Facility Managament
+Description: A unidirectional way of communication between house parties \newline
+Story: As a user I want to make announcements so other users can act accordingly\newline
+Example: Announcing a get-together everyone is invited to 
 
 \subsection{Polls}
-Polls are intended to remove the friction of decision-making. An example would be a facade that has to be repainted with a new color. To get an initial idea which color it should be, Proprietors can create polls and let other proprietors choose between given options. \newline
-Allowed user roles: Proprietors
+Description: A method for decision-making \newline
+Story: As a proprietor I want to create polls other proprietors can vote on so that we can make decisions \newline
+Example: A facade that has to be repainted with a new color. To get an initial idea which color it should be, Proprietors can create polls and let other proprietors choose between given options.
 
 \subsection{Forum}
-The Forum is a way of discussing topics related to a specific house. E.g. a tenant wants to know when garbage cans are emptied. Proprietors as well as facility management and other tenants can answer such questions. \newline
-Allowed user roles: Proprietors, Tenants, Facility Managament
+Description: A way of discussing topics related to a specific house \newline
+Story: As a user I want to ask questions so other users can answer them \newline 
+Example: A tenant wants to know when garbage cans are emptied
 
 \subsection{Issue Management}
-With an issue management system, tenants or proprietors can submit and track the status of maintenance related issues. The facility management can access these issues and take action. When an issue's state changes, they can mark it accordingly in the system. \newline
-Allowed user roles: Proprietors, Tenants, Facility Managament
+Description: A way of submitting and track the status of maintenance related issues \newline
+Story: As a user I want to submit an issue so that it can be taken care of \newline
+Example: A user has a water leak and submits an issue, the facility management can access these issues and take action
 
 \subsection{Bilinguality}
-It is important that users are able to choose between at least two languages. German is the most obvious choice as it is Austria's primarily spoken language. English, the second most well known language in Austria is obvious as well.
+Description: Changing the language \newline
+Story: As a user I want to change the language of the application so I can understand the content \newline
+Additional Note: It is important that users are able to choose between at least two languages. German is the most obvious choice as it is Austria's primarily spoken language. English, the second most well known language in Austria is obvious as well.
 
-\subsection{Authentication}
-Users shall be authenticated via a custom endpoint defined in the API. Authentication-providers such as Google or Facebook are not needed. \newline
+\begin{table}
+  \begin{tabularx}{\linewidth}{l|X}
+     Description & Changing the language \\
+     \hline
+     User Story & As a user I want to change the language of the application so I can understand the content \\
+     \hline
+     Additional Notes & It is important that users are able to choose between at least two languages. German is the most obvious choice as it is Austria's primarily spoken language. English, the second most well known language in Austria is obvious as well 
+  \end{tabularx}
+  \caption{File Structure}
+  \label{table:filestructure}
+\end{table}
 
-According to these requirements, a use-case diagram as illustrated in \autoref{fig:usecases} can be generated.
+According to these requirements, a use-case diagram as illustrated in \autoref{fig:usecases} can be generated. Additional information like basic flows of these use cases can be found in the respective section of \autoref{ch:implementation} which is in accordance with the "Decide as late as possible" principle found in lean development projects.
+
 \begin{figure}[H]
     \begin{center}
     \includegraphics[height=6in,width=6in]{usecases2}

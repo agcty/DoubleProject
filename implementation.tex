@@ -1,7 +1,7 @@
-\chapter[Implementation]{Implementation}
+\chapter[Implementation]{Implementation} \label{ch:implementation}
 
 \section{Introduction}
-Based on the evaluation carried out in \autoref{sec:consideredtech} the \acrlong{spa} was implemented with Vue and Nuxt. To give the reader a better understanding of how the application was built, the first few sections of this chapter will discuss which additional tools and functionalities Nuxt provides, how \acrfull{soc} is achieved with Vue and briefly illustrates how the frontend and the API communicate with each other. 
+Based on the evaluation carried out in \autoref{sec:consideredtech} the \acrlong{spa} was implemented with Vue and Nuxt. To give the reader a better understanding of how the application was built, the first few sections of this chapter will discuss which additional tools and functionalities Nuxt provides, how Vue is used and \acrfull{soc} is achieved and briefly illustrates how the frontend and the API communicate with each other. 
 
 \section{Nuxt.js}
 Nuxt's primary use case is to provide \acrlong{ssr} for Vue-based applications. It also advertises itself as a framework which "presets all the configuration needed to make your development of a Vue.js application enjoyable" \cite{Nuxtjs:online}. While this blurry description is not very meaningful on its own, it indicates that Nuxt pre-configures certain parts of a Vue application. The most important of which are: \acrlong{ssr}, automatic setup of routing and store management.
@@ -11,7 +11,7 @@ Nuxt offers three rendering modes: \acrshort{ssr}, "Prerendering" and "Single Pa
 
 Then why should this project use Nuxt, which is primarily used for \acrshort{ssr} if the application cannot even profit from it because authentication prevents crawlers from seeing anything but a login form? The answer is because 1) state management and routing are auto-configured as well and 2) because in the future, the frontend might expose parts of the system in a publicly accessible way without the need of authentication. By using Nuxt from the beginning, the transition to this is much easier.
 
-\section{Nuxt Folder Structure}
+\subsection{Usage}
 When using Nuxt, different folders contain different parts of the frontend application. Behind the scenes, Webpack - one of the most popular bundler tools consolidates, minifies, transforms and transpiles the code of these folders into browser-readable plain JavaScript code. 
 
 \begin{table}
@@ -40,12 +40,17 @@ When using Nuxt, different folders contain different parts of the frontend appli
         package.json & is not Nuxt specific but added by npm and contains application dependencies and scripts \\
         \hline
     \end{tabularx}
-    \caption{Folder Structure}
-    \label{table: simulation parameters}
+    \caption{File Structure}
+    \label{table:filestructure}
 \end{table}
 
+Typically, functional components are defined inside the components folder. These components might include other components in order to compose more complex architectures. Pages and layouts are also nothing more than Vue components, however, they are used in very specific ways. The file structure of the pages folder is automatically read by Nuxt and routes are generated from it. For example the file pages/index.vue is shown when a user visits \url{hausversammlung.at}, whereas the file pages/issues/index.vue translates to the url \url{hausversammlung.at/issues/}. Layouts are used to change the look and feel of the application. For example it is possible to create a layout file which includes a navigation bar on the top of the page. Nuxt then allows developers to set a layout property inside a page which corresponds to a layout file, resulting in easily reusable themes. 
+
+\section{Vue}
+This section intends to extend the basic description of Vue's usage of \autoref{subsub:vueusage}.
+
 \section{Separation of Concerns}
-In modern software architectures \acrfull{soc} plays an important role and is often found as principles of modularization of code and object-oriented design \cite{laplante2007every:book}. In the case of traditional web design HTML, CSS and JavaScript are often physically separated (separation of file types) leading to increased maintainability of code, a less tightly coupled system and decreased probability of violating DRY principles. Furthermore, it helps building complex layered systems which can be actively worked on by multiple developers. 
+A very important aspect of modern software architectures is \acrfull{soc} which is often regarded to as principles of modularization of code and object-oriented design \cite{laplante2007every:book}. In the case of traditional web design HTML, CSS and JavaScript are often physically separated (separation of file types) leading to increased maintainability of code, a less tightly coupled system and decreased probability of violating DRY principles. Furthermore, it helps building complex layered systems which can be actively worked on by multiple developers. 
 
 Vue however, takes different approaches on \acrshort{soc} depending on the way it is used in a project:
 either Vue.js is added to existing sites by using a standard HTML script tag or by using a complete bundling tool like Webpack or Browserify to add it as a dependency. Using Vue by adding a script tag has some disadvantages: it only allows developers to target a specific HTML container element on the page Vue is embedded in, and also brings certain disadvantages such as no CSS support inside the Vue component itself and no build steps which requires the developer to fall back to plain HTML and ES5 JavaScript rather than using various preprocessors.
@@ -106,7 +111,6 @@ Clearly HTML, CSS and JavaScript are not separated into their own respective fil
 \end{quotation}
 
 Instead of creating different files in which logic, presentation and design reside in, Vue consolidates these tiers into a single file, hence the name “Single File Component”, making it more maintainable and editable in the process.
-
 
 \section{API Endpoints}
 
