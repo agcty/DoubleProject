@@ -45,6 +45,70 @@ When using Nuxt, different folders contain different parts of the frontend appli
 \end{table}
 
 \section{Separation of Concerns}
+In modern software architectures “Separation of Concerns” plays an important role and is often found as principles of modularization of code and object-oriented design. In the case of web design the physical separation of HTML, CSS and JavaScript as different files leads to increased maintainability of code, a less tightly coupled system and decreased probability of violating DRY principles. Furthermore, it helps building complex layered systems which can be actively worked on by multiple developers.  Naturally we want the same benefits in the frontend framework of our choice.
+
+Vue takes different approaches on SoC depending on the way it is used in a project:
+One way is to add the Vue.js framework to existing sites as an external script in order to enhance certain views, not however to build complete frontends.  When doing so it is only possible to use Vue components in an intertwined fashion leaving little to no trail of SoC:
+
+\begin{lstlisting}[caption=Vue Single File Component, captionpos=b, style=htmlcssjs]{Vue Single File Component}
+Vue.component('todo-component', {
+    template: '<h1> {{ newItem }} </h1>',
+    data() {
+        return {
+            items: [
+                {
+                    id: '1',
+                    title: 'Buy milk',
+                    completed: false
+                },
+            ],
+            newItem: ''
+        };
+    },
+    methods: {
+        addItem() {
+            // LOGIC OMITTED FOR READABILITY
+        }
+\end{lstlisting}
+
+Using it in such a fashion merely allows you to target a specific html container element on the page Vue is embedded in and also brings certain disadvantages such as no CSS support inside the Vue component itself and no build steps which requires the developer to fall back to plain HTML and ES5 JavaScript rather than using various preprocessors.
+
+The more preferable approach would be to use a so called “Single File Component”, a file with a “.vue” extension. These files however have to be compiled with build tools like Webpack or Browserify to extract the corresponding concerns. A sample file is presented below:
+
+\begin{lstlisting}[caption=Vue Single File Component, captionpos=b, style=htmlcssjs]{Vue Single File Component}
+<template>
+  //HTML
+  <p>{{ text }}</p>
+</template>
+
+<script>
+//JS
+export default {
+  data() {
+    return {
+      text: 'Hello World!'
+    }
+  }
+}
+</script>
+
+<style scoped>
+//CSS
+  p {
+    color: red;
+  }
+</style>
+\end{lstlisting}
+
+By defining .vue files developers can utilize syntax highlighting, linting and component-scoped CSS. Furthermore preprocessors like Pug, Babel or SASS can be used to further improve the development process. This however comes with an important tradeoff: As Single File Components rely on the use of build tools, they are not specially suitable for use in projects which just use Vue on for enhancements to existing sites. 
+
+Clearly HTML, CSS and JavaScript is not separated into their own respective files even when using Single File Components which leaves us with the question of how Separation of Concerns is achieved. As stated in the Vue Documentation: 
+
+“... separation of concerns is not equal to separation of file types. In modern UI development, we have found that instead of dividing the codebase into three huge layers that interweave with one another, it makes much more sense to divide them into loosely-coupled components and compose them. Inside a component, its template, logic and styles are inherently coupled, and collocating them actually makes the component more cohesive and maintainable.” 
+
+Instead of creating different files in which logic, presentation and design reside in, Vue consolidates these tiers into a single file, hence the name “Single File Component”, making it more maintainable and editable in the process.
+
+
 
 \section{API Endpoints}
 
