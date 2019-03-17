@@ -39,40 +39,58 @@ As mentioned in the introduction, several functional requirements. Furthermore, 
 These very high functional requirements can be further broken down into user stories which are illustrated in the next few sections. The word "user" is used for referring any user-group of the system.
 
 \subsection{Digital Noticeboard}
-Description: A unidirectional way of communication between house parties \newline
-Story: As a user I want to make announcements so other users can act accordingly\newline
-Example: Announcing a get-together everyone is invited to 
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{l|X}
+     Description & A unidirectional way of communication between house parties \\
+     \hline
+     User Story & As a user I want to make announcements so other users can act accordingly \\
+     \hline
+     Example & Announcing a get-together everyone is invited to 
+  \end{tabularx}
+\end{table}
 
 \subsection{Polls}
-Description: A method for decision-making \newline
-Story: As a proprietor I want to create polls other proprietors can vote on so that we can make decisions \newline
-Example: A facade that has to be repainted with a new color. To get an initial idea which color it should be, Proprietors can create polls and let other proprietors choose between given options.
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{l|X}
+     Description & A method for decision-making \\
+     \hline
+     User Story & As a proprietor I want to create polls other proprietors can vote on so that we as a group can make decisions \\
+     \hline
+     Example & A facade that has to be repainted with a new color. To get an initial idea which color it should be, Proprietors can create polls and let other proprietors choose between given options
+  \end{tabularx}
+\end{table}
 
 \subsection{Forum}
-Description: A way of discussing topics related to a specific house \newline
-Story: As a user I want to ask questions so other users can answer them \newline 
-Example: A tenant wants to know when garbage cans are emptied
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{l|X}
+     Description & A way of discussing topics related to a specific house \\
+     \hline
+     User Story & As a user I want to ask questions so other users can answer them \\
+     \hline
+     Example & A tenant wants to know when garbage cans are emptied
+  \end{tabularx}
+\end{table}
 
 \subsection{Issue Management}
-Description: A way of submitting and track the status of maintenance related issues \newline
-Story: As a user I want to submit an issue so that it can be taken care of \newline
-Example: A user has a water leak and submits an issue, the facility management can access these issues and take action
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{l|X}
+     Description & A way of submitting and track the status of maintenance related issues \\
+     \hline
+     User Story & As a user I want to submit an issue so that it can be taken care of \\
+     \hline
+     Example & A user has a water leak and submits an issue, the facility management can access these issues and take action
+  \end{tabularx}
+\end{table}
 
 \subsection{Bilinguality}
-Description: Changing the language \newline
-Story: As a user I want to change the language of the application so I can understand the content \newline
-Additional Note: It is important that users are able to choose between at least two languages. German is the most obvious choice as it is Austria's primarily spoken language. English, the second most well known language in Austria is obvious as well.
-
-\begin{table}
+\begin{table}[H]
   \begin{tabularx}{\linewidth}{l|X}
      Description & Changing the language \\
      \hline
      User Story & As a user I want to change the language of the application so I can understand the content \\
      \hline
-     Additional Notes & It is important that users are able to choose between at least two languages. German is the most obvious choice as it is Austria's primarily spoken language. English, the second most well known language in Austria is obvious as well 
+     Notes & It is important that users are able to choose between at least two languages. German is the most obvious choice as it is Austria's primarily spoken language. English, the second most well known language in Austria is obvious as well 
   \end{tabularx}
-  \caption{File Structure}
-  \label{table:filestructure}
 \end{table}
 
 According to these requirements, a use-case diagram as illustrated in \autoref{fig:usecases} can be generated. Additional information like basic flows of these use cases can be found in the respective section of \autoref{ch:implementation} which is in accordance with the "Decide as late as possible" principle found in lean development projects.
