@@ -35,8 +35,7 @@ As mentioned in the introduction, several functional requirements exist. Further
     \end{center}
   \end{table}
 
- 
-These very high functional requirements can be further broken down into user stories. The most important of which are illustrated along with additional information in the next few sections. For a full list of user stories please see (appendix user stories) The word "user" is used for referring to every user-group of the system. The specific user-groups are: Tenant, Proprietor, Facility Management.
+These very high functional requirements can be further broken down into user stories. The most important of which are illustrated along with additional information in the next few sections. For a full list of user stories please see \autoref{app:userstories}. The word "user" is used for referring to every user-group of the system. The specific user-groups are: Tenant, Proprietor, Facility Management.
 
 \subsection{Digital Noticeboard}
 \begin{table}[H]
@@ -95,9 +94,7 @@ These very high functional requirements can be further broken down into user sto
   \end{tabularx}
 \end{table}
 
-According to these requirements, a high-level use-case diagram as illustrated in \autoref{fig:usecases} can be generated. Additional information like basic flows of these use cases can be found in the respective section of \autoref{ch:implementation} which is in accordance with the "Decide as late as possible" principle found in lean development projects. \newline
-% \textbf{Disclaimer:} This use case diagram only depicts uses cases which mutate the system's data. Naturally, users also want to view and filter data, these use cases are however omitted for brevity. Examples would be: "View Noticeboard Entries" and "Search Noticeboard Entry". 
-% rewrite
+From these user stories an initial high-level use-case diagram as illustrated in \autoref{fig:usecases} can be derived. Since the initial project requirements are quite vague and an iterative approach is followed during development, it makes sense to defer the specification of these use cases to a more appropriate point in development which can be found in \autoref{sec:uicomponents_flows}. In addition, this is consistent with the principle of "decide as late as possible" of lean development practices.
 
 \begin{figure}[H]
     \begin{center}
@@ -132,11 +129,14 @@ The two main webserver technologies are NGINX and Apache httpd. According to var
 Vue is the perfect framework for this project due to its flexibility and ease of learning. Nuxt will be used to lay the groundwork for \acrshort{ssr}. The design of the frontend will be based on Bulma and Buefy giving the project a distinct and distinguishable look. Docker will provide a way of easily deploying the application on any server and development environment. An NGINX-based webserver is used to serve the static frontend.
 
 \section{Additional Tools and Techniques}
+\subsubsection{Methodology}
+Kanban is used as a visual management tool during development. 
+
 \subsubsection{GitLab}
-GitLab not only serves as a Git-based \acrfull{vcs} but also as a container registry. The registry exposes an interface for uploading and downloading container images. This is especially useful for creating images on a local machine, uploading them to the registry and downloading them again onto a remote server where they should be deployed. Doing it this way completely removes the need of storing the source code for the whole project on the remote server and building it from source. Instead, the version number of the used image is increased in a compose file and the container gets updated accordingly when a redeployment is initiated.
+GitLab not only serves as a Git-based \acrfull{vcs} but also as a container registry. The registry exposes an interface for uploading and downloading container images. This is especially useful for creating images on a local machine, uploading them to the registry and downloading them again onto a remote server where they should be deployed. Doing it this way completely removes the need of storing the source code for the whole project on the remote server and building it from source. Instead, the version number of the used image is increased in a compose file and the container gets updated accordingly when a redeployment is initiated. Additionally, GitLab provides a Kanban board which can directly be integrated into the project workflow.
 
 \subsubsection{Git Flow}
-Git Flow is a VCS methodology which is based around "features". In its most basic structure there is one master and develop branch accompanied by multiple feature branches (usually one feature per branch). The master branch should always be kept in a production-ready state, wheras the develop branch contains the actively developed project-source in which every finished feature branch is merged into. Additionally there are hotfix and release branches which support the others. Git Flow adds an abstraction layer to the development flow and greatly helps building applications by an iterative approach.
+Git Flow is a \acrshort{vcs} methodology which is based around "features". In its most basic structure there is one master and develop branch accompanied by multiple feature branches (usually one feature per branch). The master branch should always be kept in a production-ready state, wheras the develop branch contains the actively developed project-source in which every finished feature branch is merged into. Additionally there are hotfix and release branches which support the others. Git Flow adds an abstraction layer to the development flow and greatly helps building applications by an iterative approach.
 
 \subsubsection{Circle CI}
 Automated testing is important when developing applications. It can reassure the developer that nothing will break and result in unexpected errors. Circle CI is a continuous integration platform which automatically tests code when certain rules are met. It works very well when used in addition to Git Flow and Docker: it can be set up to create a container with the projects source, builds it and runs its tests upon every change made to the develop or master branch or a pull request. Circle CI notifies its users if any step during this process failed preventing faulty code to ever reach a production state.
