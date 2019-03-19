@@ -47,7 +47,20 @@ When using Nuxt, different folders contain different parts of the frontend appli
 Typically, functional components are defined inside the components folder. These components might include other components in order to compose more complex architectures. Pages and layouts are also nothing more than Vue components, however, they are used in very specific ways. The file structure of the pages folder is automatically read by Nuxt and routes are generated from it. For example the file pages/index.vue is shown when a user visits \url{hausversammlung.at}, whereas the file pages/issues/index.vue translates to the url \url{hausversammlung.at/issues/}. Layouts are used to change the look and feel of the application. For example it is possible to create a layout file which includes a navigation bar on the top of the page. Nuxt then allows developers to set a layout property inside a page which corresponds to a layout file, resulting in easily reusable themes. 
 
 \section{Vue}
-This section intends to extend the basic description of Vue's usage of \autoref{subsub:vueusage}.
+This section aims to extend the basic description of Vue's usage as described in \autoref{subsub:vueusage} so that code samples of this chapter are more easily understood. For the sake of brevity, some parts will be omitted if they are not crucially relevent (e.g transitions). 
+
+Discusses:
+Single File Components separated into HTML, JS and CSS
+v-bind and shorthand, v-model
+ternary expressions
+events how they are emitted and caught
+props
+methods
+computed properties
+v-if 
+conditional classes 
+vuex store
+routing
 
 \section{Separation of Concerns}
 A very important aspect of modern software architectures is \acrfull{soc} which is often regarded to as principles of modularization of code and object-oriented design \cite{laplante2007every:book}. In the case of traditional web design HTML, CSS and JavaScript are often physically separated (separation of file types) leading to increased maintainability of code, a less tightly coupled system and decreased probability of violating DRY principles. Furthermore, it helps building complex layered systems which can be actively worked on by multiple developers. 

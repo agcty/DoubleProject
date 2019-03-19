@@ -15,9 +15,11 @@ In the previous chapter the requirements of the project were illustrated. From t
 
 In its basic structure, Proprietors Assembly as a software system consists of an NGINX webserver, a Vue \acrlong{spa}, a Django API and a PostgreSQL database. When a user visits the domain \url{https://hausversammlung.at}, the webserver will serve the static frontend which communicates with the API. Depending on the use-case, the API will retrieve data from or add to the Database. An additional third-party Exchange server is used to send emails regarding authentication and house details. The diagram intentionally omitts certain parts of the system for brevity. One of these is a reverse-proxy service which is the first point of contact from a user's viewpoint. A reverse proxy in this case routes between containers which are hosted on the same machine, accessible through unique ports. This topic is discussed in depth in \autoref{ch:deployment}.
 
-\section{Identifying UI Components}
+\section{Identifying UI Components \& Use Case Flows}
 % Defining how to framework should look like, dashboard-like look, what pages have to be created in order to fullfill requirements. Maybe additional wireframes
-Interactive components of the frontend are strongly dependant on the required functionality. This section aims to define what is needed on a page and to translate functional requirements into identifiable UI elements. It is intended to be an extension to the requirements of the frontend (see \autoref{sec:requirements}) with regards on how to implement these. This makes it possible to identify elements that are used in multiple places and clearly shows the base structure of the frontend. Furthermore, as Vue uses a component-based approach, these elements serve as a very good starting point for defining which vue-components are required.
+Interactive components of the frontend are strongly dependant on the required functionality. This section aims to define what is minimally needed on a certain page and to translate functional requirements into identifiable UI elements. It is intended to be an extension to the requirements of the frontend (see \autoref{sec:requirements}) with regards on how to implement these. This makes it possible to identify elements that are used in multiple places and clearly shows the base structure of the frontend. Furthermore, as Vue uses a component-based approach, these elements serve as a very good starting point for defining which vue-components are required.
+
+Additionally, as mentioned in \autoref{sec:introplanning} it is the developer's responsibility to derive all use cases and flows from the requirements. The approach taken is as following: 1) the basic thought processes of how a site should look like are laid out 2) use case flows are derived from this, so that 3) the site's elements can be mapped to a flow.
 
 \subsection{Login Page}
 The Login / Register page handles user authentication. A user is required to log into an existing account or create a new one before they can use the system. Traditionally, this is done with a plain HTML-Form. It is sensible to create separate forms for login and register and let the user decide which form to use depending on their needs. Additionally, a forgot-password form should provide a uniform way of requesting a password change. \newline
@@ -25,13 +27,34 @@ The Login / Register page handles user authentication. A user is required to log
 Identified Elements: HTML forms for login, register and password-reset
 
 \subsection{Home}
-On the home site various data sources should composed into a consolidated view - a dashboard. It shows the most recent forum items, polls and noticeboard entries in addition to the current number of issues, house parties and squaremeters. A user should be able to switch between a list of houses they are associated with. A navigation bar should contain links to all subpages: Home [sic], Noticeboard, Polls, Forum, Issue Management and the Profile. \newline
+On the home site various data sources should composed into a consolidated view - a dashboard. It shows the most recent forum items, polls and noticeboard entries in addition to the current number of issues, house parties and squaremeters. A user should be able to switch between a list of houses they are associated with. A navigation bar should contain links to all subpages: Home, Noticeboard, Polls, Forum, Issue Management and the Profile. \newline
 
 Identified Elements: Noticeboard Item, Poll Item, Forum Item, House Switcher, Navigation Bar
 
 \subsection{Noticeboard}
-The Noticeboard page contains a list of all noticeboard entries associated with a house. An input field should let the user search for a specific item. A navigation bar as described for the previous page should allow for page changes. Finally, a button that links to a page where noticeboard entries can be created and edited should exist. It is sensible to consolidate creating and editing an item on the same site by using a single form which is either initially empty or populated with the existing data should be edited. Creating a noticeboard requires a title and a message. \newline
+The Noticeboard page contains a list of all noticeboard entries associated with a house. An input field should let the user search for a specific item. A navigation bar as described for the previous page should allow for page changes. Finally, a button that links to a page where noticeboard entries can be created should exist. If the user is the owner of an entry an edit button should be shown. It is sensible to consolidate creating and editing an item on the same site by using a single form which is either initially empty or populated with the existing data should be edited. Creating a noticeboard requires a title and a message. \newline
 
+Key use case according to user stories depicted in \autoref{usecase:createnoticeboard}. Supporting use cases can be found in \
+\begin{table}[H]
+    \begin{tabularx}{\linewidth}{|X|}
+      \hline
+       The user opens the noticeboard page by using the navigation bar \\
+       \hline
+       The user clicks a "create" button \\
+       \hline
+       The user fills a from with a title and a message \\
+       \hline
+       The system checks for appropriate authorization \\
+       \hline
+       The system adds a new entry to the database \\
+       \hline
+       The user is redirected to the main noticeboard page \\
+       \hline 
+    \end{tabularx}
+    \caption{Use Case Flow: Create Noticeboard}
+    \label{usecase:createnoticeboard}
+  \end{table}
+  
 Identified Elements: Noticeboard Item List, Noticeboard Item, Search Bar, Navigation Bar, Create Button, Create / Edit Noticeboard Entry Form
 
 \subsection{Polls}
@@ -62,6 +85,7 @@ Identified Elements: Create House Form, Accept Invite Form, Invite Form
 \section{Summary}
 Some elements are very distinct and are only used once whereas others are used across multiple pages. One element that stands out and is used in almost every single page is the "Navigation Bar". It would be very sensible to not only create a reusable component of this element but to also include it in some kind of base-layout that can be used as a starting point when creating sub-pages. Some other widely used elements are the "Search Bar" and "Create Button". Elements which might not be used very often but reused nevertheless are the "Language Switcher" and "House Switcher". The various forms, lists and items mentioned previously are used only once most of the time and therefore not reused, however, it still makes sense to create reusable Vue components for these to make site composition cleaner and easier.
 
+\section{Site Structure}
 Another important aspect of frontend-applications is the question of how sites are related to eachother. This concept can best be described as a sitemap. Well designed sitemaps which are often reflected as links in a navigation bar not only give users a clear understanding of the applications structure but can also be turned into machine-readable files which can be accessed by crawlers. From the previous defined pages it is possible to interpolate the complete structure of the frontend-application as depicted in \autoref{fig:sitemap}. \newline
 % TODO: Say that create and edit func is on the same site.
 

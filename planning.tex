@@ -2,22 +2,22 @@
 
 % \section{Methodology}
 % https://zube.io/blog/agile-project-management-workflow-for-github-issues/
-\section{Introduction}
-The project was to develop a front-end to an existing system and had to be planned accordingly. This chapter will give an overview about which parts of the whole system are already provided for and identifies the requirements and potential solutions for the frontend. Additionally, it depicts considered technologies and techniques and evaluates the most appropriate development stack.
+\section{Introduction} \label{sec:introplanning}
+The project was to develop a front-end to an existing system and had to be planned accordingly. This chapter will give an overview about which parts of the system already exist and identifies the requirements and potential solutions for the frontend. Additionally, it depicts considered technologies and techniques and evaluates the most appropriate development stack.
 
-The main idea is to give tenants, proprietors and facility management a way to communicate over a single point of access. In its first version, they should be able to discuss topics they care about, easily make announcements, submit and track the state of maintenance issues and create polls in order to provide an easy way for decision-making. The frontend is to be designed as a \acrfull{mvp} rather than adhering to exact requirements, meaning deviations are desired if it is sensible (Example found in chapter (Not yet written) ). It is noteworthy to mention that this project will initially be realeased in Austria.
+The main idea is to give tenants, proprietors and facility management a way to communicate over a single point of access. In its first version, they should be able to discuss topics they care about, easily make announcements, submit and track the state of maintenance issues and create polls in order to provide an easy way for decision-making. The requirements are not "hard" requirements in a sense that a customer requirements document or something similar exists, rather they are written as informal user stories. It is the developer's responsiblity to develop feasible use cases and flows. It is also noteworthy to mention that this project will initially be realeased in Austria.
 
 % Talk about project idea in more detail
 \section{Provided Services}
 % DB - postgresql
 % API - documented with postman
-A Database,Exchange Email Server and API are provided by the project partner. The first is a PostgreSQL instance, the latter an API built on top of Django and Django Rest Framework. These two technologies provide the backend of the system as a whole. The API is documented with Postman, describing each endpoint in terms of what type of data has to be sent and what data will be returned. Apart from making these compatible with a containerized environment (see \autoref{ch:deployment}), no further action has to be taken in order to use these services.
+A Database, Exchange Email Server and API are provided by the project partner. The first is a PostgreSQL instance, the latter an API built on top of Django and Django Rest Framework. These two technologies provide the backend of the system as a whole. The API is documented with Postman, describing each endpoint in terms of what type of data has to be sent and what data will be returned. Apart from making these compatible with a containerized environment (see \autoref{ch:deployment}), no further action has to be taken in order to use these services.
 
 \section{Requirements} \label{sec:requirements}
 % List requirements defined by project partner
 % write these as user stories
 % illustrate as Use Case diagram
-As mentioned in the introduction, several functional requirements. Furthermore, there are some non-functional requirements for the project which have to be taken into account. \autoref{tab:requirements} depicts these general requirements. \newline
+As mentioned in the introduction, several functional requirements exist. Furthermore, there are some non-functional requirements for the project which have to be taken into account. \autoref{tab:requirements} depicts these general requirements. \newline
 
 \begin{table}[H]
     \begin{center}
@@ -36,7 +36,7 @@ As mentioned in the introduction, several functional requirements. Furthermore, 
   \end{table}
 
  
-These very high functional requirements can be further broken down into user stories which are illustrated in the next few sections. The word "user" is used for referring any user-group of the system.
+These very high functional requirements can be further broken down into user stories. The most important of which are illustrated along with additional information in the next few sections. For a full list of user stories please see (appendix user stories) The word "user" is used for referring to every user-group of the system. The specific user-groups are: Tenant, Proprietor, Facility Management.
 
 \subsection{Digital Noticeboard}
 \begin{table}[H]
@@ -56,7 +56,9 @@ These very high functional requirements can be further broken down into user sto
      \hline
      User Story & As a proprietor I want to create polls other proprietors can vote on so that we as a group can make decisions \\
      \hline
-     Example & A facade that has to be repainted with a new color. To get an initial idea which color it should be, Proprietors can create polls and let other proprietors choose between given options
+     Example & A facade that has to be repainted with a new color. To get an initial idea which color it should be, Proprietors can create polls and let other proprietors choose between given options \\
+     \hline
+     Notes & Polls should not be editable so proprietors cannot change their contents after someone voted
   \end{tabularx}
 \end{table}
 
@@ -93,11 +95,13 @@ These very high functional requirements can be further broken down into user sto
   \end{tabularx}
 \end{table}
 
-According to these requirements, a use-case diagram as illustrated in \autoref{fig:usecases} can be generated. Additional information like basic flows of these use cases can be found in the respective section of \autoref{ch:implementation} which is in accordance with the "Decide as late as possible" principle found in lean development projects.
+According to these requirements, a high-level use-case diagram as illustrated in \autoref{fig:usecases} can be generated. Additional information like basic flows of these use cases can be found in the respective section of \autoref{ch:implementation} which is in accordance with the "Decide as late as possible" principle found in lean development projects. \newline
+% \textbf{Disclaimer:} This use case diagram only depicts uses cases which mutate the system's data. Naturally, users also want to view and filter data, these use cases are however omitted for brevity. Examples would be: "View Noticeboard Entries" and "Search Noticeboard Entry". 
+% rewrite
 
 \begin{figure}[H]
     \begin{center}
-    \includegraphics[height=6in,width=6in]{usecases2}
+    \includegraphics[height=7in]{usecases3}
     \end{center}
     \caption{Proprietors Assembly Use Cases}
     \label{fig:usecases}
