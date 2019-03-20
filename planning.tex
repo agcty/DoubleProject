@@ -130,10 +130,18 @@ Vue is the perfect framework for this project due to its flexibility and ease of
 
 \section{Additional Tools and Techniques}
 \subsubsection{Methodology}
-Kanban is used as a visual management tool during development. 
+Kanban, a popular agile methodology is used as a visual management tool during development. The concept revolves around the idea of a "Kanban Board" on which cards are moved around depending on the development step they are in. The backlog consists of user stories which are mapped to cards on the board. Typically, there are four rows on a board, which can vary depending on the project: "To Do" - consisting of user stories in the backlog, "In Progress" - currently worked on user stories, "Testing" - user stories which are currently being tested and "Done" - which holds every user story that was successfully implemented and tested. 
 
-\subsubsection{GitLab}
-GitLab not only serves as a Git-based \acrfull{vcs} but also as a container registry. The registry exposes an interface for uploading and downloading container images. This is especially useful for creating images on a local machine, uploading them to the registry and downloading them again onto a remote server where they should be deployed. Doing it this way completely removes the need of storing the source code for the whole project on the remote server and building it from source. Instead, the version number of the used image is increased in a compose file and the container gets updated accordingly when a redeployment is initiated. Additionally, GitLab provides a Kanban board which can directly be integrated into the project workflow.
+% \begin{figure}[H]
+%   \begin{center}
+%   \includegraphics[height=2.5in]{kanboard}
+%   \end{center}
+%   \caption{Proprietors Assembly Use Cases}
+%   \label{fig:usecases}
+% \end{figure}
+
+\subsubsection{VCS}
+Two services are used: GitHub as a \acrfull{vcs} for the development of the \acrshort{spa}, also providing a Kanban Board and GitLab as a meta project \acrshort{vcs} which consolidates frontend (git submodule), backend (git submodule) and Dockerfiles. This way, the whole system's source code can be easily containerized with docker. Furthermore, GitLab also provides a container registry. The registry exposes an interface for uploading and downloading container images. This is especially useful for creating images on a local machine, uploading them to the registry and downloading them again onto a remote server where they should be deployed. Doing it this way completely removes the need of storing the source code for the whole project on the remote server and building it from source. Instead, the version number of the used image is increased in a compose file and the container gets updated accordingly when a redeployment is initiated.
 
 \subsubsection{Git Flow}
 Git Flow is a \acrshort{vcs} methodology which is based around "features". In its most basic structure there is one master and develop branch accompanied by multiple feature branches (usually one feature per branch). The master branch should always be kept in a production-ready state, wheras the develop branch contains the actively developed project-source in which every finished feature branch is merged into. Additionally there are hotfix and release branches which support the others. Git Flow adds an abstraction layer to the development flow and greatly helps building applications by an iterative approach.

@@ -1,31 +1,423 @@
 \chapter{Use Case Flows} \label{ch:flows}
 \subsection{Noticeboard}
 \begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the Noticeboard page by using the navigation bar \\
+     \hline
+     The user sees a list of all Noticeboard entries \\
+     \hline
+     The user searches for a specific item by using an input field (optional) \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: View Noticeboard}
+\end{table}
+
+\begin{table}[H]
     \begin{tabularx}{\linewidth}{|X|}
       \hline
-       The user opens the noticeboard page by using the navigation bar \\
+       The user opens the Noticeboard page by using the navigation bar \\
        \hline
        The user clicks a "create" button \\
        \hline
-       The user fills a from with a title and a message \\
+       The user fills a form with a title and a message \\
+       \hline
+       The user clicks "Save" \\
        \hline
        The system checks for appropriate authorization \\
        \hline
        The system adds a new entry to the database \\
        \hline
-       The user is redirected to the main noticeboard page \\
+       The user is redirected to the main Noticeboard page \\
        \hline 
     \end{tabularx}
     \caption{Use Case Flow: Create Noticeboard}
   \end{table}
 
+  \begin{table}[H]
+    \begin{tabularx}{\linewidth}{|X|}
+      \hline
+       The user opens the noticeboard page by using the navigation bar \\
+       \hline
+       The user clicks on the edit link of an item if they are its owner \\
+       \hline
+       The user fills edits title and message of a pre-filled form  \\
+       \hline
+       The user clicks "Save" \\
+       \hline
+       The system checks for appropriate authorization \\
+       \hline
+       The system mutates an existing entry of the database \\
+       \hline
+       The user is redirected to the main Noticeboard page \\
+       \hline 
+    \end{tabularx}
+    \caption{Use Case Flow: Edit Noticeboard}
+  \end{table}
 
 \subsection{Polls}
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The proprietor opens the polls page by using the navigation bar \\
+     \hline
+     The proprietor sees a list of all polls \\
+     \hline
+     The proprietor searches for a specific item by using an input field (optional) \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: View Polls}
+\end{table}
+
+\begin{table}[H]
+    \begin{tabularx}{\linewidth}{|X|}
+      \hline
+       The proprietor opens the polls page by using the navigation bar \\
+       \hline
+       The proprietor clicks a "create" button \\
+       \hline
+       The proprietor fills a form with a title and poll options \\
+       \hline
+       The proprietor clicks "Save" \\
+       \hline
+       The system checks for appropriate authorization \\
+       \hline
+       The system adds a new entry to the database \\
+       \hline
+       The proprietor is redirected to the main Polls page \\
+       \hline 
+    \end{tabularx}
+    \caption{Use Case Flow: Create Poll}
+  \end{table}
+
+  \begin{table}[H]
+    \begin{tabularx}{\linewidth}{|X|}
+      \hline
+       The proprietor opens the polls page by using the navigation bar \\
+       \hline
+       The proprietor is presented with a list of polls and their respective options \\
+       \hline
+       The proprietor clicks on an option \\
+       \hline
+       The system checks for appropriate authorization \\
+       \hline
+       The system adds a new entry to the database \\
+       \hline
+       The poll is updated showing the results \\
+       \hline 
+    \end{tabularx}
+    \caption{Use Case Flow: Vote for Poll Option}
+  \end{table}
 
 \subsection{Forum}
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the Forum page by using the navigation bar \\
+     \hline
+     The user sees a list of all threads \\
+     \hline
+     The user searches for a specific item by using an input field (optional) \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: View Forum}
+\end{table}
+
+\begin{table}[H]
+    \begin{tabularx}{\linewidth}{|X|}
+      \hline
+       The user opens the Forum page by using the navigation bar \\
+       \hline
+       The user clicks a "create" button \\
+       \hline
+       The user fills a form with a title, question and category \\
+       \hline
+       The user clicks "Save" \\
+       \hline
+       The system checks for appropriate authorization \\
+       \hline
+       The system adds a new entry to the database \\
+       \hline
+       The user is redirected to the main Forum page \\
+       \hline 
+    \end{tabularx}
+    \caption{Use Case Flow: Create Thread}
+  \end{table}
+
+  \begin{table}[H]
+    \begin{tabularx}{\linewidth}{|X|}
+      \hline
+       The user opens the Forum page by using the navigation bar \\
+       \hline
+       The user opens a specific Thread \\
+       \hline
+       The user clicks on the edit link of the item if they are its owner \\
+       \hline
+       The user fills edits title, question and category of a pre-filled form  \\
+       \hline
+       The user clicks "Save" \\
+       \hline
+       The system checks for appropriate authorization \\
+       \hline
+       The system mutates an existing entry of the database \\
+       \hline
+       The user is redirected to the main Forum page \\
+       \hline 
+    \end{tabularx}
+    \caption{Use Case Flow: Edit Thread}
+  \end{table}
+
+  \begin{table}[H]
+    \begin{tabularx}{\linewidth}{|X|}
+      \hline
+       The user opens the Forum page by using the navigation bar \\
+       \hline
+       The user opens a specific Thread \\
+       \hline
+       The user fills a form with their comments message \\
+       \hline
+       The user clicks "Save" \\
+       \hline
+       The system checks for appropriate authorization \\
+       \hline
+       The system adds a comment entry to the database \\
+       \hline
+       The comment is appended to the list of comments of the thread \\
+       \hline 
+    \end{tabularx}
+    \caption{Use Case Flow: Add Thread Comment}
+  \end{table}
 
 \subsection{Issue Management}
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the Issues page by using the navigation bar \\
+     \hline
+     The user sees a list of all issues \\
+     \hline
+     The user searches for a specific item by using an input field (optional) \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: View Issues}
+\end{table}
 
-\subsection{Profile Page}
+\begin{table}[H]
+    \begin{tabularx}{\linewidth}{|X|}
+      \hline
+       The user opens the Issues page by using the navigation bar \\
+       \hline
+       The user clicks a "create" button \\
+       \hline
+       The user fills a form with a title, category, location and comment \\
+       \hline
+       The user clicks "Save" \\
+       \hline
+       The system checks for appropriate authorization \\
+       \hline
+       The system adds a new entry to the database \\
+       \hline
+       The user is redirected to the main Issues page \\
+       \hline 
+    \end{tabularx}
+    \caption{Use Case Flow: Log Issue}
+  \end{table}
 
-\subsection{Add-House Page}
+  \begin{table}[H]
+    \begin{tabularx}{\linewidth}{|X|}
+      \hline
+       The user opens the Issues page by using the navigation bar \\
+       \hline
+       The user clicks on the edit link of an item if they are its owner \\
+       \hline
+       The user fills edits a title, category, location and comment of a pre-filled form  \\
+       \hline
+       The user clicks "Save" \\
+       \hline
+       The system checks for appropriate authorization \\
+       \hline
+       The system mutates an existing entry of the database \\
+       \hline
+       The user is redirected to the main Issues page \\
+       \hline 
+    \end{tabularx}
+    \caption{Use Case Flow: Edit Issue}
+  \end{table}
+
+  \begin{table}[H]
+    \begin{tabularx}{\linewidth}{|X|}
+      \hline
+       The facility management opens the Issue page by using the navigation bar \\
+       \hline
+       The facility management chooses a new state for a specifc issue from a pre-defined dropdown menu \\
+       \hline
+       The system checks for appropriate authorization \\
+       \hline
+       The system adds a new entry to the database \\
+       \hline
+       The issue new stat is shown \\
+       \hline 
+    \end{tabularx}
+    \caption{Use Case Flow: Edit Issue}
+  \end{table}
+
+\subsection{Authentication}
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the login page or is redirected automatically if not logged in \\
+     \hline
+     The user provides their email address and password to a form \\
+     \hline
+     The user clicks "Login" \\
+     \hline
+     The system checks for appropriate authentication details \\
+     \hline
+     The user is redirected to the Home page \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: Login}
+\end{table}
+
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the login page or is redirected automatically if not logged in \\
+     \hline
+     The user clicks "Register" \\
+     \hline
+     The user provides their email address password, firstname and surname to a form \\
+     \hline
+     The user clicks "Register" \\
+     \hline
+     The system checks the correctness of the input \\
+     \hline
+     A new user is added to the system \\
+     \hline
+     The user is redirected to the Home page \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: Register}
+\end{table}
+
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the login page or is redirected automatically if not logged in \\
+     \hline
+     The user clicks "Forgot Password" \\
+     \hline
+     The user provides their email address \\
+     \hline
+     The system sends an email to the user's email address \\
+     \hline
+     The user clicks on the link sent in the email \\
+     \hline
+     The user is redirected to the login page in "reset" mode \\
+     \hline
+     The user provides a new password \\
+     \hline
+     The system updates the password \\
+     \hline 
+     The user is redirected to the login page \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: Forgot Password}
+\end{table}
+
+\subsection{Bilinguality}
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the Profile page by using the navigation bar \\
+     \hline
+     The user chooses a language from a dropdown select menu \\
+     \hline
+     The system changes the language and saves the preference \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: Change Language}
+\end{table}
+
+\subsection{Profile}
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the Profile page by using the navigation bar \\
+     \hline
+     The user changes their names \\
+     \hline
+     The user clicks "Save" \\
+     \hline
+     The system changes the user's name \\
+     \hline 
+     The new name is updated throughout the application \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: Change Profile Details}
+\end{table}
+
+
+\subsection{House}
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user clicks "Add House" in the navigation bar \\
+     \hline
+     The user is redirected to a page where they can add houses \\
+     \hline
+     The user is presented with two options: Accept Invitation OR Create new House \\
+     \hline 
+     The user chooses "Create new House" \\
+     \hline 
+     The user fills a form with address, total squaremeters and user role \\
+     \hline
+     The user clicks "Save" \\
+     \hline  
+     The system adds a new entry to the database \\
+     \hline  
+     The user is redirected to a page where they can invite other users to their house \\
+     \hline  
+  \end{tabularx}
+  \caption{Use Case Flow: Add House}
+\end{table}
+
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user clicks "Add House" in the navigation bar \\
+     \hline
+     The user is redirected to a page where they can add houses \\
+     \hline
+     The user is presented with two options: Accept Invitation OR Create new House \\
+     \hline 
+     The user chooses "Accept Invitation" \\
+     \hline 
+     The user fills a form with invitation id and user role \\
+     \hline
+     The user clicks "Add" \\
+     \hline  
+     The system checks if the user is eligible to be added to this house \\
+     \hline  
+     The user is redirected to a page where they can invite other users to their house \\
+     \hline  
+  \end{tabularx}
+  \caption{Use Case Flow: Accept Invitation}
+\end{table}
+
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user completes use case "Accept Invitation" or "Add House" or switches to the Profile page \\
+     \hline
+     The user fills a form with an email \\
+     \hline
+     The user clicks "Add" \\
+     \hline 
+     The system sends an email to the added user \\
+     \hline
+     The form's content is deleted so another user can be added \\
+     \hline  
+  \end{tabularx}
+  \caption{Use Case Flow: Invite User}
+\end{table}
