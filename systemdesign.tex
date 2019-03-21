@@ -18,15 +18,66 @@ In its basic structure, Proprietors Assembly as a software system consists of an
 % Defining how to framework should look like, dashboard-like look, what pages have to be created in order to fullfill requirements. Maybe additional wireframes
 Interactive components of the frontend are strongly dependant on the required functionality. This section aims to define what is minimally needed on a certain page and to translate functional requirements into identifiable UI elements. This makes it possible to identify elements that are used in multiple places and clearly shows the structure of the frontend. Furthermore, as Vue uses a component-based approach, these elements serve as a tarting point for defining which vue-components are required.
 
-Additionally, as mentioned in \autoref{sec:introplanning} it is the developer's responsibility to derive all use cases and flows from the requirements. Since use case flows are very much entangled with how a user interacts with a system and this section is about interactable UI elements, this makes it the most appropriate place to match these to another.  The approach taken is as following: 1) the thought process of what a site should provide is laid out 2) use case flows are derived and UI elements are mapped to a flow 3) all UI elements are noted to analyse which occur multiple times. \textbf{Note:} as too many use case flows would quickly result in a bloated document, only the most important flow per page/category will be shown, additional flows are depicted in \autoref{ch:flows}. 
+Additionally, as mentioned in \autoref{sec:introplanning} it is the developer's responsibility to derive all use cases and flows from the requirements. Since use case flows are very much entangled with how a user interacts with a system and this section is about interactable UI elements, this makes it the most appropriate place to match these to another.  The approach taken is as following: 1) the thought process of what a site should provide is laid out 2) use case flows are derived and UI elements are mapped to a flow 3) all UI elements are noted to analyse which occur multiple times. \textbf{Note:} as too many use case flows would quickly result in a bloated document, only the most important flows per page/category will be shown, additional flows are depicted in \autoref{ch:flows}. 
 
 \subsection{Login Page}
 The Login / Register page handles user authentication. A user is required to log into an existing account or create a new one before they can use the system. Traditionally, this is done with a plain HTML-Form. It is sensible to create separate forms for login and register and let the user decide which form to use depending on their needs. Additionally, a forgot-password form should provide a uniform way of requesting a password change. \newline
+
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the login page or is redirected automatically if not logged in \\
+     \hline
+     The user provides their email address and password to a form \\
+     \hline
+     The user clicks "Login" \\
+     \hline
+     The system checks for appropriate authentication details \\
+     \hline
+     The user is redirected to the Home page \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: Login}
+\end{table}
+
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the login page or is redirected automatically if not logged in \\
+     \hline
+     The user clicks "Register" \\
+     \hline
+     The user provides their email address password, firstname and surname to a form \\
+     \hline
+     The user clicks "Register" \\
+     \hline
+     The system checks the correctness of the input \\
+     \hline
+     A new user is added to the system \\
+     \hline
+     The user is redirected to the Home page \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: Register}
+\end{table}
 
 Identified Elements: HTML forms for login, register and password-reset
 
 \subsection{Home}
 On the home site various data sources should composed into a consolidated view - a dashboard. It shows the most recent forum items, polls and noticeboard entries in addition to the current number of issues, house parties and squaremeters. A user should be able to switch between a list of houses they are associated with. A navigation bar should contain links to all subpages: Home, Noticeboard, Polls, Forum, Issue Management and the Profile. \newline
+
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user logs in or clicks the Home link in the navigation bar \\
+     \hline
+     The user is redirected to the Home page \\
+     \hline
+     The dashboard is shown to the user \\
+     \hline
+  \end{tabularx}
+  \caption{Use Case Flow: View Dashboard}
+\end{table}
 
 Identified Elements: Noticeboard Item, Poll Item, Forum Item, House Switcher, Navigation Bar
 
@@ -53,30 +104,157 @@ The Noticeboard page contains a list of all noticeboard entries associated with 
     \label{usecase:createnoticeboard}
   \end{table}
   
-Identified Elements: Noticeboard Item List, Noticeboard Item, Search Bar, Navigation Bar, Create Button, Create / Edit Noticeboard Entry Form
+Identified Elements: Noticeboard Item List, Noticeboard Item, Search Bar, Navigation Bar, Create Button, Create-Edit Noticeboard Entry Form
 
 \subsection{Polls}
 On the Polls page every poll associated with a house is displayed. Users should be provided with a way of searching and filtering these items. A navigation bar should allow for quick page changes. In order to create a poll, users should be shown a button which takes them to a subpage where they can create new polls or edit existing ones. To create a poll, a title and at least two options have to be provided by the user.
 
-Identified Items: Poll Item List, Poll Item, Search Bar, Navigation Bar, Create Button, Create / Edit Poll Form
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The proprietor opens the polls page by using the navigation bar \\
+     \hline
+     The proprietor clicks a "create" button \\
+     \hline
+     The proprietor fills a form with a title and poll options \\
+     \hline
+     The proprietor clicks "Save" \\
+     \hline
+     The system checks for appropriate authorization \\
+     \hline
+     The system adds a new entry to the database \\
+     \hline
+     The proprietor is redirected to the main Polls page \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: Create Poll}
+\end{table}
+
+Identified Items: Poll Item List, Poll Item, Search Bar, Navigation Bar, Create Button, Create-Edit Poll Form
 
 \subsection{Forum}
 The Forum page shows users a list of all thread items of a house which are searchable. A subpage which is accessible by clicking a button should contain a single form for creating and editing items. A thread needs to have a title, category and content. Additionally, a navigation bar links to the other pages.
 
-Identified Items: Thread Item List, Thread Item, Search Bar, Navigation Bar, Create Button, Create / Edit Thread Form
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the Forum page by using the navigation bar \\
+     \hline
+     The user clicks a "create" button \\
+     \hline
+     The user fills a form with a title, question and category \\
+     \hline
+     The user clicks "Save" \\
+     \hline
+     The system checks for appropriate authorization \\
+     \hline
+     The system adds a new entry to the database \\
+     \hline
+     The user is redirected to the main Forum page \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: Create Thread}
+\end{table}
+
+Identified Items: Thread Item List, Thread Item, Search Bar, Navigation Bar, Create Button, Create-Edit Thread Form
 
 \subsection{Issue Management}
 Similar to the other pages, the issue management page should have a navigation bar, a search bar and a button which links to a subpage where items can be created or edited. Its main purpose is to show a list of all house-related issues. An issue has a reference, date, type, location, title and status.
 
-Identified Items: Issue Item List, Issue Item, Search Bar, Navigation Bar, Create Button, Create / Edit Issue Form
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the Issues page by using the navigation bar \\
+     \hline
+     The user clicks a "create" button \\
+     \hline
+     The user fills a form with a title, category, location and comment \\
+     \hline
+     The user clicks "Save" \\
+     \hline
+     The system checks for appropriate authorization \\
+     \hline
+     The system adds a new entry to the database \\
+     \hline
+     The user is redirected to the main Issues page \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: Log Issue}
+\end{table}
+
+Identified Items: Issue Item List, Issue Item, Search Bar, Navigation Bar, Create Button, Create-Edit Issue Form
 
 \subsection{Profile Page}
 The profile page provides a way of making changes to a user's account. Initially, they should be able to change their name. Additionally, they should be able to switch languages or house and to invite additional users to their currently active house. \newline
+
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user opens the Profile page by using the navigation bar \\
+     \hline
+     The user changes their names \\
+     \hline
+     The user clicks "Save" \\
+     \hline
+     The system changes the user's name \\
+     \hline 
+     The new name is updated throughout the application \\
+     \hline 
+  \end{tabularx}
+  \caption{Use Case Flow: Change Profile Details}
+\end{table}
+
 
 Identified Elements: Language Switcher, Invite Form, House Switcher
 
 \subsection{Add-House Page}
 Users need a way of creating a new house or adding an existing house to their account by using an invitation link. To create a new house a form should be provided which takes the address, total squaremeters and role of the user as input variables. An invitation should be accepted by providing an invitation id and the intended role of the user. After creating or accepting an invitation users should be given the possibility to invite additional users to their newly added house. \newline
+
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|X|}
+    \hline
+     The user clicks "Add House" in the navigation bar \\
+     \hline
+     The user is redirected to a page where they can add houses \\
+     \hline
+     The user is presented with two options: Accept Invitation OR Create new House \\
+     \hline 
+     The user chooses "Create new House" \\
+     \hline 
+     The user fills a form with address, total squaremeters and user role \\
+     \hline
+     The user clicks "Save" \\
+     \hline  
+     The system adds a new entry to the database \\
+     \hline  
+     The user is redirected to a page where they can invite other users to their house \\
+     \hline  
+  \end{tabularx}
+  \caption{Use Case Flow: Add House}
+\end{table}
+
+\begin{table}
+\begin{tabularx}{\linewidth}{|X|}
+  \hline
+   The user clicks "Add House" in the navigation bar \\
+   \hline
+   The user is redirected to a page where they can add houses \\
+   \hline
+   The user is presented with two options: Accept Invitation OR Create new House \\
+   \hline 
+   The user chooses "Accept Invitation" \\
+   \hline 
+   The user fills a form with invitation id and user role \\
+   \hline
+   The user clicks "Add" \\
+   \hline  
+   The system checks if the user is eligible to be added to this house \\
+   \hline  
+   The user is redirected to a page where they can invite other users to their house \\
+   \hline  
+\end{tabularx}
+\caption{Use Case Flow: Accept Invitation}
+\end{table}
 
 Identified Elements: Create House Form, Accept Invite Form, Invite Form
 

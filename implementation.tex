@@ -40,7 +40,7 @@ When using Nuxt, different folders contain different parts of the frontend appli
         package.json & is not Nuxt specific but added by npm and contains application dependencies and scripts \\
         \hline
     \end{tabularx}
-    \caption{Nuxt File Structure}
+    \caption{Nuxt Folder Structure}
     \label{table:filestructure}
 \end{table}
 
@@ -123,7 +123,7 @@ Clearly HTML, CSS and JavaScript are not separated into their own respective fil
 “... separation of concerns is not equal to separation of file types. In modern UI development, we have found that instead of dividing the codebase into three huge layers that interweave with one another, it makes much more sense to divide them into loosely-coupled components and compose them. Inside a component, its template, logic and styles are inherently coupled, and collocating them actually makes the component more cohesive and maintainable \cite{VueSeparationofConcerns:online}.” 
 \end{quotation}
 
-Instead of creating different files in which logic, presentation and design reside in, Vue consolidates these tiers into a single file, hence the name “Single File Component”, making it more maintainable and editable in the process.
+Instead of creating different files in which logic, presentation and design are separated, Vue consolidates these parts into a single file, hence the name “Single File Component”, making the code more maintainable and comprehensible. It is important to note that throughout the project, Single File Components are used. 
 
 \section{API Endpoints}
 
