@@ -1,0 +1,95 @@
+\chapter{Additional Listintgs}
+
+\begin{lstlisting}[caption=Persisting Auth Data, captionpos=b, style=htmlcssjs, label=persauthdata]{Persisting Auth Data}
+    saveTokenData({ commit }, result) {
+    //set token data
+    commit("SET", result);
+
+    //set cookie data
+    Cookie.set("token", result.token, { secure: false });
+    Cookie.set("token_expiry", result.token_expiry, { secure: false });
+    Cookie.set("refresh_token", result.refresh_token, { secure: false });
+    Cookie.set("refresh_token_expiry", result.refresh_token_expiry, {
+      secure: false
+    });
+    Cookie.set("user", result.user, { secure: false });
+
+    // Adds header: `Authorization: Token token` to all requests
+    this.$axios.setToken(result.token, "Token");
+  },
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Auth Middleware, captionpos=b, style=htmlcssjs, label=authmiddleware]{Auth Middleware}
+export default async function(context) {
+
+  if (!context.store.getters["auth/isAuthenticated"]) {
+    console.info("[MIDDLEWARE] Not authenticated, reading data from cookie...");
+    try {
+      let result = await context.store.dispatch("auth/initAuth");
+      console.info(result);
+    } catch (error) {
+      console.info(error.message);
+      if (error.code == "nocookies") {
+        return context.redirect("/login");
+      } else if (error.code == "expired") {
+        await context.store.dispatch("auth/logout");
+        return context.redirect("/login");
+      } else if (error.code == "refresh") {
+        try {
+          await context.store.dispatch("auth/refreshAuth");
+        } catch (error) {
+          await context.store.dispatch("auth/logout");
+          return context.redirect("/login");
+        }
+      }
+    }
+  } else if (
+    //both tokens are too old cannot do anything -> logout (clear state)
+    new Date() > new Date(context.store.state.auth.refresh_token_expiry)
+  ) {
+    console.info("[MIDDLEWARE] Tokens are expired, logging out...");
+    await context.store.dispatch("auth/logout");
+    return context.redirect("/login");
+  } else if (
+    //token is too old but refresh token still valid refresh
+    new Date() > new Date(context.store.state.auth.token_expiry) &&
+    new Date() < new Date(context.store.state.auth.refresh_token_expiry)
+  ) {
+    console.info("[MIDDLEWARE] Refresh token still valid, refreshing...");
+    try {
+      await context.store.dispatch("auth/refreshAuth");
+    } catch (error) {
+      await context.store.dispatch("auth/logout");
+      return context.redirect("/login");
+    }
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Axios Unauthorized Plugin, captionpos=b, style=htmlcssjs, label=unauthorized]{Axios Unauthorized Plugin}
+    export default function({ $axios, app, store }) {
+        $axios.onError(error => {
+          if (!error.response) {
+            // network error
+            app.$toasted.global.my_error({
+              message: "You are not connected to the internet"
+            });
+            return;
+          }
+          const code = parseInt(error.response && error.response.status);
+          if (code === 401) {
+            //don't do anything when coming from login page
+            if ($nuxt.$route.name == "login") {
+              return;
+            }
+      
+            app.$toasted.global.my_error({
+              message: "Token too old, logging you out!"
+            });
+      
+            store.dispatch("auth/logout");
+          }
+        });
+      }
+      
+\end{lstlisting}

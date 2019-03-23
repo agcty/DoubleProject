@@ -49,24 +49,11 @@ Typically, functional components are defined inside the components folder. These
 \section{Vue}
 This section aims to extend the basic description of Vue's usage as described in \autoref{subsub:vueusage} so that code samples of this chapter are more easily understood. For the sake of brevity, some parts will be omitted if they are not crucially relevent (e.g transitions). 
 
-Discusses:
-Single File Components separated into HTML, JS and CSS
-v-bind and shorthand, v-model
-ternary expressions
-events how they are emitted and caught
-props
-methods
-computed properties
-v-if 
-conditional classes 
-vuex store
-routing
-
-\section{Separation of Concerns}
+\subsection{Separation of Concerns}
 A very important aspect of modern software architectures is \acrfull{soc} which is often regarded to as principles of modularization of code and object-oriented design \cite{laplante2007every:book}. In the case of traditional web design HTML, CSS and JavaScript are often physically separated (separation of file types) leading to increased maintainability of code, a less tightly coupled system and decreased probability of violating DRY principles. Furthermore, it helps building complex layered systems which can be actively worked on by multiple developers. 
 
 Vue however, takes different approaches on \acrshort{soc} depending on the way it is used in a project:
-either Vue.js is added to existing sites by using a standard HTML script tag or by using a complete bundling tool like Webpack or Browserify to add it as a dependency. Using Vue by adding a script tag has some disadvantages: it only allows developers to target a specific HTML container element on the page Vue is embedded in, and also brings certain disadvantages such as no CSS support inside the Vue component itself and no build steps which requires the developer to fall back to plain HTML and ES5 JavaScript rather than using various preprocessors.
+either Vue.js is added to existing sites by using a standard HTML script tag or by using a complete bundling tool like Webpack or Browserify to add it as a dependency. Using Vue by adding a script tag has some disadvantages: it only allows developers to target a specific HTML container element on the page Vue is embedded in, and also brings certain disadvantages such as no CSS support inside the Vue component itself and no build steps which requires the developer to fall back to plain HTML and ES5 JavaScript rather than using various preprocessors. \newline
 
 \begin{lstlisting}[caption=Vue component without bundler, captionpos=b, style=htmlcssjs]{Vue component without bundler}
 Vue.component('todo-component', {
@@ -88,7 +75,7 @@ Vue.component('todo-component', {
             // LOGIC OMITTED FOR READABILITY
         }
 \end{lstlisting}
-The more preferable approach would be to use a so called “Single File Component”, a file with a “.vue” extension. These files however have to be compiled with build tools like Webpack or Browserify to extract the corresponding concerns. A sample file is depicted in \autoref{lst:sfc}.
+The more preferable approach would be to use a so called “Single File Component”, a file with a “.vue” extension. These files however have to be compiled with build tools like Webpack or Browserify to extract the corresponding concerns. A sample file is depicted in \autoref{lst:sfc}. \newline
 
 \begin{lstlisting}[caption=Vue Single File Component, label={lst:sfc}, captionpos=b, style=htmlcssjs]{Vue Single File Component}
 <template>
@@ -125,9 +112,149 @@ Clearly HTML, CSS and JavaScript are not separated into their own respective fil
 
 Instead of creating different files in which logic, presentation and design are separated, Vue consolidates these parts into a single file, hence the name “Single File Component”, making the code more maintainable and comprehensible. It is important to note that throughout the project, Single File Components are used. 
 
-\section{API Endpoints}
+\subsection{Interpolation}
+Interpolation in Vue is the process of substituting a "placeholder" inside HTML with a real value. This special syntax is also referred to as "Mustache" syntax. \autoref{interpolation} depicts a simple example in which the mustache "msg" tag will be replaced with the corresponding property of the component's data object. Furthermore, when the value changes, Vue automatically takes care of updating the rendered element. \newline
 
-\section{Authentication / Authorization}
+\begin{lstlisting}[caption=Interpolation Example, captionpos=b, style=htmlcssjs, label=interpolation]{Vue Interpolation Example}
+  <span> Noticeboard-Message: {{ msg }} </span> 
+\end{lstlisting}
+
+\subsection{v-bind}
+Due to technical restrictions the mustache syntax cannot be used for HTML attributes. Instead a so called "Vue directive" is utilized. Directives are way of telling Vue that a function should be applied to a specific DOM element. In the case of "v-bind" it is to bind data (value) to an attribute (key). \newline
+
+\begin{lstlisting}[caption=v-bind Example, captionpos=b, style=htmlcssjs, label=vbind]{v-bind Example}
+  //long
+  <a v-bind:href="url">dynamic link</a>
+  //shorthand
+  <a :href="url">dynamic link</a>
+\end{lstlisting}
+
+Common examples are href attributes or dynamically bound css classes. Usually, instead of writing "v-bind:" it's shorthand is used which is just a single colon. It is important to note that this type of interpolation only works in a unidirectional way from the data object of a component to its placeholder. 
+
+\subsection{v-model}
+For elements where user input is crucial, the "v-model" directive is used. It allows for user input to change the data object's properties. In Vue terms this is referred to as "two-way data binding". \autoref{vmodel} depicts an example use case: a user inputs data into an input field, whatever they type will be displayed below it. \newline
+
+\begin{lstlisting}[caption=v-model Example, captionpos=b, style=htmlcssjs, label=vmodel]{v-model Example}
+  <input v-model="message">
+  <p>Message of user: {{ message }}</p>
+\end{lstlisting}
+
+Behind the scenes, this directive uses a combination of v-bind and input events to provide this type of functionality. In reality it is only syntax sugar. This also means that while v-model works for input, textarea and select elements by default it can be implemented for custom input elements as well by utilizing v-bind and events.
+
+\subsection{v-on}
+The directive "v-on" is used in order to catch events that are emitted by a component. \newline
+
+\begin{lstlisting}[caption=v-on Example, captionpos=b, style=htmlcssjs, label=vmodel]{v-on Example}
+  //long
+  <PollItem v-on:click="alert('component clicked')">
+  //shorthand
+  <PollItem @click="alert('component clicked')">
+\end{lstlisting}
+
+In this case, whenever the "click" event is emitted inside the PollItem component it is caught and an alert is displayed. Similarly to "v-bind", "v-on" also offers a shorthand syntax with the "@" symbol. 
+
+\subsection{v-for}
+To display multiple items at once, the directive "v-for" can be used. It counts the number of elements of a given object and iterates over each to render some defined output. \newline
+
+\begin{lstlisting}[caption=v-for Example, captionpos=b, style=htmlcssjs, label=vmodel]{v-for Example}
+  <ul>
+    <li v-for="item in items">
+      {{ item.message }}
+    </li>
+  </ul>
+\end{lstlisting}
+
+\subsection{v-if}
+To conditionally show or hide elements the directive "v-if" can be used. It not only simply hides an element when its "v-if" condition resolves to a falsy value, it completely removes it from the DOM. This means from an end-user perspective it is not possible to access this element, not even by looking at the raw HTML. \newline
+
+\begin{lstlisting}[caption=v-if Example, captionpos=b, style=htmlcssjs, label=vmodel]{v-if Example}
+  <NoticeboardItem v-if="showItem">
+\end{lstlisting}
+
+The very similar directive "v-show" uses additional CSS to conditionally hide elements, without removing them from the DOM - which is a cheaper operation. This can drastically improve performance in case there are very large nested elements which often switch between hidden or shown.
+
+\subsection{props}
+Props are a way of passing data from a parent component into a child component. Addtionally, rules can be set up to validate a prop's value before it is used. \autoref{props} shows how a message prop of type String is defined inside a component. \newline
+
+\begin{lstlisting}[caption=Props Example, captionpos=b, style=htmlcssjs, label=props]{Props Example}
+  <template>
+    <div>
+    {{ message }}
+    </div>
+  </template>
+
+  <script>
+  export default {
+    props: {
+      message: {
+        type: String,
+        required: false,
+        default: ""
+      }
+    }
+  };
+  </script>
+\end{lstlisting}
+
+\subsection{Component Communication}
+GUI based applications typically rely on event-driven programming paradigms. Vue is no exception: events are emitted and caught and dictate the course of actions of the application. Typically, props are used to pass data from a parent to a child component, whereas events are emitted with a paylod from a child and are caught in the parent with the "v-on" directive. For heavily nested components however, a so called "event bus" or the vuex store is used which makes data available directly where it is needed instead of having to pass it from the deepest child to the highest parent. This project makes use of the props/events method and the vuex store.
+
+\subsection{Vuex}
+Vuex is a supporting library for Vue based on the Flux architecture to provide a solution for shared state management. Its concept revolves around a global state which is retrieved with "getters" and altered with "mutations" which in turn are commited by "actions". Mutations change the state's data synchronously so every change is trackable with debugging tools. Actions can be asynchronous and are often used for retrieving data from an API and then updating the system's state by passing this data to a mutation and commiting it. The term used for executing an action is "dispatch". Vuex uses a "single state tree" - one JavaScript object that contains the entirety of the application's state. The state is either retrieved directly and unchanged or through getters which provide a way of transforming the returned data first. For example it is pissible to directly retrieve the authentication token from the state and manually check its validity or by defining a getter which returns the users authentication state as a boolean value which depends on the token.
+ Additionally, the store can be split up into "modules" and is done so in this project: a store file corresponds to a group of actions, getters and parts of the state. This greatly improves maintainability of the project by making it more comprehensible. \autoref{vuexsamples} illustrates some commonly used ways of interacting with the store. \newline
+
+\begin{lstlisting}[caption=Vuex Usage, captionpos=b, style=htmlcssjs, label=vuexsamples]{Vuex Usage}
+  ...mapGetters("auth", ["isAuthenticated"])
+  this.$store.getters["auth/isAuthenticated"]
+  ...mapState("auth", ["token", "id"])
+  this.$store.state.auth.token
+  ...mapActions("issues", ["getIssues"])
+  this.$store.dispatch("issues/getIsses")
+\end{lstlisting}
+
+
+% Discusses:
+% Single File Components separated into HTML, JS and CSS
+% v-bind and shorthand, v-model
+% ternary expressions
+% events how they are emitted and caught
+% props
+% methods
+% computed properties
+% v-if 
+% conditional classes 
+% vuex store
+% routing
+% axios
+
+\section{Authentication}
+
+
+In order to use the application, users have to be authenticated. They must provide an email address and a password to a login form and request authentication. \autoref{usecase:login} depicts the detailed flow for this use case. The API then checks if the user can be authenticated and if successful issues a token, refresh token and their respective expiry times. To improve the system's usability, this data is then persisted by using cookies (see \autoref{persauthdata}). Everytime a user wants to move to a different subpage, the validity in terms of expiry time of the tokens is checked. Nuxt lets developers define "middleware" - code which is run before any page change. The middleware which is depicted in \autoref{authmiddleware} checks for one of three scenarios:
+
+\begin{enumerate}
+  \item User is authenticated \& both tokens too old -> logout
+  \item User is authenticated \& only refresh token is valid -> tokens can be refreshed
+  \item User is not authenticated -> read from cookies
+\end{enumerate}
+
+* A user is authenticated if the tokens and expiry times exist in \textbf{state}, they do not necessarily have to be valid (this is checked by the middleware) 
+
+In scenario 1, there is nothing the application can do to retrieve a new set of tokens, the user manually has to request authentication again. They are therefore logged out of the system, which happens by clearing every cookie file and every property of the state. This is important because if a different user would try to log into the system but the data is not cleared first, they might encounter some information of the previous user such as Noticeboard or Poll entries which are cached in state. In scenario 2 the token has expired but the refresh token is still valid, which means the application can automatically request a refresh. In scenario 3 a user is not authenticated at all. The application therefore tries to retrieve data from cookies if they exist. This is mainly done for usability as the state is nothing more than an in-memory JavaScript object and is cleared whenever a user exits the browser or manually refreshes the page, meaning the user would have to login over and over again. When a user interacts with the application and therefore the API, they may encounter a "401 unauthorized" error which means that the user does not have valid authentication details. Axios which is used to interact with the API is extendend with a custom defined plugin that instructs it to catch these types of errors and to immediately log out the user. \autoref{unauthorized} shows how this is implemented.
+
+
+\subsection{Summary}
+Users are authenticated by sending email and password to the API which in turn issues token, refresh token and expiry times. This data is persisted with cookies to improve usability. Before any page change the authentication state of the user is checked with middleware. When a request returns a "401 unauthorized" error this is caught by Axios and the user is logged out.
+
+\subsection{Authorization}
+Additionally, each user is assigned a role for every house they are assigned to. From the API's perspective there are three access levels:
+
+
+\begin{itemize}
+  \item Proprietor - Access Level 1
+  \item Facility Management - Access Level 2
+  \item Tenant - Access Level 3
+\end{itemize}
 
 \section{Forum}
 
@@ -137,8 +264,4 @@ Instead of creating different files in which logic, presentation and design are 
 
 \section{Issue Log System}
 
-\section{State Management}
-
 \section{Internationalization}
-
-\section{Linting}
