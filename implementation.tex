@@ -131,7 +131,7 @@ Due to technical restrictions the mustache syntax cannot be used for HTML attrib
 
 Common examples are href attributes or dynamically bound css classes. Usually, instead of writing "v-bind:" it's shorthand is used which is just a single colon. It is important to note that this type of interpolation only works in a unidirectional way from the data object of a component to its placeholder. 
 
-\subsection{v-model}
+\subsection{v-model} \label{sub:vmodel}
 For elements where user input is crucial, the "v-model" directive is used. It allows for user input to change the data object's properties. In Vue terms this is referred to as "two-way data binding". \autoref{vmodel} depicts an example use case: a user inputs data into an input field, whatever they type will be displayed below it. \newline
 
 \begin{lstlisting}[caption=v-model Example, captionpos=b, style=htmlcssjs, label=vmodel]{v-model Example}
@@ -284,9 +284,36 @@ Dynamic classes are used to make the hamburger menu (mobile) or dropdown menu (d
 
 
 \subsection{Search Bar \& Create Button}
-The search bar and the create button can easily be 
+The search bar and the create button can easily be consoldidated into the same functional component. This way users can search an item and create a new one while the design is kept minimal. This component is defined in a file called "SearchCreateMenu.vue". It builds upon the Bulma "level" element. The search input field is kept on the left, whereas the create button is kept on the right. 
 
-\subsection{Navigation Bar}
+Since this is supposed to be a reusable custom input component it utilizes v-bind to provide a value from the parent component and an event that propagates a value typed by the user up to the parent. This way it is possible to use the "v-model" directive (see \autoref{sub:vmodel}) in order to implement two-way data binding for this component. 
+
+It has several props to make it adaptable for different use cases:
+
+\begin{itemize}
+  \item value - used for two way data binding
+  \item numberOfItems - shows the number of items currently displayed
+  \item pluralTitle - plural description of type of shown items (e.g Thread)
+  \item singularTitle - singular description of type of shown items (e.g Threads)
+  \item newItem - value of the create button
+  \item link - link that will be redirected to upon create button click
+\end{itemize}
+
+Usage: The component is used by including it in a page component along with another component that displays a list of items (e.g noticeboard or poll entries). Whenever a user inputs a search string, the v-model property is updated and automatically triggers that a computed property calls a getter method in the store and returns possible items. These possible items are then used to overwrite the list of displayed items.
+
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[width=\linewidth]{SearchCreateMenu}
+  \end{center}
+  \caption{SearchCreateMenu Component}
+  \label{fig:searchcreate}
+\end{figure}
+
+
+
+\subsection{Language Switcher}
+
+\subsection{House Switcher}
 
 \section{Noticeboard}
 
