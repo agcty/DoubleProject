@@ -242,19 +242,21 @@ In order to use the application, users have to be authenticated. They must provi
 
 In scenario 1, there is nothing the application can do to retrieve a new set of tokens, the user manually has to request authentication again. They are therefore logged out of the system, which happens by clearing every cookie file and every property of the state. This is important because if a different user would try to log into the system but the data is not cleared first, they might encounter some information of the previous user such as Noticeboard or Poll entries which are cached in state. In scenario 2 the token has expired but the refresh token is still valid, which means the application can automatically request a refresh. In scenario 3 a user is not authenticated at all. The application therefore tries to retrieve data from cookies if they exist. This is mainly done for usability as the state is nothing more than an in-memory JavaScript object and is cleared whenever a user exits the browser or manually refreshes the page, meaning the user would have to login over and over again. When a user interacts with the application and therefore the API, they may encounter a "401 unauthorized" error which means that the user does not have valid authentication details. Axios which is used to interact with the API is extendend with a custom defined plugin that instructs it to catch these types of errors and to immediately log out the user. \autoref{unauthorized} shows how this is implemented.
 
-
-\subsection{Summary}
-Users are authenticated by sending email and password to the API which in turn issues token, refresh token and expiry times. This data is persisted with cookies to improve usability. Before any page change the authentication state of the user is checked with middleware. When a request returns a "401 unauthorized" error this is caught by Axios and the user is logged out.
-
 \subsection{Authorization}
-Additionally, each user is assigned a role for every house they are assigned to. From the API's perspective there are three access levels:
-
+Not only do users have to be authenticated, they also have to be authorized for specific requests. From the API's perspective there are three access levels (the lower the number the higher the authorization level): 
 
 \begin{itemize}
   \item Proprietor - Access Level 1
   \item Facility Management - Access Level 2
   \item Tenant - Access Level 3
 \end{itemize}
+
+What a user can do is dependant on their access level and is illustrated in the use case diagram depicted in \autoref{fig:sytemdesign}.
+Because a user can be assigned to several houses and can have a different role in each one the roles are not contained inside the user object, but appended as a property for each house.
+
+\subsection{Summary}
+Users are authenticated by sending email and password to the API which in turn issues token, refresh token and expiry times. This data is persisted with cookies to improve usability. Before any page change the authentication state of the user is checked with middleware. When a request returns a "401 unauthorized" error this is caught by Axios and the user is logged out. Users can have one of three roles for every house they are assigned to, these roles dictate what a user is and is not allowed to do.
+
 
 \section{Forum}
 
