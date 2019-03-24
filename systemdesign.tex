@@ -81,8 +81,8 @@ On the home site various data sources should composed into a consolidated view -
 
 Identified Elements: Noticeboard Item, Poll Item, Forum Item, House Switcher, Navigation Bar
 
-\subsection{Noticeboard}
-The Noticeboard page contains a list of all noticeboard entries associated with a house. An input field should let the user search for a specific item. A navigation bar as described for the previous page should allow for page changes. Finally, a button that links to a page where noticeboard entries can be created should exist. If the user is the owner of an entry an edit button should be shown. It is sensible to consolidate creating and editing an item on the same site by using a single form which is either initially empty or populated with the existing data should be edited. Creating a noticeboard requires a title and a message. \newline
+\subsection{Noticeboard} \label{sub:noticeboardui}
+The Noticeboard page contains a list of all noticeboard entries associated with a house. An input field should let the user search for a specific item. A navigation bar as described for the previous page should allow for page changes. Finally, a button that links to a page where noticeboard entries can be created should exist. If the user is the owner of an entry an edit button should be shown. It is sensible to consolidate creating and editing an item on the same site by using a single form which is either initially empty or populated with the existing data should be edited. Creating a noticeboard requires a title and content. \newline
 
 \begin{table}[H]
     \begin{tabularx}{\linewidth}{|X|}
@@ -91,7 +91,7 @@ The Noticeboard page contains a list of all noticeboard entries associated with 
        \hline
        The user clicks a "create" button \\
        \hline
-       The user fills a from with a title and a message \\
+       The user fills a form with a title and content \\
        \hline
        The system checks for appropriate authorization \\
        \hline
@@ -235,7 +235,7 @@ Users need a way of creating a new house or adding an existing house to their ac
 
 Identified Elements: Create House Form, Accept Invite Form, Invite Form
 
-\section{Summary}
+\section{Summary} \label{sec:uisummary}
 Some elements are very distinct and are only used once whereas others are used across multiple pages. One element that stands out and is used in almost every single page is the "Navigation Bar". It would be very sensible to not only create a reusable component of this element but to also include it in some kind of base-layout that can be used as a starting point when creating sub-pages. Some other widely used elements are the "Search Bar" and "Create Button". Elements which might not be used very often but reused nevertheless are the "Language Switcher" and "House Switcher". The various forms, lists and items mentioned previously are used only once most of the time and therefore not reused, however, it still makes sense to create reusable Vue components for these to make site composition cleaner and easier.
 
 \section{Site Structure}

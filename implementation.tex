@@ -1,7 +1,7 @@
 \chapter[Implementation]{Implementation} \label{ch:implementation}
 
 \section{Introduction}
-Based on the evaluation carried out in \autoref{sec:consideredtech} the \acrlong{spa} was implemented with Vue and Nuxt. To give the reader a better understanding of how the application was built, the first few sections of this chapter will discuss which additional tools and functionalities Nuxt provides, how Vue is used and \acrfull{soc} is achieved and briefly illustrates how the frontend and the API communicate with each other. 
+Based on the evaluation carried out in \autoref{sec:consideredtech} the \acrlong{spa} was implemented with Vue and Nuxt. To give the reader a better understanding of how the application was built, the first few sections of this chapter will discuss which additional tools and functionalities Nuxt provides, how Vue is used and how \acrfull{soc} is achieved. Later sections which describe the specific implementation of UI elements do that from a functionality-based perspective and do not go into the specifics of CSS classes used, as these are described in depth in the Bulma documentation. It is enough for the reader to have a basic understanding of CSS.
 
 \section{Nuxt.js}
 Nuxt's primary use case is to provide \acrlong{ssr} for Vue-based applications. It also advertises itself as a framework which "presets all the configuration needed to make your development of a Vue.js application enjoyable" \cite{Nuxtjs:online}. While this blurry description is not very meaningful on its own, it indicates that Nuxt pre-configures certain parts of a Vue application. The most important of which are: \acrlong{ssr}, automatic setup of routing and store management.
@@ -200,8 +200,7 @@ Props are a way of passing data from a parent component into a child component. 
 GUI based applications typically rely on event-driven programming paradigms. Vue is no exception: events are emitted and caught and dictate the course of actions of the application. Typically, props are used to pass data from a parent to a child component, whereas events are emitted with a paylod from a child and are caught in the parent with the "v-on" directive. For heavily nested components however, a so called "event bus" or the vuex store is used which makes data available directly where it is needed instead of having to pass it from the deepest child to the highest parent. This project makes use of the props/events method and the vuex store.
 
 \subsection{Vuex}
-Vuex is a supporting library for Vue based on the Flux architecture to provide a solution for shared state management. Its concept revolves around a global state which is retrieved with "getters" and altered with "mutations" which in turn are commited by "actions". Mutations change the state's data synchronously so every change is trackable with debugging tools. Actions can be asynchronous and are often used for retrieving data from an API and then updating the system's state by passing this data to a mutation and commiting it. The term used for executing an action is "dispatch". Vuex uses a "single state tree" - one JavaScript object that contains the entirety of the application's state. The state is either retrieved directly and unchanged or through getters which provide a way of transforming the returned data first. For example it is pissible to directly retrieve the authentication token from the state and manually check its validity or by defining a getter which returns the users authentication state as a boolean value which depends on the token.
- Additionally, the store can be split up into "modules" and is done so in this project: a store file corresponds to a group of actions, getters and parts of the state. This greatly improves maintainability of the project by making it more comprehensible. \autoref{vuexsamples} illustrates some commonly used ways of interacting with the store. \newline
+Vuex is a supporting library for Vue based on the Flux architecture to provide a solution for shared state management. Its concept revolves around a global state which is retrieved with "getters" and altered with "mutations" which in turn are commited by "actions". Mutations change the state's data synchronously so every change is trackable with debugging tools. Actions can be asynchronous and are often used for retrieving data from an API and then updating the system's state by passing this data to a mutation and commiting it. The term used for executing an action is "dispatch". It is important to note that while it is perfectly sensible to create methods in Vue components that reach out to an API and then commit a mutation, it makes far more sense to move these methods to the store as actions, especially if they are reused across the application. Vuex uses a "single state tree" - one JavaScript object that contains the entirety of the application's state. The state is either retrieved directly and unchanged or through getters which provide a way of transforming the returned data first. For example it is possible to directly retrieve the authentication token from the state and manually check its validity or by defining a getter which returns the users authentication state as a boolean value which depends on the token. Additionally, the store can be split up into "modules" and is done so in this project: a store file corresponds to a group of actions, getters and parts of the state. This greatly improves maintainability of the project by making it more comprehensible. \autoref{vuexsamples} illustrates some commonly used ways of interacting with the store. \newline
 
 \begin{lstlisting}[caption=Vuex Usage, captionpos=b, style=htmlcssjs, label=vuexsamples]{Vuex Usage}
   ...mapGetters("auth", ["isAuthenticated"])
@@ -228,8 +227,6 @@ Vuex is a supporting library for Vue based on the Flux architecture to provide a
 % axios
 
 \section{Authentication}
-
-
 In order to use the application, users have to be authenticated. They must provide an email address and a password to a login form and request authentication. \autoref{usecase:login} depicts the detailed flow for this use case. The API then checks if the user can be authenticated and if successful issues a token, refresh token and their respective expiry times. To improve the system's usability, this data is then persisted by using cookies (see \autoref{persauthdata}). Everytime a user wants to move to a different subpage, the validity in terms of expiry time of the tokens is checked. Nuxt lets developers define "middleware" - code which is run before any page change. The middleware which is depicted in \autoref{authmiddleware} checks for one of three scenarios:
 
 \begin{enumerate}
@@ -257,12 +254,46 @@ Because a user can be assigned to several houses and can have a different role i
 \subsection{Summary}
 Users are authenticated by sending email and password to the API which in turn issues token, refresh token and expiry times. This data is persisted with cookies to improve usability. Before any page change the authentication state of the user is checked with middleware. When a request returns a "401 unauthorized" error this is caught by Axios and the user is logged out. Users can have one of three roles for every house they are assigned to, these roles dictate what a user is and is not allowed to do.
 
+\section{Common UI Items}
+In \autoref{sec:uisummary} common UI elements were identified. These include: a Navigation Bar and Search Bar. Additionally, there are various forms for creating different entries. What every form needs is a way of saving the content or cancelling the creation process - a reusable button set which provides functionality for saving and cancelling is sensible. This section discusses how these UI elements are implemented.
 
+\subsection{Navigation Bar}
+The navigation bar is used to provide quick-access links to various site-destinations of the application.
+As the application uses Bulma as the underlying CSS framework, all UI items have to adhere to its guidelines for styling elements. The specific classes needed to build a Navigation Bar are depicted in \autoref{fig:navbardoc}. 
+
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[width=\linewidth]{navbar-doc}
+  \end{center}
+  \caption{Navbar Documentation}
+  \label{fig:navbardoc}
+\end{figure}
+
+
+The Navbar is a special component: it seems like it is reused across all pages but in reality it is only defined once in the global layout file. In Vue, it is a common convention to such components with "The" in the file name. For example the navigation bar is defined in a file called "TheNavbar.vue". When a component is used only once, it would theoretically be possible to hardcode links and other objects into that component, without decreasing maintainability However, it makes for much cleaner code to outsource these into a parent component and pass them as props. For example the navigation bar defines a prop of type array which is used to pass all links that should be displayed. In the template section the "v-for" directive is then used to iterate over each link and to render it. Depending on the user's access levels, some links are hidden. For example the "Polls" link is hidden for user roles that are not of type proprietor. Additionaly, props are used in order to set the color and dropwdown shadow of the navbar.
+
+Dynamic classes are used to make the hamburger menu (mobile) or dropdown menu (desktop) of the navbar interactive. When a user clicks on it, the click event is caught and the data properties "burgerActive" and "dropdownActive" are set to true. Vue recognizes this change and dynamically adds the "is-active" class to the respective HTML tags which results in the right dropdown menu to expand or the hamburger menu transform into an "X" like shape. \autoref{fig:navbar} illustrates the finished component when rendered.
+
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[width=\linewidth]{navbar}
+  \end{center}
+  \caption{Navbar}
+  \label{fig:navbar}
+\end{figure}
+
+
+\subsection{Search Bar \& Create Button}
+The search bar and the create button can easily be 
+
+\subsection{Navigation Bar}
+
+\section{Noticeboard}
+
+\autoref{sub:noticeboardui}
 \section{Forum}
 
 \section{Polls}
-
-\section{Noticeboard}
 
 \section{Issue Log System}
 
