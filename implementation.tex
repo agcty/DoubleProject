@@ -53,28 +53,8 @@ This section aims to extend the basic description of Vue's usage as described in
 A very important aspect of modern software architectures is \acrfull{soc} which is often regarded to as principles of modularization of code and object-oriented design \cite{laplante2007every:book}. In the case of traditional web design HTML, CSS and JavaScript are often physically separated (separation of file types) leading to increased maintainability of code, a less tightly coupled system and decreased probability of violating DRY principles. Furthermore, it helps building complex layered systems which can be actively worked on by multiple developers. 
 
 Vue however, takes different approaches on \acrshort{soc} depending on the way it is used in a project:
-either Vue.js is added to existing sites by using a standard HTML script tag or by using a complete bundling tool like Webpack or Browserify to add it as a dependency. Using Vue by adding a script tag has some disadvantages: it only allows developers to target a specific HTML container element on the page Vue is embedded in, and also brings certain disadvantages such as no CSS support inside the Vue component itself and no build steps which requires the developer to fall back to plain HTML and ES5 JavaScript rather than using various preprocessors. \newline
+either Vue.js is added to existing sites by using a standard HTML script tag or by using a complete bundling tool like Webpack or Browserify to add it as a dependency. Using Vue by adding a script tag has some disadvantages: it only allows developers to target a specific HTML container element on the page Vue is embedded in, and also brings certain disadvantages such as no CSS support inside the Vue component itself and no build steps which requires the developer to fall back to plain HTML and ES5 JavaScript rather than using various preprocessors. \autoref{compwobundler} illustrates such an example.
 
-\begin{lstlisting}[caption=Vue component without bundler, captionpos=b, style=htmlcssjs]{Vue component without bundler}
-Vue.component('todo-component', {
-    template: '<h1> {{ newItem }} </h1>',
-    data() {
-        return {
-            items: [
-                {
-                    id: '1',
-                    title: 'Buy milk',
-                    completed: false
-                },
-            ],
-            newItem: ''
-        };
-    },
-    methods: {
-        addItem() {
-            // LOGIC OMITTED FOR READABILITY
-        }
-\end{lstlisting}
 The more preferable approach would be to use a so called “Single File Component”, a file with a “.vue” extension. These files however have to be compiled with build tools like Webpack or Browserify to extract the corresponding concerns. A sample file is depicted in \autoref{lst:sfc}. \newline
 
 \begin{lstlisting}[caption=Vue Single File Component, label={lst:sfc}, captionpos=b, style=htmlcssjs]{Vue Single File Component}
@@ -247,6 +227,25 @@ As previously mentioned, storage management is achieved with Vuex. Furthermore, 
 
 To make resetting the state simple every module file defines an action "resetState" which overwrites every property of the module's state with a predefined default value. It is important to overwrite the value and not the property itself to keep it reactive within the Vue instance. This is a known limitation of modern JavaScript and described in more detail on \href{https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats}{Vue Change Detection Caveats}.
 
+\subsection{State Population}
+There are two approaches of populating the state which I will refer to as "Just-in-time" and "Just-in-case". With the Just-in-time approach, the state is populated only when it is needed. For example when a user accesses a forum page with a list of threads, these are requested only after the user accessed the forum site. The Just-in-case approach on the other hand, loads these thread items into the store at a specified point in time, before the user accesses the forum site. 
+
+The application makes use of both: Just-in-case when the application is run to populate the dashboard with data (the usability of the system would not be very good if a user had to access each sub page first). And Just-in-time to refresh the contents of each sub page upon accessing it.
+
+\autoref{jic} shows how state population is requested when the main site of the application is accessed and \autoref{jicdispa} shows that a root "populateState" function is run which in turn dispatches the respective "getItems" function of each store submodule. \autoref{jit} illustrates requesting resources in a Just-in-time manner when accessing a subpage. More specifically, the mounted lifecycle hooks of page components are used in order to automatically dispatch a function which populates a state's module. \newline
+
+\begin{lstlisting}[caption=Just-in-time state population on subpage access, captionpos=b, style=htmlcssjs, label=jit]{Just-in-time state population on subpage access}
+  async mounted() {
+    try {
+      await this.$store.dispatch("blackboard/getBoards");
+    } catch (error) {
+      this.$toasted.global.my_error();
+    }
+  }
+\end{lstlisting}
+
+As some data is needed at any point while using the application it is crucial to make sure that it is actually available. Such data includes the users's first name, and house details. Especially the current house's id is needed befory any other data set associated with this house is requested because the API needs this id to return the correct entries. This is achieved by using a middleware which as previously mentioned is run everytime before a user switches to a different page. A code sample can be found in \autoref{popmiddleware}.
+
 
 \section{Authentication}
 In order to use the application, users have to be authenticated. They must provide an email address and a password to a login form and request authentication. \autoref{usecase:login} depicts the detailed flow for this use case. The API then checks if the user can be authenticated and if successful issues a token, refresh token and their respective expiry times. To improve the system's usability, this data is then persisted by using cookies (see \autoref{persauthdata}). Everytime a user wants to move to a different subpage, the validity in terms of expiry time of the tokens is checked. Nuxt lets developers define "middleware" - code which is run before any page change. The middleware which is depicted in \autoref{authmiddleware} checks for one of three scenarios:
@@ -364,14 +363,14 @@ The House Switcher component works very similar to the Language Switcher compone
 Usage: Similiar to the Language Switcher Component it can be included in any parent component. It is shown on the main page of the application where the dashboard is located to allow for easy traversal through a user's assigned houses.
 
 \section{Noticeboard}
-As defined in \autoref{sub:noticeboardui} the noticeboard page shows a list of all noticeboard entries associated with a house, which are searchable by using the input field of the search bar. The identified elements are a list of all entries, a single entry, and a form for both creating and editing entries.
+As defined in \autoref{sub:noticeboardui} the noticeboard page shows a list of all noticeboard entries associated with a house, which are searchable by using the input field of the search bar. The identified elements are a list of all entries, a single entry, and a form for both creating and editing entries which is accessible when clicking the create button.
 
 The composition of these elements are as following:
 
 \begin{itemize}
-  \item Noticeboard Page > Search Bar, Noticeboard Entry List
-  \item Noticeboard Entry List > Noticeboard Items
-  \item Noticeboard Create/Edit Page > Noticeboard Create/Edit Form
+  \item Noticeboard Page > SearchCreateMenu.vue , BoardList.vue
+  \item BoardList.vue > multiple BoardItem(s).vue
+  \item Noticeboard Create/Edit Page > CreateBoard.vue
 \end{itemize}
 
 * The symbol ">" is read as "is composed of", every page contains the Navbar component
@@ -380,17 +379,7 @@ A single noticeboard item is built with the Bulma "tile" component (see \href{ht
 
 The list containing multiple items defines a prop "boards" of type array which is passed from the page to the list component. It then iterates over this list with "v-for" and passes the specific data of the respective entry to a single item.
 
-The page is composed of a Search Bar and a list of noticeboard entries. The entries are populated by making a request to the API when the page component's mounted lifecycle state is reached. \autoref{noticeboardpopulation} illustrates how this is achieved. \newline
-
-\begin{lstlisting}[caption=Population of Entries, captionpos=b, style=htmlcssjs, label=noticeboardpopulation]{Population of Entries}
-  async mounted() {
-    try {
-      await this.$store.dispatch("blackboard/getBoards");
-    } catch (error) {
-      this.$toasted.global.my_error();
-    }
-  }
-\end{lstlisting}
+The page is composed of a Search Bar and a list of noticeboard entries. The entries are populated by making a request to the API when the page component's mounted lifecycle state is reached.
 
 \begin{figure}[H]
   \begin{center}
@@ -401,6 +390,33 @@ The page is composed of a Search Bar and a list of noticeboard entries. The entr
 \end{figure}
 
 \section{Forum}
+The Forum page contains a list of all threads associated with a house that are searchable with a Search Bar. When a user clicks on a thread a detail-view is opened which shows the thread in a more detailed manner along with comments and provides a form for creating a new comment.
+
+The composition of components that are related to the Forum are as following:
+
+\begin{itemize}
+  \item Forum Page > SearchCreateMenu.vue, ThreadList.vue
+  \item ThreadList > multiple ThreadItem(s).vue
+  \item Thread Detail Page > ThreadDetail.vue, CommentList.vue, CreateComment.vue
+  \item CommentList.vue > multiple CommentItem(s).vue
+  \item Thread Create/Edit Page > CreateThread.vue
+\end{itemize}
+
+The ThreadList and ThreadItem components are structured like the BoardList and BoardItem components, but use different props and have a different design. An important distinction however, is that ThreadItem components contain a link that redirects to the detail view of the thread. In Nuxt's file structure, subfolders in the pages folder prefixed with underscore are treated differently than normal pages: the router instance is instructed to allow requests to a site with dynamic parameters. E.g. the page folder structure for the thread detail view is as following: "pages/blackboard/\_id". When the application is accessed on \url{https://hausversammlung.at/blackboard/id-of-entry}, the thread detail page does two things in order to show the contents of a specific thread: it checks if thread items exists in the store and if not requests them during the mounted lifecycle state and then retrieves the id parameter of the url to lookup the thread item with that id in store.
+
+\begin{lstlisting}[caption=Population of Entries, captionpos=b, style=htmlcssjs, label=noticeboardpopulation] computed: {
+  board() {
+    return this.$store.getters["blackboard/getBoardByID"](
+      this.$route.params.id
+    );
+  }
+},
+async mounted() {
+  if (!this.$store.state.blackboard.isPopulated) {
+    await this.$store.dispatch("blackboard/getBoards");
+  }
+},
+\end{lstlisting}
 
 \section{Polls}
 

@@ -91,5 +91,95 @@ export default async function(context) {
           }
         });
       }
-      
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption=Vue component without bundler, captionpos=b, style=htmlcssjs, label=compwobundler]{Vue component without bundler}
+  Vue.component('todo-component', {
+      template: '<h1> {{ newItem }} </h1>',
+      data() {
+          return {
+              items: [
+                  {
+                      id: '1',
+                      title: 'Buy milk',
+                      completed: false
+                  },
+              ],
+              newItem: ''
+          };
+      },
+      methods: {
+          addItem() {
+              // LOGIC OMITTED FOR READABILITY
+          }
+  \end{lstlisting}
+
+\begin{lstlisting}[caption=Just in Case on app run, captionpos=b, style=htmlcssjs, label=jic]{Just in Case on app run}
+  async mounted() {
+    try {
+      this.$store.dispatch("populateState");
+    } catch (error) {
+      this.$toasted.global.my_error();
+    }
+  }
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Just in Case dispatched actions, captionpos=b, style=htmlcssjs, label=jicdispa]{Just in Case dispatched actions}
+  export const actions = {
+    resetState({ dispatch }) {
+      dispatch("tenement/resetState", null, { root: true });
+      dispatch("user/resetState", null, { root: true });
+      dispatch("polls/resetState", null, { root: true });
+      dispatch("forum/resetState", null, { root: true });
+      dispatch("blackboard/resetState", null, { root: true });
+      dispatch("documents/resetState", null, { root: true });
+  
+      console.log("[STORE] State was reset");
+    },
+  
+    resetUserGeneratedData({ dispatch }) {
+      dispatch("polls/resetState", null, { root: true });
+      dispatch("forum/resetState", null, { root: true });
+      dispatch("blackboard/resetState", null, { root: true });
+      dispatch("documents/resetState", null, { root: true });
+  
+      console.log("[STORE] User generated data was reset");
+    },
+  
+    populateState({ dispatch, getters }) {
+      //dont get other data when we don't have any tenements to get data from
+      if (!getters["tenement/numberOfTenements"]) {
+        return;
+      }
+      //when populateState is executed we assume getTenements was executed some time before
+      try {
+        //solution where promise.all() is used might be better for efficiency
+        dispatch("tenement/getDetails", null, { root: true });
+        dispatch("polls/getPolls", null, { root: true });
+        dispatch("forum/getThreads", null, { root: true });
+        dispatch("blackboard/getBoards", null, { root: true });
+        dispatch("issues/getIssues", null, { root: true });
+  
+        console.log("[STORE] State was populated");
+      } catch (error) {
+        this.$toasted.global.my_error();
+      }
+    }
+  };
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption=Population Middleware, captionpos=b, style=htmlcssjs, label=popmiddleware]{Population Middleware}
+  export default async function(context) {
+  if (!context.store.getters["user/isPopulated"]) {
+    try {
+      await context.store.dispatch("user/getUser");
+      await context.store.dispatch("tenement/getTenements");
+      await context.store.dispatch("tenement/getDetails");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
 \end{lstlisting}
