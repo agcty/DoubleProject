@@ -362,9 +362,44 @@ The House Switcher component works very similar to the Language Switcher compone
 \end{figure}
 
 Usage: Similiar to the Language Switcher Component it can be included in any parent component. It is shown on the main page of the application where the dashboard is located to allow for easy traversal through a user's assigned houses.
-\section{Noticeboard}
 
-\autoref{sub:noticeboardui}
+\section{Noticeboard}
+As defined in \autoref{sub:noticeboardui} the noticeboard page shows a list of all noticeboard entries associated with a house, which are searchable by using the input field of the search bar. The identified elements are a list of all entries, a single entry, and a form for both creating and editing entries.
+
+The composition of these elements are as following:
+
+\begin{itemize}
+  \item Noticeboard Page > Search Bar, Noticeboard Entry List
+  \item Noticeboard Entry List > Noticeboard Items
+  \item Noticeboard Create/Edit Page > Noticeboard Create/Edit Form
+\end{itemize}
+
+* The symbol ">" is read as "is composed of", every page contains the Navbar component
+
+A single noticeboard item is built with the Bulma "tile" component (see \href{https://bulma.io/documentation/layout/tiles/}{Bulma Tile Documentation}). The props of this component are: id, owner, title, content and size. Additionally, a computed property checks if the size prop is passed, if not, the size is calculated depending on the length of the content in terms of characters. The returned string value is a Bulma class which dictates how many rows an element should fill and is added as a dynamic class to the root div element of the component. The "v-if" directive conditionally hides or shows an "edit" anchor tag which links to the edit site of this specifc entry. It does that by comparing the user id saved in store to the owner id which is passed as a prop.
+
+The list containing multiple items defines a prop "boards" of type array which is passed from the page to the list component. It then iterates over this list with "v-for" and passes the specific data of the respective entry to a single item.
+
+The page is composed of a Search Bar and a list of noticeboard entries. The entries are populated by making a request to the API when the page component's mounted lifecycle state is reached. \autoref{noticeboardpopulation} illustrates how this is achieved. \newline
+
+\begin{lstlisting}[caption=Population of Entries, captionpos=b, style=htmlcssjs, label=noticeboardpopulation]{Population of Entries}
+  async mounted() {
+    try {
+      await this.$store.dispatch("blackboard/getBoards");
+    } catch (error) {
+      this.$toasted.global.my_error();
+    }
+  }
+\end{lstlisting}
+
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[width=\linewidth]{noticeboardpage}
+  \end{center}
+  \caption{Noticeboard Page}
+  \label{fig:langswitcher}
+\end{figure}
+
 \section{Forum}
 
 \section{Polls}
@@ -372,3 +407,5 @@ Usage: Similiar to the Language Switcher Component it can be included in any par
 \section{Issue Log System}
 
 \section{Internationalization} \label{sec:internationalization}
+
+\section{Client-side Validation}
