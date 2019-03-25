@@ -402,25 +402,35 @@ The composition of components that are related to the Forum are as following:
   \item Thread Create/Edit Page > CreateThread.vue
 \end{itemize}
 
-The ThreadList and ThreadItem components are structured like the BoardList and BoardItem components, but use different props and have a different design. An important distinction however, is that ThreadItem components contain a link that redirects to the detail view of the thread. In Nuxt's file structure, subfolders in the pages folder prefixed with underscore are treated differently than normal pages: the router instance is instructed to allow requests to a site with dynamic parameters. E.g. the page folder structure for the thread detail view is as following: "pages/blackboard/\_id". When the application is accessed on \url{https://hausversammlung.at/blackboard/id-of-entry}, the thread detail page does two things in order to show the contents of a specific thread: it checks if thread items exists in the store and if not requests them during the mounted lifecycle state and then retrieves the id parameter of the url to lookup the thread item with that id in store.
+The ThreadList and ThreadItem components are structured like the BoardList and BoardItem components, but use different props and have a different design. An important distinction however, is that ThreadItem components contain a link that redirects to the detail view of the thread. In Nuxt's file structure, subfolders in the pages folder prefixed with underscore are treated differently than normal pages: the router instance is instructed to allow requests to a site with dynamic parameters. E.g. the page folder structure for the thread detail view is as following: "pages/blackboard/\_id". When the application is accessed on \url{https://hausversammlung.at/blackboard/id-of-entry}, the thread detail page does two things in order to show the contents of a specific thread: it checks if thread items exists in the store and if not requests them during the mounted lifecycle state and then retrieves the id parameter of the url to lookup the thread item with that specific id in store (see \autoref{boardentrylookup}). In the store a getter called "getBoardByID" takes the id as a parameter, finds the associated thread in store and returns it. \newline
 
-\begin{lstlisting}[caption=Population of Entries, captionpos=b, style=htmlcssjs, label=noticeboardpopulation] computed: {
+\begin{lstlisting}[caption=Retrieving Board Entry from Store, captionpos=b, style=htmlcssjs, label=boardentrylookup]{Retrieving Board Entry from Store}
+computed: {
   board() {
     return this.$store.getters["blackboard/getBoardByID"](
       this.$route.params.id
     );
   }
-},
-async mounted() {
-  if (!this.$store.state.blackboard.isPopulated) {
-    await this.$store.dispatch("blackboard/getBoards");
-  }
-},
+}
 \end{lstlisting}
 
+\autoref{fig:threaddetail} shows the rendered detail page of a thread item.
+
 \section{Polls}
+Polls are a somewhat complicated topic. When a proprietor votes for an option a request needs to be sent to the API and the Poll's design has to be updated to prevent an addtional option vote. The API however, does not return data which could be used on its own, client-side modification has to occur. As the pages Noticeboard, Forum, Polls and Issues share similar structure and functionality (searching items, creating items, displaying a list of items, populating state) these will not be discussed anymore. Instead, this section aims to describe how a Poll's UI is updated and what data has to be transformed in order to do so.
 
 \section{Issue Log System}
+
+\section{Adding a house}
+
+\section{Dashboard}
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[width=\linewidth]{dashboard}
+  \end{center}
+  \caption{Dashboard Page}
+  \label{fig:dashboard}
+\end{figure}
 
 \section{Internationalization} \label{sec:internationalization}
 

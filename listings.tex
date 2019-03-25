@@ -1,23 +1,4 @@
-\chapter{Additional Listintgs}
-
-\begin{lstlisting}[caption=Persisting Auth Data, captionpos=b, style=htmlcssjs, label=persauthdata]{Persisting Auth Data}
-    saveTokenData({ commit }, result) {
-    //set token data
-    commit("SET", result);
-
-    //set cookie data
-    Cookie.set("token", result.token, { secure: false });
-    Cookie.set("token_expiry", result.token_expiry, { secure: false });
-    Cookie.set("refresh_token", result.refresh_token, { secure: false });
-    Cookie.set("refresh_token_expiry", result.refresh_token_expiry, {
-      secure: false
-    });
-    Cookie.set("user", result.user, { secure: false });
-
-    // Adds header: `Authorization: Token token` to all requests
-    this.$axios.setToken(result.token, "Token");
-  },
-\end{lstlisting}
+\chapter{Additional Listings}
 
 \begin{lstlisting}[caption=Auth Middleware, captionpos=b, style=htmlcssjs, label=authmiddleware]{Auth Middleware}
 export default async function(context) {
@@ -66,63 +47,67 @@ export default async function(context) {
 }
 \end{lstlisting}
 
+\newpage
+
+\begin{lstlisting}[caption=Persisting Auth Data, captionpos=b, style=htmlcssjs, label=persauthdata]{Persisting Auth Data}
+  saveTokenData({ commit }, result) {
+  //set token data
+  commit("SET", result);
+
+  //set cookie data
+  Cookie.set("token", result.token, { secure: false });
+  Cookie.set("token_expiry", result.token_expiry, { secure: false });
+  Cookie.set("refresh_token", result.refresh_token, { secure: false });
+  Cookie.set("refresh_token_expiry", result.refresh_token_expiry, {
+    secure: false
+  });
+  Cookie.set("user", result.user, { secure: false });
+
+  // Adds header: `Authorization: Token token` to all requests
+  this.$axios.setToken(result.token, "Token");
+}
+\end{lstlisting}
+
 \begin{lstlisting}[caption=Axios Unauthorized Plugin, captionpos=b, style=htmlcssjs, label=unauthorized]{Axios Unauthorized Plugin}
-    export default function({ $axios, app, store }) {
-        $axios.onError(error => {
-          if (!error.response) {
-            // network error
-            app.$toasted.global.my_error({
-              message: "You are not connected to the internet"
-            });
+  export default function({ $axios, app, store }) {
+      $axios.onError(error => {
+        if (!error.response) {
+          // network error
+          app.$toasted.global.my_error({
+            message: "You are not connected to the internet"
+          });
+          return;
+        }
+        const code = parseInt(error.response && error.response.status);
+        if (code === 401) {
+          //don't do anything when coming from login page
+          if ($nuxt.$route.name == "login") {
             return;
           }
-          const code = parseInt(error.response && error.response.status);
-          if (code === 401) {
-            //don't do anything when coming from login page
-            if ($nuxt.$route.name == "login") {
-              return;
-            }
-      
-            app.$toasted.global.my_error({
-              message: "Token too old, logging you out!"
-            });
-      
-            store.dispatch("auth/logout");
-          }
-        });
-      }
+    
+          app.$toasted.global.my_error({
+            message: "Token too old, logging you out!"
+          });
+    
+          store.dispatch("auth/logout");
+        }
+      });
+    }
 \end{lstlisting}
 
 
-\begin{lstlisting}[caption=Vue component without bundler, captionpos=b, style=htmlcssjs, label=compwobundler]{Vue component without bundler}
-  Vue.component('todo-component', {
-      template: '<h1> {{ newItem }} </h1>',
-      data() {
-          return {
-              items: [
-                  {
-                      id: '1',
-                      title: 'Buy milk',
-                      completed: false
-                  },
-              ],
-              newItem: ''
-          };
-      },
-      methods: {
-          addItem() {
-              // LOGIC OMITTED FOR READABILITY
-          }
-  \end{lstlisting}
-
-\begin{lstlisting}[caption=Just in Case on app run, captionpos=b, style=htmlcssjs, label=jic]{Just in Case on app run}
-  async mounted() {
+\begin{lstlisting}[caption=Population Middleware, captionpos=b, style=htmlcssjs, label=popmiddleware]{Population Middleware}
+  export default async function(context) {
+  if (!context.store.getters["user/isPopulated"]) {
     try {
-      this.$store.dispatch("populateState");
+      await context.store.dispatch("user/getUser");
+      await context.store.dispatch("tenement/getTenements");
+      await context.store.dispatch("tenement/getDetails");
     } catch (error) {
-      this.$toasted.global.my_error();
+      console.error(error);
     }
   }
+}
 \end{lstlisting}
 
 \begin{lstlisting}[caption=Just in Case dispatched actions, captionpos=b, style=htmlcssjs, label=jicdispa]{Just in Case dispatched actions}
@@ -169,17 +154,35 @@ export default async function(context) {
   };
 \end{lstlisting}
 
-
-\begin{lstlisting}[caption=Population Middleware, captionpos=b, style=htmlcssjs, label=popmiddleware]{Population Middleware}
-  export default async function(context) {
-  if (!context.store.getters["user/isPopulated"]) {
+\begin{lstlisting}[caption=Just in Case Store Population on app run, captionpos=b, style=htmlcssjs, label=jic]{Just in Case on app run}
+  async mounted() {
     try {
-      await context.store.dispatch("user/getUser");
-      await context.store.dispatch("tenement/getTenements");
-      await context.store.dispatch("tenement/getDetails");
+      this.$store.dispatch("populateState");
     } catch (error) {
-      console.error(error);
+      this.$toasted.global.my_error();
     }
   }
-}
 \end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[caption=Vue component without bundler, captionpos=b, style=htmlcssjs, label=compwobundler]{Vue component without bundler}
+  Vue.component('todo-component', {
+      template: '<h1> {{ newItem }} </h1>',
+      data() {
+          return {
+              items: [
+                  {
+                      id: '1',
+                      title: 'Buy milk',
+                      completed: false
+                  },
+              ],
+              newItem: ''
+          };
+      },
+      methods: {
+          addItem() {
+            // LOGIC OMITTED FOR READABILITY
+      }
+  \end{lstlisting}
