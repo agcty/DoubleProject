@@ -1,7 +1,7 @@
 \chapter[Implementation]{Implementation} \label{ch:implementation}
 
 \section{Introduction}
-Based on the evaluation carried out in \autoref{sec:consideredtech} the \acrlong{spa} was implemented with Vue and Nuxt. To give the reader a better understanding of how the application was built, the first few sections of this chapter will discuss which additional tools and functionalities Nuxt provides, how Vue is used and how \acrfull{soc} is achieved. Later sections which describe the specific implementation of UI elements do that from a functionality-based perspective and do not go into the specifics of CSS classes used, as these are described in depth in the Bulma documentation. It is enough for the reader to have a basic understanding of CSS.
+Based on the evaluation carried out in \autoref{sec:consideredtech} the \acrlong{spa} was implemented with Vue and Nuxt. To give the reader a better understanding of how the application was built, the first few sections of this chapter will discuss which additional tools and functionalities Nuxt provides, how Vue is used and how \acrfull{soc} is achieved. Later sections which describe the specific implementation of UI elements do that from a functionality-based perspective and do not go into the specifics of CSS classes used, as these are described in depth in the Bulma documentation. It is enough for the reader to have a basic understanding of HTML and CSS.
 
 \section{Nuxt.js}
 Nuxt's primary use case is to provide \acrlong{ssr} for Vue-based applications. It also advertises itself as a framework which "presets all the configuration needed to make your development of a Vue.js application enjoyable" \cite{Nuxtjs:online}. While this blurry description is not very meaningful on its own, it indicates that Nuxt pre-configures certain parts of a Vue application. The most important of which are: \acrlong{ssr}, automatic setup of routing and store management.
@@ -211,20 +211,42 @@ Vuex is a supporting library for Vue based on the Flux architecture to provide a
   this.$store.dispatch("issues/getIsses")
 \end{lstlisting}
 
+\subsection{Computed Properties \& Methods}
+A method in Vue is property of an object that contains code which can be rerun. Invocationg a method always results in this code being run. Computed properties "are calculations that will be cached based on their dependencies and will only update when needed" \cite{filipova2016learning}. This means they are very efficient as they will not be recalculated when a random property changes, instead Vue intelligently identifies the dependencies of a computed property and only updates it if a dependency's value changes. They are useful for composing data from existing resources. For example there could be an array of Noticeboard entries defined in the data property of a component, a search input field could bbe used to look for a specific item and a computed property would then return an array of found items depending on the search string.
 
-% Discusses:
-% Single File Components separated into HTML, JS and CSS
-% v-bind and shorthand, v-model
-% ternary expressions
-% events how they are emitted and caught
-% props
-% methods
-% computed properties
-% v-if 
-% conditional classes 
-% vuex store
-% routing
-% axios
+\section{Storage Management}
+As previously mentioned, storage management is achieved with Vuex. Furthermore, a module based approach is taken to split the store into multiple files to make it more maintainable. \autoref{table:storagestructure} shows what part of the whole store is added by a certain module.
+
+\begin{table}[H]
+  \begin{tabularx}{\linewidth}{|l|X|}
+      \hline
+      \textbf{Module} & \textbf{Description} \\
+      \hline
+      auth.js & Contains authentication related state, mutations, actions and getters. Examples: login, register, refresh tokens, verify email address, persist tokens to cookies and read them, request password reset  \\
+      \hline
+      blackboard.js & Contains noticeboard related state, mutations, actions and getters. Examples: add new entry, retrieve all entries, edit an entry, search an entry from state \\
+      \hline
+      forum.js & Contains forum related state, mutations, actions and getters. Examples: add new entry, retrieve all entries, edit an entry, search an entry from state  \\
+      \hline
+      index.js & Root store file which defines actions that get entries from every sub module or reset them. Used for populating the state at once when running the application for the first time \\
+      \hline
+      issues.js & Contains issue related state, mutations, actions and getters. Examples: add new entry, retrieve all entries, edit an entry, search an entry from state  \\
+      \hline
+      polls.js & Contains poll related state, mutations, actions and getters. Examples: add new entry, retrieve all entries, edit an entry, search an entry from state \\
+      \hline
+      tenement.js & Contains house related state, mutations, actions and getters. Examples: add new house, retrieve all houses, accept invitations, get details of a house  \\
+      \hline
+      ui.js & Contains UI related mutations. Used for showing a modal without having to emit multiple events  \\
+      \hline
+      user.js & Contains user related state such as username or email, mutations, actions and getters. Examples: change user name, get user details (email, id, email state, etc.) \\
+      \hline
+  \end{tabularx}
+  \caption{Storage Structure}
+  \label{table:storagestructure}
+\end{table}
+
+To make resetting the state simple every module file defines an action "resetState" which overwrites every property of the module's state with a predefined default value. It is important to overwrite the value and not the property itself to keep it reactive within the Vue instance. This is a known limitation of modern JavaScript and described in more detail on \href{https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats}{Vue Change Detection Caveats}.
+
 
 \section{Authentication}
 In order to use the application, users have to be authenticated. They must provide an email address and a password to a login form and request authentication. \autoref{usecase:login} depicts the detailed flow for this use case. The API then checks if the user can be authenticated and if successful issues a token, refresh token and their respective expiry times. To improve the system's usability, this data is then persisted by using cookies (see \autoref{persauthdata}). Everytime a user wants to move to a different subpage, the validity in terms of expiry time of the tokens is checked. Nuxt lets developers define "middleware" - code which is run before any page change. The middleware which is depicted in \autoref{authmiddleware} checks for one of three scenarios:
@@ -259,16 +281,7 @@ In \autoref{sec:uisummary} common UI elements were identified. These include: a 
 
 \subsection{Navigation Bar}
 The navigation bar is used to provide quick-access links to various site-destinations of the application.
-As the application uses Bulma as the underlying CSS framework, all UI items have to adhere to its guidelines for styling elements. The specific classes needed to build a Navigation Bar are depicted in \autoref{fig:navbardoc}. 
-
-\begin{figure}[H]
-  \begin{center}
-  \includegraphics[width=\linewidth]{navbar-doc}
-  \end{center}
-  \caption{Navbar Documentation}
-  \label{fig:navbardoc}
-\end{figure}
-
+As the application uses Bulma as the underlying CSS framework, all UI items have to adhere to its guidelines for styling elements. The specific classes needed to build a Navigation Bar are described in the Bulma documentation available at \href{https://bulma.io/documentation/components/navbar/}{Bulma Navbar Documentation}.
 
 The Navbar is a special component: it seems like it is reused across all pages but in reality it is only defined once in the global layout file. In Vue, it is a common convention to such components with "The" in the file name. For example the navigation bar is defined in a file called "TheNavbar.vue". When a component is used only once, it would theoretically be possible to hardcode links and other objects into that component, without decreasing maintainability However, it makes for much cleaner code to outsource these into a parent component and pass them as props. For example the navigation bar defines a prop of type array which is used to pass all links that should be displayed. In the template section the "v-for" directive is then used to iterate over each link and to render it. Depending on the user's access levels, some links are hidden. For example the "Polls" link is hidden for user roles that are not of type proprietor. Additionaly, props are used in order to set the color and dropwdown shadow of the navbar.
 
@@ -299,8 +312,6 @@ It has several props to make it adaptable for different use cases:
   \item link - link that will be redirected to upon create button click
 \end{itemize}
 
-Usage: The component is used by including it in a page component along with another component that displays a list of items (e.g noticeboard or poll entries). Whenever a user inputs a search string, the v-model property is updated and automatically triggers that a computed property calls a getter method in the store and returns possible items. These possible items are then used to overwrite the list of displayed items.
-
 \begin{figure}[H]
   \begin{center}
   \includegraphics[width=\linewidth]{SearchCreateMenu}
@@ -309,12 +320,48 @@ Usage: The component is used by including it in a page component along with anot
   \label{fig:searchcreate}
 \end{figure}
 
-
+Usage: The component is used by including it in a page component along with another component that displays a list of items (e.g noticeboard or poll entries). Whenever a user inputs a search string, the v-model property is updated and automatically triggers that a computed property calls a getter method in the store and returns possible items. These possible items are then used to overwrite the list of displayed items.
 
 \subsection{Language Switcher}
+The language switcher component has a very simple purpose: instructing the internationalization plugin (detailed description in \autoref{sec:internationalization}) to switch the language. It builds upon Bulmas "select" input element. The component's data object defines an array of languages which are iterated over and displayed as options of the select component. A global property which is provided by the i18n plugin is encapsulated with "v-model" meaning that whenever a user selects a language which differs from the currently selected one, it is globally updated. Whenever the language is changed, the Vue directive "v-on" makes sure that the function "storeLocale" is called which sets a Cookie in the browser which saves the selected language.
+
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=0.8in]{langswitcher}
+  \end{center}
+  \caption{LangSwitcher Component}
+  \label{fig:langswitcher}
+\end{figure}
+
+Usage: This component can be used as in a standalone way wherever needed. It is shown on the login page to provide a way of changing languages before a user even uses the application and on the profile page where a user can change preferences.
+
 
 \subsection{House Switcher}
+The House Switcher component works very similar to the Language Switcher component. A select element shows all available houses as options. The user can choose a house and behind the scenes a store mutation is called which changes the active house id in state. This is implemented with a so called "computed setter" - a computed property which in addition to returning cached results, is also capable of "setting" a value. \autoref{computedsetter} depicts how this is implemented: the get function of the computed property returns a cached version of the current house id, the set function updates the id in store and subsequently dispatches an action which repopulates the store with data from the newly selected house's data. The computed property "currentTenement" is then used with v-model which as described earlier is based on the input event and value prop. Vue recognizes when the select element emitts an input event and automatically runs the set function. \newline 
 
+\begin{lstlisting}[caption=Computed Setter, captionpos=b, style=htmlcssjs, label=computedsetter]{Computed Setter}
+  computed: {
+    currentTenement: {
+      get() {
+        return this.$store.state.tenement.id;
+      },
+      set(id) {
+        this.$store.commit("tenement/UPDATE", { id });
+        this.$store.dispatch("tenement/changeTenement");
+      }
+    }
+  }
+\end{lstlisting}
+
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=0.8in]{houseswitcher}
+  \end{center}
+  \caption{ChangeTenement Component}
+  \label{fig:langswitcher}
+\end{figure}
+
+Usage: Similiar to the Language Switcher Component it can be included in any parent component. It is shown on the main page of the application where the dashboard is located to allow for easy traversal through a user's assigned houses.
 \section{Noticeboard}
 
 \autoref{sub:noticeboardui}
@@ -324,4 +371,4 @@ Usage: The component is used by including it in a page component along with anot
 
 \section{Issue Log System}
 
-\section{Internationalization}
+\section{Internationalization} \label{sec:internationalization}

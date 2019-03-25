@@ -2039,7 +2039,8 @@
     <bcf:citekey order="58">laplante2007every:book</bcf:citekey>
     <bcf:citekey order="59">VueSeparationofConcerns:online</bcf:citekey>
     <bcf:citekey order="60">filipova2016learning</bcf:citekey>
-    <bcf:citekey order="61">Brunelle2016:article</bcf:citekey>
+    <bcf:citekey order="61">filipova2016learning</bcf:citekey>
+    <bcf:citekey order="62">Brunelle2016:article</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">
