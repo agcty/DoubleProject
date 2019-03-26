@@ -227,7 +227,7 @@ As previously mentioned, storage management is achieved with Vuex. Furthermore, 
 
 To make resetting the state simple every module file defines an action "resetState" which overwrites every property of the module's state with a predefined default value. It is important to overwrite the value and not the property itself to keep it reactive within the Vue instance. This is a known limitation of modern JavaScript and described in more detail on \href{https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats}{Vue Change Detection Caveats}.
 
-\subsection{State Population}
+\subsection{State Population} \label{statepopulation}
 There are two approaches of populating the state which I will refer to as "Just-in-time" and "Just-in-case". With the Just-in-time approach, the state is populated only when it is needed. For example when a user accesses a forum page with a list of threads, these are requested only after the user accessed the forum site. The Just-in-case approach on the other hand, loads these thread items into the store at a specified point in time, before the user accesses the forum site. 
 
 The application makes use of both: Just-in-case when the application is run to populate the dashboard with data (the usability of the system would not be very good if a user had to access each sub page first). And Just-in-time to refresh the contents of each sub page upon accessing it.
@@ -245,7 +245,6 @@ The application makes use of both: Just-in-case when the application is run to p
 \end{lstlisting}
 
 As some data is needed at any point while using the application it is crucial to make sure that it is actually available. Such data includes the users's first name, and house details. Especially the current house's id is needed befory any other data set associated with this house is requested because the API needs this id to return the correct entries. This is achieved by using a middleware which as previously mentioned is run everytime before a user switches to a different page. A code sample can be found in \autoref{popmiddleware}.
-
 
 \section{Authentication}
 In order to use the application, users have to be authenticated. They must provide an email address and a password to a login form and request authentication. \autoref{usecase:login} depicts the detailed flow for this use case. The API then checks if the user can be authenticated and if successful issues a token, refresh token and their respective expiry times. To improve the system's usability, this data is then persisted by using cookies (see \autoref{persauthdata}). Everytime a user wants to move to a different subpage, the validity in terms of expiry time of the tokens is checked. Nuxt lets developers define "middleware" - code which is run before any page change. The middleware which is depicted in \autoref{authmiddleware} checks for one of three scenarios:
@@ -417,7 +416,61 @@ computed: {
 \autoref{fig:threaddetail} shows the rendered detail page of a thread item.
 
 \section{Polls}
-Polls are a somewhat complicated topic. When a proprietor votes for an option a request needs to be sent to the API and the Poll's design has to be updated to prevent an addtional option vote. The API however, does not return data which could be used on its own, client-side modification has to occur. As the pages Noticeboard, Forum, Polls and Issues share similar structure and functionality (searching items, creating items, displaying a list of items, populating state) these will not be discussed anymore. Instead, this section aims to describe how a Poll's UI is updated and what data has to be transformed in order to do so.
+Polls are a somewhat complicated topic. When a proprietor votes for an option a request needs to be sent to the API and the Poll's UI has to be updated to prevent an addtional option vote. The API however, does not return data which could be used on its own, client-side modification has to occur. As the pages Noticeboard, Forum, Polls and Issues share similar structure and functionality (searching items, creating items, displaying a list of items, populating state) these will not be discussed anymore. Instead, this section aims to describe how a Poll's UI is updated and what data has to be transformed in order to do so.
+
+When voting for a poll option, the Poll Item component emitts an event with the id of the voted option. The Poll List component propagates this id up to the Poll List component which is responsible for dispatching a store action which makes a request to the API. The API then however only returns information on what option was voted on and who voted on it (see \autoref{apidatavoting}). The Poll Item component defines a prop "showResults" which when set to true prevents the user from voting again and shows the results of the poll. The difficulty lies in matching "poll\_answer\_option" to a specific poll. \newline
+
+\begin{lstlisting}[caption=Data returned from API after vote, captionpos=b, style=htmlcssjs, label=apidatavoting]{Data returned from API after vote}
+  {
+    id: "0aea27f2-4fb6-11e9-9ed5-02420a000613",
+    owner: "f85bd1f6-4a44-11e9-9ed5-02420a000613",
+    poll_answer_option: "69a0e2e0-4f2a-11e9-9ed5-02420a000613"
+  }
+\end{lstlisting}
+
+The solution is to iterate over every poll and to compare every option id "option.id" to a parameter "pollOptionId". If the pollOptionId matches any option.id the Poll's showResults prop can be set to true. Additionally, the total number of votes is incremented. This is achieved by using the JavaSript some() method in a nested manner that tests whether at least one element in the array passes a test implemented by a provided function. \autoref{addvote} depicts the corresponding code.
+
+Another and more complicated problem is that when the Polls page is initially acessed, a refresh of the data is requested as desribed in \autoref{statepopulation} but the API only returns a list of polls, a list of options associated with a poll ("poll\_answer\_options") and a list of options that were voted on and are associated with a poll ("poll\_given\_answers"). \autoref{fig:pollsbefore} shows the raw data that is returned before any change is made to the data structure. Similarly to the previous problem, the client side needs to make certain changes to the data structure to make polls non-interactible when a user has already voted for that option. \autoref{updatevotes} shows the mutation that is called that makes these changes after all polls are retrieved. \newline
+
+\begin{lstlisting}[caption=Update Votes, captionpos=b, style=htmlcssjs, label=updatevotes]{Update Votes}
+  UPDATE_VOTES(state, userId) {
+  const pollList = [];
+
+  //find all poll_given_answers by userId and add id of answer_option to pollList
+  state.polls.filter(o =>
+    o.poll_given_answers.some(answer => {
+      if (answer.owner === userId) {
+        pollList.push(answer.poll_answer_option);
+        o.showResults = true;
+        return true;
+      }
+    })
+  );
+
+  //iterate over poll_answer_options and check if id is in pollList
+  //update if it is
+  state.polls.filter(o =>
+    o.poll_answer_options.some(option => {
+      if (pollList.includes(option.id)) {
+        option.selected = true;
+      }
+    })
+  );
+}
+};
+\end{lstlisting}
+
+In lines 5 to 13 every poll item and their respective voted items is iterated over and checked if a vote's owner matches the user id of the application's user. If it does, this vote is added to an array "pollList" and the whole poll is instructed to show the results with "o.showResults = true". What is left now is to tell the poll which item the application's user has voted on and to render it accordingly. In lines 17 to 23 all polls are iterated over and it is checked if any vote's id is included in the pollList array and if it is, this specific poll option is set as selected. \autoref{fig:pollsafter} shows the data structure of polls after this update.
+
+To visually illustrate what is meant, \autoref{fig:pollitem} shows the rendered Poll Item Component with the "Yellow" option set as the selected item and the poll being in "showResults" state.
+
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=1.5in]{pollitem}
+  \end{center}
+  \caption{Poll Item}
+  \label{fig:pollitem}
+\end{figure}
 
 \section{Issue Log System}
 
@@ -435,3 +488,5 @@ Polls are a somewhat complicated topic. When a proprietor votes for an option a 
 \section{Internationalization} \label{sec:internationalization}
 
 \section{Client-side Validation}
+
+\section{Error handling}

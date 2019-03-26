@@ -186,3 +186,18 @@ export default async function(context) {
             // LOGIC OMITTED FOR READABILITY
       }
   \end{lstlisting}
+
+  \begin{lstlisting}[caption=Add Vote, captionpos=b, style=htmlcssjs, label=addvote]{Add Vote}
+    ADD_VOTE(state, pollOptionId) {
+      state.polls.some(o =>
+        o.poll_answer_options.some(option => {
+          if (option.id === pollOptionId) {
+            option.votes++;
+            //manually set showresults to true so rendering happens immediately in dashboard
+            o.showResults = true;
+            return true;
+          }
+        })
+      );
+    }
+  \end{lstlisting}
