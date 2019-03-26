@@ -538,5 +538,29 @@ Client-side validation is mainly used as a means of usability. It is possible fo
 
 \autoref{vvalidate} depicts a concrete usage example of how it is achieved that one value cannot be greater than another user-supplied value. 
 
+\section{Error Handling}
+The application has several sources where errors can occur. Naturally, these errors should be dealt with gracefully while providing error explanations to the user. The by far biggest source of error is when a request to the API is made and an error is returned. This can have various reasons such as a timeout exception, failed validation or non existing records. The importance lies in dealing with these errors in a manner that leaves the application still interactive while adhering to Nielsen's "Visibility of System Status" principle. This is achieved with a pattern of catching and rethrowing errors, whereby these are dealt with in the most appropriate place. For example it is not very sensible for the store to initiate showing an error message, rather, the component which initially called the action from store that made the request should deal with it, because at this level there are much more options available. As most API requests are made from the store, a choice was made to catch and rethrow so components can take care of them. This not only improves maintainability but also makes for a more loosely coupled system. \autoref{storerethrow} depicts a pseudo login store action which rethrows errors when they occur. The code in \autoref{componenterrorcatch} catches these errors and displays an error message accordingly. \newline
 
-\section{Error handling}
+\begin{lstlisting}[caption=Store Action Error Rethrow, captionpos=b, style=htmlcssjs, label=storerethrow]{Store Action Error Rethrow}
+  async login() {
+    try {
+      await pseudoApiRequest();
+    } catch (error) {
+      throw error;
+  }
+\end{lstlisting}
+
+To display error messages, another third-party package \href{https://github.com/shakee93/vue-toasted}{Vue Toasted} is used. It is set up in way that also makes error messages bilingual. The associated configuration can be found in the file plugins/toasted.js file. \newline
+
+\begin{lstlisting}[caption=Catch Error in Component, captionpos=b, style=htmlcssjs, label=componenterrorcatch]{Catch Error in Component}
+  async login(authData) {
+    try {
+      await this.$store.dispatch("auth/login");
+    } catch (error) {
+      this.$toasted.global.my_error({
+        message: this.$t("toasts.loginFailed")
+      });
+  }
+\end{lstlisting}
+
+Another noteworthy point is that throughout the application async/await is utilized which according to the JavaScript documentation is used to "... to simplify the behavior of using promises synchronously and to perform some behavior on a group of Promises" \cite{JavaCriptDoc:online}. In addition, it makes the code cleaner and more comprehensible.
