@@ -320,8 +320,8 @@ It has several props to make it adaptable for different use cases:
 
 Usage: The component is used by including it in a page component along with another component that displays a list of items (e.g noticeboard or poll entries). Whenever a user inputs a search string, the v-model property is updated and automatically triggers that a computed property calls a getter method in the store and returns possible items. These possible items are then used to overwrite the list of displayed items.
 
-\subsection{Language Switcher}
-The language switcher component has a very simple purpose: instructing the internationalization plugin (detailed description in \autoref{sec:internationalization}) to switch the language. It builds upon Bulmas "select" input element. The component's data object defines an array of languages which are iterated over and displayed as options of the select component. A global property which is provided by the i18n plugin is encapsulated with "v-model" meaning that whenever a user selects a language which differs from the currently selected one, it is globally updated. Whenever the language is changed, the Vue directive "v-on" makes sure that the function "storeLocale" is called which sets a Cookie in the browser which saves the selected language.
+\subsection{Language Switcher} \label{langswitcher}
+The language switcher component has a very simple purpose: instructing the internationalization plugin (detailed description in \autoref{sec:internationalization}) to switch the language. It builds upon Bulmas "select" input element. The component's data object defines an array of languages which are iterated over and displayed as options of the select component. A global property which is provided by the internationalization plugin is encapsulated with "v-model" meaning that whenever a user selects a language which differs from the currently selected one, it is globally updated. Whenever the language is changed, the Vue directive "v-on" makes sure that the function "storeLocale" is called which sets a Cookie in the browser which saves the selected language.
 
 \begin{figure}[H]
   \begin{center}
@@ -506,10 +506,37 @@ The dashboard which is shown on the main page is populated with data that exists
   \label{fig:dashboard}
 \end{figure}
 
-As already mentioned, the data used to populate the dashboard with is retrieved from the store. This happens by using vuex store functions as described in \autoref{vuex}. 
+As already mentioned, the data used to populate the dashboard with, is retrieved from the store. This happens by using vuex store functions, more specifically: getters, as described in \autoref{vuex}. 
 
 \section{Internationalization} \label{sec:internationalization}
+As the primary target market of the application is Austria, where German is spoken but English is also commonly used, two languages have to be offered. This is achieved by a third-party package called \href{https://github.com/kazupon/vue-i18n}{vue-i18n} which is added as a custom Nuxt plugin. Instead of hardcoding the labels, descriptions, titles and other strings into the application, two language files "de-AT.json" and "en-US.json" are created which define key value pairs of a strings and their translations. The plugin injects a method "\$t" into every component which can be used to retrieve the appropriate value. \newline
+
+\begin{lstlisting}[caption=Data returned from API after vote, captionpos=b, style=htmlcssjs, label=apidatavoting]{Data returned from API after vote}
+  //hardcoded
+  <h1 class="title is-3">Create a House</h1>
+  //translation retrieved with injected method
+  <h1 class="title is-3">{{ $t("house.newHouse") }}</h1>
+\end{lstlisting}
+
+The package also injects the global property "\$i18n.locale" into the root Vue instance which represents the currently selected language. For example if German was selected, the property's value would be "de". This property is used by the computed setter described in \autoref{langswitcher} to globally change the language.
 
 \section{Client-side Validation}
+Client-side validation is mainly used as a means of usability. It is possible for a user with malicious intent to bypass any client side validation mechanism and applies to every frontend application. Thorough server-side validation can never be replaced. However, the usability of an application is drastically improved if users get instantaneous feedback on their input. To achieve this, another third party package \href{https://baianat.github.io/vee-validate/}{VeeValidate} is used which uitilizes JavaScript to validate input. Another solution would be to rely on the standard HTML validation capabilites of every modern browser. With HTML validation, simple input like emails, strings that should have a min or max character value or even input based on regexes can be validated. However, more sophisticated checks cannot be implemented: an example which also applies to this application is that one inputs's value should not be greater than anothers. In this case, such a check is used to make sure that a user does not supply a greater value of their squaremeters than a house has in total during the "add house" process. In practical terms, the plugin injects the additional directive "v-validate" which takes either an object or string containing the rules as a paremeter. \newline
+
+
+\begin{lstlisting}[caption=v-validate usage, captionpos=b, style=htmlcssjs, label=vvalidate]{v-validate usage}
+<BInput
+  v-model="share"
+  v-validate="{
+    required: true,
+    max_value: sum_shares
+  }"
+  type="number"
+/>
+\end{lstlisting}
+
+
+\autoref{vvalidate} depicts a concrete usage example of how it is achieved that one value cannot be greater than another user-supplied value. 
+
 
 \section{Error handling}
