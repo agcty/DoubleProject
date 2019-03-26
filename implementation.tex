@@ -179,7 +179,7 @@ Props are a way of passing data from a parent component into a child component. 
 \subsection{Component Communication}
 GUI based applications typically rely on event-driven programming paradigms. Vue is no exception: events are emitted and caught and dictate the course of actions of the application. Typically, props are used to pass data from a parent to a child component, whereas events are emitted with a paylod from a child and are caught in the parent with the "v-on" directive. For heavily nested components however, a so called "event bus" or the vuex store is used which makes data available directly where it is needed instead of having to pass it from the deepest child to the highest parent. This project makes use of the props/events method and the vuex store.
 
-\subsection{Vuex}
+\subsection{Vuex} \label{vuex}
 Vuex is a supporting library for Vue based on the Flux architecture to provide a solution for shared state management. Its concept revolves around a global state which is retrieved with "getters" and altered with "mutations" which in turn are commited by "actions". Mutations change the state's data synchronously so every change is trackable with debugging tools. Actions can be asynchronous and are often used for retrieving data from an API and then updating the system's state by passing this data to a mutation and commiting it. The term used for executing an action is "dispatch". It is important to note that while it is perfectly sensible to create methods in Vue components that reach out to an API and then commit a mutation, it makes far more sense to move these methods to the store as actions, especially if they are reused across the application. Vuex uses a "single state tree" - one JavaScript object that contains the entirety of the application's state. The state is either retrieved directly and unchanged or through getters which provide a way of transforming the returned data first. For example it is possible to directly retrieve the authentication token from the state and manually check its validity or by defining a getter which returns the users authentication state as a boolean value which depends on the token. Additionally, the store can be split up into "modules" and is done so in this project: a store file corresponds to a group of actions, getters and parts of the state. This greatly improves maintainability of the project by making it more comprehensible. \autoref{vuexsamples} illustrates some commonly used ways of interacting with the store. \newline
 
 \begin{lstlisting}[caption=Vuex Usage, captionpos=b, style=htmlcssjs, label=vuexsamples]{Vuex Usage}
@@ -473,10 +473,31 @@ To visually illustrate what is meant, \autoref{fig:pollitem} shows the rendered 
 \end{figure}
 
 \section{Issue Log System}
+The Issues page shows maintenance or house related issues. To give users a quick overview of all existing issues, a table was chosen to show them. More information regarding tables in Bulma is available at \url{https://bulma.io/documentation/elements/table/}. The component structure is similar to the other pages: \newline
+
+\begin{itemize}
+  \item Issue Page > SearchCreateMenu.vue, IssueTable.vue
+  \item Create/Edit Issue Page > CreateIssue.vue
+\end{itemize}
+
+The only distinction is the type of data which is shown and how it is displayed: issues. A table shows Reference, Date,  Type, Location, Title and Status which can be sorted in ascending or descending order. Additionally, users can edit issues if they are their owners, a button is shown accordingly. The API currently does not support an issue state being changed by facility management even though it is stated in the requirements. This functionality is therefore not implemented on the client side. \autoref{fig:issuetable} shows the rendered Issue page.
+
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[width=\linewidth]{issues}
+  \end{center}
+  \caption{Issue Page}
+  \label{fig:issuetable}
+\end{figure}
 
 \section{Adding a house}
+As required by the user stories (see \autoref{subsub:userstorieshouse}) and defined by the use case flows (see \autoref{usecases:house}), a house should either be creatable by a user or they should be able to accept an invitation. Additionally, they should be able to send new invitations. Implementation is relatively straightforward, for each use case one component exists that provides a form. After the user inputs the required data and submits the form, the API handles the rest. On the client-side the new house is added to an array of houses along with basic information. The user can then switch houses by using the Change House component. \autoref{fig:addhouse} shows the rendered implemenation of a form where a new house can be added, \autoref{fig:acceptinvite} a form to accept an existing invitation and \autoref{fig:sendinvite} a form to send invitations.
+
+Sending an invitation requires an email address which will be sent instructions to add an existing house to the user's account. More specifically, the email contains a link with a special id as a query parameter which is retrieved by the application to pre-populate the invitation form.  
 
 \section{Dashboard}
+The dashboard which is shown on the main page is populated with data that exists in store. The most recent polls, threads and noticeboard entries are shown. Additionaly, metrics on number of users, squaremeters of a user, number of houses a user is associated with and nubmer of issues associated with this house are displayed. \autoref{fig:dashboard} illustrates an example dashboard.
+
 \begin{figure}[H]
   \begin{center}
   \includegraphics[width=\linewidth]{dashboard}
@@ -484,6 +505,8 @@ To visually illustrate what is meant, \autoref{fig:pollitem} shows the rendered 
   \caption{Dashboard Page}
   \label{fig:dashboard}
 \end{figure}
+
+As already mentioned, the data used to populate the dashboard with is retrieved from the store. This happens by using vuex store functions as described in \autoref{vuex}. 
 
 \section{Internationalization} \label{sec:internationalization}
 
