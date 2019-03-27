@@ -26,36 +26,24 @@ The frontend utilizes a multi-staged environment in which the code is first buil
 As the backend was already existing, changes had to be made in order to integrate it into a Docker workflow. The source code included in "Deliverable 2" contains those files, were changes were necessary, not however the full source code of the backend. Namely, the requirements.txt settings.py files had to be adapted. Additionally, a Dockerfile to build the backend image had to be created. The settings.py file had to be changed in a way that allowed for referencing other containers by their hostname and to use a secret file provided by Docker Swarm containing the various password for the system. These changes are annotated inline.
 
 \subsection{Database}
-In the database folder a Dockerfile is included for bootstrapping a PostgreSQL database. Additionally, the folder contains an init.sql file which is used for initially creating tables and users. In the Dockerfile it is defined that init.sql is to be copied into /docker-entrypoint-initdb.d/10-init.sql of the PostgreSQL image. According to its documentation, any .sql or .sh file is executed where as the prefixed number dictates the priority. E.g 10 runs before 20.
+In the database folder a Dockerfile is included for bootstrapping a PostgreSQL database. Additionally, the folder contains an init.sql file which is used for initially creating tables and users. In the Dockerfile it is defined that init.sql is to be copied into /docker-entrypoint-initdb.d/10-init.sql of the PostgreSQL image. According to its documentation, any .sql or .sh file is executed whereas the prefixed number dictates the priority. E.g 10 runs before 20.
 
 \subsection{Alpine Linux}
 In order to keep the image size small, the especially lightweight linux distribution "Alpine Linux" was chosen as the base OS for every container. Its size has made it a popular choice amongst Docker users: as opposed to Ubuntu which usually needs several hundred MB, Apline's base system size is only 4 to 5 MB big.
 
 \subsection{Reverse Proxy}
+Many projects rely on NGINX as a reverse proxy as it is efficient and allows for thousounds of concurrent connections. This project however, uses "Traefik" a fairly new reverse proxy technology designed for a containerized environment. According to various benchmarks, it has a similar performance to NGINX. What is more, it provides built-in container auto-discovery capabilities, automatic TLS connections and certificate generation and a metrics dashboard.
+
+\begin{figure}[H]
+    \begin{center}
+    \includegraphics[width=\linewidth]{traefik}
+    Source: \href{https://traefik.io/}{traefik.io}
+    \end{center}
+    \caption{Treafik Usage}
+    \label{fig:traefik}
+\end{figure}
+
+The Traefik container is defined along with a key-value store container inside "traefik.yml" which stores all TLS certificates for usage in a distributed manner, its configuration is located in "traefik.toml". The most important features, autodiscovery and routing, work by assigning "labels" to containers. For example setting the labels "traefik.frontend.rule=Host:hausversammlung.at" and "traefik.redirectorservice.frontend.redirect.entryPoint=https" instruct traefik to serve this container at \url{hausversammlung.at} and only over a secure TLS connection.
 
 \section{Deployment}
-DigitalOcean was chosen as a IaaS platform
-
-Additionally, the YAML files in the root folder define the complete docker environment needed to bootstrap the whole application with all its microservices. The hv-dev.yml file defines a development environment which does not include a reverse proxy, thus being a little bit more portable. 
-
-The hv-prod.yml is used in tandem with the traefik.yml file. The first contains pretty much the same data as the dev file with the addition of so-called "labels". These labels are retrieved by the reverse-proxy container "traefik", which is defined in the traefik.yml file. By using labels traefik knows which containers to route to when a certain domain or subdomain is accessed. All files mentioned are also annotated to make it a little easier to understand what is going on.
-
-As the main part of the project was to create a single page application, the most interesting code to look at is located in the frontend folder.
-
-Interesting parts to look at:
-- frontend
-    - contains single page application - main part of project
-    - Dockerfile: contains image definitions for building frontend and serving with webserver
-- backend
-    - Dockerfile: contains image definitions for building backend
-    - settings.py: configuration for django made compatible with docker
-- hv-dev.yml
-    - defines how all services work together in a dev environment
-- hv-prod.yml
-    - defines how all services work together in a production environment with a reverse proxy
-- traefik.yml
-    - defines reverse-proxy image with additional key value store for storing and reusing SSL certificates
-- traefik-config.toml
-    - configures traefik service in detail
-
-Disclaimer: The contents of this file are discussed in the project report in far greater detail. The intention of this file is to give a brief overview of the technical parts of the project and to serve as a navigation guide for the source code. 
+DigitalOcean was chosen as a \acrfull{iaas} platform for running a \acrfull{vps} which runs the Docker containers. Docker Swarm is used to deploy the whole service stack.
