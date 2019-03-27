@@ -564,3 +564,13 @@ To display error messages, another third-party package \href{https://github.com/
 \end{lstlisting}
 
 Another noteworthy point is that throughout the application async/await is utilized which according to the JavaScript documentation is used to "... to simplify the behavior of using promises synchronously and to perform some behavior on a group of Promises" \cite{JavaCriptDoc:online}. In addition, it makes the code cleaner and more comprehensible.
+
+\section{Security}
+In general, following statements hold true for client based applications:
+
+\begin{itemize}
+  \item Any data validation can be skipped
+  \item Any hidden information can be found
+\end{itemize}
+
+It is imperative for the backend to prevent unauthorized access to any resource. However there still are attack vendors on the client side that attackers could exploit with the most common being \acrfull{csrf} and \acrfull{xss}. Only applications which send Cookies to the server are prone to \acrshort{csrf} as described in \href{https://security.stackexchange.com/questions/166724/should-i-use-csrf-protection-on-rest-api-endpoints/166798#166798}{CSRF Protection}. The SPA stores authentication data inside Cookies but only as a means of storing them, they are never sent to the server. Instead an HTTP "Authorization" header is generated from the Cookie's content. In addition, Vue applications automatically escape user input. Only content displayed with the "v-html" directive can be exploited to execute a \acrshort{xss} attack. The Poll Item Component uses this directive so that an option's text can be styled (e.g bold text), all other content like scripts are escaped by the backend and never sent back to the application. To securely transmit data, a TLS encrypted connection is used.

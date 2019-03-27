@@ -201,3 +201,104 @@ export default async function(context) {
       );
     }
   \end{lstlisting}
+
+  \begin{lstlisting}[caption=Production Docker Compose File, captionpos=b, style=htmlcssjs, label=dockerprod]{Production Docker Compose File}
+    version: "3.7"
+    #postgres redis frontend backend traefik logger(postgres)
+    services:
+      web:
+        image: registry.gitlab.com/agcty/hausversammlung/hv-frontend:v1.0.2
+        command: ["nginx", "-g", "daemon off;"]
+        depends_on:
+          - backend
+        networks:
+          - default
+          - traefik-public
+        ports:
+          - "80"
+        deploy:
+          replicas: 1
+          labels:
+            - traefik.enable=true
+            - traefik.backend=Web
+            - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
+            - traefik.docker.network=traefik-public
+            - traefik.frontend.rule=Host:${DOMAIN}
+            - traefik.port=80
+            # Traefik service that listens to HTTP
+            - traefik.redirectorservice.frontend.entryPoints=http
+            - traefik.redirectorservice.frontend.redirect.entryPoint=https
+            # Traefik service that listens to HTTPS
+            - traefik.webservice.frontend.entryPoints=https
+      backend:
+        image: registry.gitlab.com/agcty/hausversammlung/hv-backend:v1.0.2
+        entrypoint: ["sh", "entrypoint.sh"]
+        command: ["uwsgi", "--http", ":8080", "--ini", "./uwsgi.ini"]
+        depends_on:
+          - db
+          - redis
+        networks:
+          - default
+          - traefik-public
+        ports:
+          - "8080"
+        secrets:
+          - source: backend_passwords
+            target: backend-passwords.json
+        deploy:
+          replicas: 1
+          labels:
+            - traefik.enable=true
+            - traefik.backend=Api
+            - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
+            - traefik.docker.network=traefik-public
+            - traefik.frontend.rule=Host:api.${DOMAIN}
+            - traefik.port=8080
+            # Traefik service that listens to HTTP
+            - traefik.redirectorservice.frontend.entryPoints=http
+            - traefik.redirectorservice.frontend.redirect.entryPoint=https
+            # Traefik service that listens to HTTPS
+            - traefik.webservice.frontend.entryPoints=https
+        environment:
+          #hausversammlung
+          - SQL_ENGINE=django.db.backends.postgresql
+          - SQL_DATABASE=hausversammlung
+          - SQL_USER=hausversammlung
+          - SQL_HOST=db
+          - SQL_PORT=5432
+          #hausversammlung logger
+          - SQL_DATABASE_LOGGER=hausversammlung_logger
+          - SQL_USER_LOGGER=hausversammlung_logger
+      db: 
+        image: registry.gitlab.com/agcty/hausversammlung/hv-db:v1.0.0
+        ports:
+          - 5432:5432
+        volumes:
+          - postgres_data:/var/lib/postgresql/data/
+      #redis
+      redis:
+        image: redis:5.0.3-alpine3.9
+        ports:
+          - 6379:6379
+        volumes:
+          - redis_data:/data
+        networks:
+          - default
+          - traefik-public
+    
+    secrets:
+      backend_passwords:
+        name: backend_passwords_v2
+        file: ./backend-passwords.json
+      
+    volumes:  
+      redis_data:
+      postgres_data:
+    
+    networks:
+      traefik-public:
+        external: true
+    
+  \end{lstlisting}
+
+
