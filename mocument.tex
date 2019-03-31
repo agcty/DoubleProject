@@ -5,6 +5,7 @@
 \usepackage{subcaption}
 \usepackage{float}
 \usepackage{tabularx}
+\usepackage{pdfpages}
 
 \usepackage{forest}
 \usetikzlibrary{shadows,arrows.meta}
@@ -215,6 +216,7 @@
   \include{usecases}
   \include{pictures}
   \include{listings}
+  \includepdf[page=-,pagecommand={}]{Technical_Plan_Gogl}
   
 	\MakeBibliography
 	\addcontentsline{toc}{chapter}{List of figures}
