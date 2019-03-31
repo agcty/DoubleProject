@@ -1,9 +1,26 @@
 \chapter[Test Strategy]{Test Strategy}
 
 \section{Introduction}
+In order to ensure correct functionality and fulfillment of the requirements a test strategy was implemented. Common ways of testing frontend applications include "Unit Testing", "Snapshot Testing", "End to End Testing" and "Integration Testing". Given the projects size and its time constraints, not all features could be tested, also not every possible testing methodolgy was sensible to be utilized. The project's testing strategy is based on Unit and Snapshot testing, with a special focus on the most import aspects and features of the application. Furthermore, a pre-emptive and heuristic approach was chosen. 
 
-\section{Testing Frontends}
-Describes which possibilites there are regarding frontend testing: Mainly unit and integration
+\section{Testing Methodologies}
+
+\subsection{Unit Testing}
+The testing strategy consists of a pre-emptive and heuristic approach (see \autoref{preheur}), based on Unit and Snapshot testing.
+Unit testing is a way of testing the functional aspects of software components. In Blackbox testing, there is no knowledge of the internals of a component such as data structures, properties or methods. Whitebox testing on the other hand, is closely coupled to a component's internals. The mixture between blackbox and whitebox is called "Greybox Testing", which is also a common methodology \cite{spillner2014software} and used as an approach of Unit for this project.
+
+\subsection{Snapshot Testing}
+Snapshot tests are a useful tool for making sure the rendered UI does not change unexpectedly \cite{SnapshotJest:online}.
+
+A very comprehensible explanation is provided by Jest - a Snapshot testing library \cite{SnapshotJest:online}:
+
+\begin{quotation}
+"A typical snapshot test case for a mobile app renders a UI component, takes a snapshot, then compares it to a reference snapshot file stored alongside the test. The test will fail if the two snapshots do not match: either the change is unexpected, or the reference snapshot needs to be updated to the new version of the UI component."
+\end{quotation}
+
+\subsection{Pre-emptive and Heuristic Approach} \label{preheur}
+As there is no way of objectively defining the priority with which a component should be tested from the given requirements, a heuristic approach of testing "which relies on experience and rules of thumb" \cite{spillner2014software} was chosen. Based on my personal experience and recommendations of the Vue community, I concluded that all Single File Components of the /components folder should be tested, whereas pages should not be tested as they are "just" containers for the components. In addition to a heuristic approach, it was sensible to follow a pre-emptive testing approach which means testing is carried out from project start \cite{spillner2014software}. This also complements the iterative approach in addition to continuous integration. 
+
 
 \section{Test Setup}
 Talks about vue-test-utils and jest integration
