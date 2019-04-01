@@ -302,3 +302,92 @@ export default async function(context) {
   \end{lstlisting}
 
 
+\begin{lstlisting}[caption=LoginForm tests, captionpos=b, style=htmlcssjs, label=loginformtest]{LoginForm tests}
+import { createLocalVue, shallowMount } from "@vue/test-utils";
+// import flushPromises from "flush-promises";
+import { isFormValid } from "~/plugins/utils/vee-validate-formcheck.js";
+import LoginForm from "../LoginForm";
+import { getters } from "@/store/auth";
+import buefy from "buefy";
+import VeeValidate from "vee-validate";
+import Vuex from "vuex";
+import VueRouter from "vue-router";
+
+//set sync in component to false to prevent vee-validate errors as described in https://github.com/baianat/vee-validate/issues/1267
+
+const localVue = createLocalVue();
+localVue.use(VeeValidate);
+localVue.use(Vuex);
+localVue.use(buefy);
+localVue.use(VueRouter);
+localVue.mixin({
+  computed: {
+    isFormValid
+  }
+});
+
+let actions;
+let state;
+let store;
+
+const factory = () => {
+  return shallowMount(LoginForm, {
+    store,
+    localVue,
+    sync: false,
+    attachToDocument: true //https://github.com/vuejs/vue-test-utils/issues/1030
+  });
+};
+
+describe("LoginForm", () => {
+  beforeEach(() => {
+    state = {
+      isLogin: false
+    };
+
+    actions = {
+      moduleActionClick: jest.fn()
+    };
+
+    store = new Vuex.Store({
+      modules: {
+        auth: {
+          //need this to work with namespaced module https://vuex.vuejs.org/guide/modules.html#namespacing
+          namespaced: true,
+          state,
+          actions,
+          getters
+        }
+      }
+    });
+  });
+
+  test("shallowMounts properly", () => {
+    const wrapper = factory();
+    expect(wrapper.isVueInstance()).toBeTruthy();
+  });
+
+  test("renders properly", () => {
+    const wrapper = factory();
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  test("calls onSubmit on button click when form is provided with correctly formatted data", async () => {
+    const wrapper = factory();
+    const onSubmitMock = jest.fn();
+    wrapper.setMethods({
+      onSubmit: onSubmitMock
+    });
+    const button = wrapper.find("button");
+
+    wrapper.setData({
+      authData: { username: "alex@gogl.io", password: "HalloHallo1!" }
+    });
+
+    expect(button.classes()).toContain("button", "is-primary", "is-fulldwidth");
+    button.trigger("click");
+    expect(onSubmitMock).toHaveBeenCalled();
+  });
+});
+
+\end{lstlisting}
