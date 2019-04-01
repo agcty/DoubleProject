@@ -30,7 +30,51 @@ Testing the previous examples may sound trivial but it is important to note that
 
 In addition, by default every test uses a global Vue instance which is easily polluted if various tests mock different plugins and libraries. To mitigate this issue, a "local" Vue instance was used which essentially means that every test has its own isolated Vue environment. This makes the test setup significantly more complicated but mitigates the risk of global pollution and results in more comprehensible tests. 
 
-\section{Continuous Integration}
-Gitlab CI / CD
+\section{Static Analysis}
+The following text was originally published at \href{https://medium.com/@gogl.alex/how-to-properly-set-up-eslint-with-prettier-for-vue-or-nuxt-in-vscode-e42532099a9c}{How to properly set up Nuxt with ESLint and Prettier in VSCode}.
+With JavaScript being a dynamic and loosely-typed programming language problems and errors can potentially stay undetected for a very long time. To analyze code and to find errors, JavaScript applications are typically executed. This however, is a complete waste of processing power and hinders a fast development process.
 
-\section{Linting}
+As an alternative, static analysis tools can be used. One very common tool is "ESLint", more specifically, it is a linting tool. Linting is defined as a type of static analysis that can be utilised to detect problematic code patterns or to enforce code style guidelines. This allows programmers to detect potential problems without executing the code. Furthermore, ESLint is a highly flexible and configurable linting tool in which every aspect can be adapted to fit a project's needs.
+
+In addition to unit and snapshot tests, the project incorporates this type of static analysis to ensure that a specific code pattern and guidelines are respected across every part of the project and across developers.
+
+\section{Continuous Integration}
+To ensure that the system stays functional, continuous integration is set up. In its basic form, it is a pattern that ensures tests are run everytime the system's code changes. As described in \autoref{ci}, Circle CI is used as an external CI platform. It is set up as a complementary tool for Git and the Git Flow pattern. Anytime a new commit is pushed to the "Master" or "Develop" branch, Circle CI is notified and then builds and tests the code. As it is based on containers, this setup is very quick. Testing the building stage is crucial as it makes sure there are no syntax errors which result in a broken system. It then runs all unit and snapshot tests in addition to statical analysis of the code with ESLint. \autoref{ci} depicts the configuration of this process. \newline
+
+\begin{lstlisting}[caption=Circle CI configuration, captionpos=b, style=htmlcssjs, label=ci]{Circle CI configuration}
+    version: 2
+    jobs:
+      build:
+        docker:
+          - image: circleci/node:11.10.1
+    
+        working_directory: ~/hv-frontend
+    
+        steps:
+          - checkout
+          # Download and cache dependencies
+          - restore_cache:
+              keys:
+                - v1-dependencies-{{ checksum "package.json" }}
+                # fallback to using the latest cache if no exact match is found
+                - v1-dependencies-
+    
+          - run: npm install
+    
+          - save_cache:
+              paths:
+                - node_modules
+              key: v1-dependencies-{{ checksum "package.json" }}
+    
+          # run build and tests!
+          - run: npm run build
+          - run: npm test
+    
+    workflows:
+      version: 2
+      build_and_test:
+        jobs:
+          - build
+    
+    
+  \end{lstlisting}
