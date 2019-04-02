@@ -22,8 +22,9 @@ Additionally, certain functionality had to be implemented which is not defined i
 Before implementing the system, a thorough evaluation of use cases and use case flows was carried out. The flows were later used to identify UI elements that are used in multiple places. These were then translated into Vue components. Furthermore, the \acrshort{spa} can be easily adapted to support \acrlong{ssr} as it is based on Nuxt. A testing strategy was set up that incorporates continuous integration. Last but not least, Docker is used to deploy the system including frontend, backend, database and reverse proxy anywhere.
 
 \section{Project Evaluation using Heuristics}
-\subsection{Visibility of System Status}
+The User Interface design is evaluated by using the ten usability heuristics Nielsen and Molich developed.
 
+\subsection{Visibility of System Status}
 \begin{itemize}
     \item Always keep users informed about what is going on
     \item Provide appropriate feedback within reasonable time
@@ -125,6 +126,21 @@ When a user inputs data into a form, it is automatically validated and shows an 
 
 \subsubsection{Evaluation}
 The application does not provide any type of documentation. \textbf{Conclusion}: Although the application is easy to use, some user might still need additional resources and documentation. A documentation site should be created.
+
+\section{System Design Evaluation}
+As described in \autoref{ch:systemdesign}, the system is built with various technologies. NGINX is used as a webserver to serve the \acrshort{spa} which communicates with a Django-based API. A PostgreSQL database is used to store data and an Exchange Email Server is used to send emails to users. These services are encapsulated in their own containerized environment with Docker. Additionally, a traefik based reverse proxy routes between the services and provides automatic TLS certificates.
+
+\subsection{SPA Framework}
+A thorough literature-based evaluation of \acrshort{spa} frameworks has already been undertaken in \autoref{ch:litreview}. It concluded that Vue is the most performant, compact and easiest to learn framework. In addition, it was deemed the most appropriate framework to meet functional and non-functional requirements for this project in \autoref{sec:consideredtech}. The two main alternatives Angular and React would have been differently suitable. Angular scales very well for large corporate porjects but at the same time has a very steep learning curve. React on the other hand, is easier to learn than Angular but not as easy as Vue. However, it is more flexible and scales better for bigger applications. Given that the final application is quite large in terms of functionality and code lines, React would have been just as suitable as Vue.
+
+\subsection{Webserver}
+The main reason NGINX was chosen as a webserver is its high performance when serving static content \cite{NGINXvsApache:online}. In addition, it is very efficient when concurrently serving users \cite{NGINXvsApache:online}. Another possible alternative would be the usage of Apache's httpd webserver. However, as opposed to NGINX, it is not as efficient and performant when serving static content to mutltiple users concurrently, but instead excells at serving dynamic content \cite{NGINXvsApache:online}.
+
+\subsection{CSS Framework}
+\subsection{Docker}
+\subsection{Kanban}
+
+\subsection{Conclusion}
 
 \section{Commercial Applicability}
 
