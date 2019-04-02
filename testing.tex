@@ -39,9 +39,9 @@ As an alternative, static analysis tools can be used. One very common tool is "E
 In addition to unit and snapshot tests, the project incorporates this type of static analysis to ensure that a specific code pattern and guidelines are respected across every part of the project and across developers.
 
 \section{Continuous Integration}
-To ensure that the system stays functional, continuous integration is set up. In its basic form, it is a pattern that ensures tests are run everytime the system's code changes. As described in \autoref{ci}, Circle CI is used as an external CI platform. It is set up as a complementary tool for Git and the Git Flow pattern. Anytime a new commit is pushed to the "Master" or "Develop" branch, Circle CI is notified and then builds and tests the code. As it is based on containers, this setup is very quick. Testing the building stage is crucial as it makes sure there are no syntax errors which result in a broken system. It then runs all unit and snapshot tests in addition to statical analysis of the code with ESLint. \autoref{ci} depicts the configuration of this process. \newline
+To ensure that the system stays functional, continuous integration is set up. In its basic form, it is a pattern that ensures tests are run everytime the system's code changes. As described in \autoref{ci}, Circle CI is used as an external CI platform. It is set up as a complementary tool for Git and the Git Flow pattern. Anytime a new commit is pushed to the "master" or "develop" branch, Circle CI is notified and then builds and tests the code. As it is based on containers, this setup is very quick. Testing the building stage is crucial as it makes sure there are no syntax errors which result in a broken system. It then runs all unit and snapshot tests in addition to statical analysis of the code with ESLint. \autoref{ciconfig} depicts the configuration of this process. \newline
 
-\begin{lstlisting}[caption=Circle CI configuration, captionpos=b, style=htmlcssjs, label=ci]{Circle CI configuration}
+\begin{lstlisting}[caption=Circle CI configuration, captionpos=b, style=htmlcssjs, label=ciconfig]{Circle CI configuration}
     version: 2
     jobs:
       build:

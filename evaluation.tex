@@ -1,13 +1,135 @@
 \chapter{Evaluation}
 
 \section{Project Objectives}
+Every initially stated requirement in the form of user stories was met with the exception of being able to change an issue's status. As described in \autoref{issuelogs}, this is due the API not supporting it. A \acrlong{spa} was built that communicates with the API to provide the following functionality as per the requirements:
 
-\section{Self Evaluation}
+\begin{itemize}
+    \item A Forum where users can add and edit threads and write comments
+    \item Polls creatable by proprietors to guide decision making
+    \item A digital Noticeboard where users can make announcements    
+    \item An Issue Log System to submit and track issues
+    \item Switching between the English and German language
+\end{itemize}
 
-\section{Project Evaluation}
+Additionally, certain functionality had to be implemented which is not defined in the requirements but was implicitly needed:  
+\begin{itemize}
+    \item Authentication System
+    \item Adding houses to a user's account
+    \item Inviting users    
+    \item Changing profile data
+\end{itemize}
+
+Before implementing the system, a thorough evaluation of use cases and use case flows was carried out. The flows were later used to identify UI elements that are used in multiple places. These were then translated into Vue components. Furthermore, the \acrshort{spa} can be easily adapted to support \acrlong{ssr} as it is based on Nuxt. A testing strategy was set up that incorporates continuous integration. Last but not least, Docker is used to deploy the system including frontend, backend, database and reverse proxy anywhere.
+
+\section{Project Evaluation using Heuristics}
+\subsection{Visibility of System Status}
+
+\begin{itemize}
+    \item Always keep users informed about what is going on
+    \item Provide appropriate feedback within reasonable time
+\end{itemize}
+
+\subsubsection{Evaluation}
+For every request the user triggers, a loading bar indicates its progress. If it is successful, its color is green and it disappears after the request ends. If it fails, its color is red and additionally a generic error message is displayed. Additionally, at the start of the application a loading circle indicates that it is starting up. When inputing data into forms, they are automatically validated and appropriate messages are shown if the input is malformatted. \textbf{Conclusion}: The user is displayed the system status at appropriate times, however, error messages could be more specific.
+
+
+\subsection{Match between system and the real world }
+
+\begin{itemize}
+    \item Speak the users' language, with words, phrases and concepts familiar to the user, rather than system-oriented terms
+    \item Follow real-world conventions, making information appear in a natural and logical order
+\end{itemize}
+
+\subsubsection{Evaluation}
+The system uses the terms: "Forum", "Polls", "Noticeboard" and "Issues" which are common in the real as well as the virtual world. Additionally, always the most recent entries are shown on top and every type of entry is based on its real world counterpart. For example, issues are displayed as a table, whereas Noticeboard entries are displayed as a black box. On some sites however, the word Noticeboard is swapped out with "Notices" or "Messages" which might be misleading. \textbf{Conclusion}: Most words and phrases are used in the system are also commonly used in the real world. Additionally, the design reflects the real world. "Noticeboard" is used in a somewhat incoherent manner and could be improved.
+
+\subsection{User control and freedom}
+
+\begin{itemize}
+    \item Users often choose system functions by mistake
+    \item Provide a clearly marked "out" to leave an unwanted state without having to go through an extended dialogue
+    \item Support undo and redo.
+\end{itemize}
+
+\subsubsection{Evaluation}
+The navigation bar used across the application allows for quick and easy page changes. Below every input form there is a "Cancel" button which redirects back to the previous page. Undo and redo are not supported at all. \textbf{Conclusion:} Users can easily leave an unwanted state but cannot undo or redo requests.
+
+
+\subsection{Consistency and standards}
+
+\begin{itemize}
+    \item Users should not have to wonder whether different words, situations, or actions mean the same thing
+    \item Follow platform conventions.
+\end{itemize}
+
+\subsubsection{Evaluation}
+Across the application, different icons mean different things. Additionally, for every input form a title and subtitle indicate what it is used for. A very distinct design for every type of entry does not allow ambiguity. As already mentioned, the word "Noticeboard" is sometimes substituted with other words which is not very consistent. \textbf{Conclusion}: Most of the words, phrases and standards are consistent and a distinct look for different entries means no ambiguity.
+
+\subsection{Error prevention}
+
+\begin{itemize}
+    \item Even better than good error messages is a careful design which prevents a problem from occurring in the first place
+\end{itemize}
+
+\subsubsection{Evaluation}
+The highest probability of where errors can occur is when users input data into a form. If the user-generated input does not meet the requirements of the form, an error message is displayed and submitting the form is prevented until the user resolves all errors. \textbf{Conclusion}: Errors are prevented by not allowing the user to submit forms which would mutate the system's data if malformatted input is provided.
+
+\subsection{Recognition rather than recall}
+
+\begin{itemize}
+    \item Make objects, actions, and options visible
+    \item User should not have to remember information from one part of the dialogue to another
+    \item Instructions for use of the system should be visible or easily retrievable whenever appropriate
+\end{itemize}
+
+\subsubsection{Evaluation}
+Actions are always represented in the form of green buttons. Options are selectable through HTML select elements. Objects (Polls, Issues, etc) are clearly distinguishable from other elements. The application is built in a way that does not incorporate dialogues or mutliple steps 99\% of the time, which means there is no need to show information of a previous step in the current step. The only place where more information could be useful but not necessary is when users create a new house and are then given the possibility to invite other users. Currently, they are only prompted to invite a user to the house they just created, it would be better to display the house users are added to. \textbf{Conclusion}: Objects, actions and options are distinguishable and users immediately know what is each element is used for. The simplistic design of the application without multiple steps makes recalling unnecessary. Inviting a user could however, display more information.
+
+\subsection{Flexibility and efficiency of use}
+
+\begin{itemize}
+    \item Novice and expert users use systems differently. The system should be easy and efficient to use by novices and experts alike
+    \item Provide “accelerators” for expert users to more efficiently navigate your application to complete the most frequent tasks
+\end{itemize}
+
+\subsubsection{Evaluation}
+Accelerators in the form of keystroke shortcuts are not implemented. The system's functionality is only usable by using the GUI. \textbf{Conclusion}: A complete lack of accelerators might lead to a degraded user experience for advanced users and should be implemented in a future iteration.
+
+\subsection{Aesthetic and minimalist design}
+
+\begin{itemize}
+    \item Dialogues should not contain information which is irrelevant or rarely needed
+    \item Every extra unit of information in a dialogue competes with the relevant units of information and diminishes their relative visibility
+\end{itemize}
+
+\subsubsection{Evaluation}
+The application's dashboard shows information regarding Polls, Noticeboard Items, Threads and Issues. However, it is not differentiated between proprietors or tenants. This means an empty Polls placeholder is shown if the user is a tenant which is irrelevant and unnecessary. The subpages of the application already show only the minimally needed data. \textbf{Conclusion}: The application could differentiate more between user roles. The design is already as minimal as possible, only showing information which is crucially needed.
+
+\subsection{Help users recognize, diagnose, and recover from errors}
+
+\begin{itemize}
+    \item Errors are expressed in plain language
+    \item Precisely indicate the problem
+    \item Constructively suggest a solution 
+\end{itemize}
+
+\subsubsection{Evaluation}
+When a user inputs data into a form, it is automatically validated and shows an error message. However, some error messages do not indicate the problem nor suggest a solution. Only error messages generated from the client-side are appropriate. For example, a user inputs a malformatted email address and an error message appears indicating that this email address is not valid. On the other hand, if a user tries to create an account with an already existing email address, the application only shows a "Registering failed" error with no further information. \textbf{Conclusion}: Client-side errors are shown and a solution is implicitly displayed by saying the email address is not valid for example. API based errors are not appropriately shown.  
+
+\subsection{Help and documentation}
+
+\begin{itemize}
+    \item Even though it is better if the system can be used without documentation, it may be necessary to provide help and documentation. 
+    \item Help information should be easy to search, focused on the user's task, list concrete steps to be carried out, and not be too large.
+\end{itemize}
+
+\subsubsection{Evaluation}
+The application does not provide any type of documentation. \textbf{Conclusion}: Although the application is easy to use, some user might still need additional resources and documentation. A documentation site should be created.
 
 \section{Commercial Applicability}
 
 \section{Conclusions}
+
+\section{Self Evaluation}
 
 \section{Future Work}
