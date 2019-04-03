@@ -5,25 +5,25 @@ Containers are becoming an ubiquituous technology. They help increase productivi
 
 \begin{figure}[H]
     \begin{center}
-    \includegraphics[width=\linewidth]{containervsvm}
-    Source: \href{https://blog.netapp.com/wp-content/uploads/2016/03/Screen-Shot-2018-03-20-at-9.24.09-AM-1024x548.png}{blog.netapp.com}
+    \includegraphics[height=2.5in]{containervsvm}
+    \\
+    Source: \href{https://blog.netapp.com/wp-content/uploads/2016/03/Screen-Shot-2018-03-20-at-9.24.09-AM-1024x548.png}{netapp.com}
     \end{center}
     \caption{Container vs VMs}
     \label{fig:containervsvm}
 \end{figure}
   
-
 \section{Docker}
-Docker, the most widely used application-level containerization technology advertises itself as a platform to "Build, Ship, and Run Any App, Anywhere" and is used within the project. It provides the benefits described in \autoref{applicabilitycontainer} and its community offers a wide variety of pre-built container images on its "Hub" registry. Popular offical images include PostgreSQL, NGINX, Django and Apache whereas custom images are often built on top of these. An image is defined with a "Dockerfile" that contains all the commands needed to assemble it. Docker "compose" files are a common way of defining and running multi-container applications. For example it is possible to define a webservice and frontend application which communicate with each other. In addition to Docker, Docker Swarm is used for cluster management, deployment and load balancing.
+Docker, the most widely used application-level containerization technology advertises itself as a platform to "Build, Ship, and Run Any App, Anywhere" and is used within the project. It provides the benefits described in \autoref{applicabilitycontainer} and its community offers a wide variety of pre-built container images on its "Hub" registry. Popular offical images include PostgreSQL, NGINX, Django and Apache whereas custom images are often built on top of these. An image is defined with a "Dockerfile" that contains all the commands needed to assemble it. Docker "compose" files are a common way of defining and running multi-container applications. For example it is possible to define a webservice and frontend application which communicate with each other. In addition to Docker, Docker Swarm is used for cluster management, deployment and load balancing. Cluster management is a concept of distributing "work" in which "management nodes" delegate tasks to "worker nodes". In a broader sense, it is about redundantly setting up hard- and software infrastructure across multiple servers.
 
 \section{Microservices}
-The main components of the project are separated into three microservices: \textbf{Frontend}, \textbf{Backend} and \textbf{Database}. The source code along with the Dockerfile of each service can be found in the respective identically named folder. Each microservice is encapsulated in its own container and the production-ready composition of all can be found in the file "hv-prod.yml" which is depicted in \autoref{dockerprod}. A slightly different development environment is defined in "hv-dev.yml".
+The main components of the project are separated into three microservices: \textbf{Frontend}, \textbf{Backend} and \textbf{Database}. Microservices are "a particular way of designing software applications as suites of independently deployable services" \cite{MicroservicesFowler:online}. The source code along with the Dockerfile of each service can be found in the respective identically named folder. Each microservice is encapsulated in its own container and the production-ready composition of all can be found in the file "hv-prod.yml" which is depicted in \autoref{dockerprod}. A slightly different development environment is defined in "hv-dev.yml".
 
 \subsection{Frontend}
 The frontend utilizes a multi-staged environment in which the code is first built within a node image and the resulting output copied into an nginx image. Multi-stage builds allows the creation of multiple intermediary images from the same Dockerfile. The main benefit being that the application's build-dependencies are not included in the final image, thus making it smaller and more portable. 
 
 \subsection{Backend}
-As the backend was already existing, changes had to be made in order to integrate it into a Docker workflow. The source code included in "Deliverable 2" contains those files, were changes were necessary, not however the full source code of the backend. Namely, the requirements.txt settings.py files had to be adapted. Additionally, a Dockerfile to build the backend image had to be created. The settings.py file had to be changed in a way that allowed for referencing other containers by their hostname and to use a secret file provided by Docker Swarm containing the various password for the system. These changes are annotated inline.
+As the backend was already existing, changes had to be made in order to integrate it into a Docker workflow. The source code included in "Deliverable 2" contains those files, were changes were necessary, not however the full source code of the backend. Namely, the requirements.txt settings.py files had to be adapted. Additionally, a Dockerfile to build the backend image had to be created. The settings.py file had to be changed in a way that allowed for referencing other containers by their hostname and to use a secret file provided by Docker Swarm containing the various passwords for the system. These changes are annotated inline.
 
 \subsection{Database}
 In the database folder a Dockerfile is included for bootstrapping a PostgreSQL database. Additionally, the folder contains an init.sql file which is used for initially creating tables and users. In the Dockerfile it is defined that init.sql is to be copied into /docker-entrypoint-initdb.d/10-init.sql of the PostgreSQL image. According to its documentation, any .sql or .sh file is executed whereas the prefixed number dictates the priority. E.g 10 runs before 20.
@@ -32,7 +32,7 @@ In the database folder a Dockerfile is included for bootstrapping a PostgreSQL d
 In order to keep the image size small, the especially lightweight linux distribution "Alpine Linux" was chosen as the base OS for every container. Its size has made it a popular choice amongst Docker users: as opposed to Ubuntu which usually needs several hundred MB, Apline's base system size is only 4 to 5 MB big.
 
 \subsection{Reverse Proxy}
-Many projects rely on NGINX as a reverse proxy as it is efficient and allows for thousounds of concurrent connections. This project however, uses "Traefik" a fairly new reverse proxy technology designed for a containerized environment. According to various benchmarks, it has a similar performance to NGINX. What is more, it provides built-in container auto-discovery capabilities, automatic TLS connections and certificate generation and a metrics dashboard.
+Many projects rely on NGINX as a reverse proxy as it is efficient and allows for thousounds of concurrent connections. This project however, uses "Traefik" a fairly new reverse proxy technology designed for a containerized environment. According to its documentation, it offers a similar performance to NGINX \cite{TreafikBench:online}. What is more, it provides built-in container auto-discovery capabilities, automatic TLS connections, certificate generation and a metrics dashboard.
 
 \begin{figure}[H]
     \begin{center}
